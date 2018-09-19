@@ -1,16 +1,20 @@
+# v0.3.1
+
+* upd: switch to circonus-labs release target
+
 # v0.3.0
 
-doc: pre-release
+* doc: pre-release
 
 # v0.2.8
 
-upd: release file names use x86_64, facilitate automated builds and testing
-upd: fix repo refs to circonus-labs in Vagrantfile
-upd: to use go1.11 in Vagrantfile
+* upd: release file names use x86_64, facilitate automated builds and testing
+* upd: fix repo refs to circonus-labs in Vagrantfile
+* upd: to use go1.11 in Vagrantfile
 
 # v0.2.7
 
-upd: ensure `cosi_placeholder` metric is disabled
+* upd: ensure `cosi_placeholder` metric is disabled
 
 # v0.2.6
 
