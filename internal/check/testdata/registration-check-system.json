@@ -1,0 +1,25 @@
+{
+    "_cid": "/check_bundle/123",
+    "_last_modified": 1513175196,
+    "display_name": "foo",
+    "type": "json:nad",
+    "_checks": [
+        "/check/123"
+    ],
+    "metrics": [
+        {
+            "tags": [],
+            "name": "bar",
+            "status": "active",
+            "type": "numeric",
+            "units": null
+        },
+        {
+            "tags": [],
+            "name": "baz",
+            "type": "numeric",
+            "status": "active",
+            "units": null
+        }
+    ]
+}

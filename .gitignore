@@ -1,0 +1,32 @@
+# MacOS
+.DS_Store
+
+# Vagrant
+.vagrant*/
+
+# Binaries for programs and plugins
+*.exe
+*.dll
+*.so
+*.dylib
+
+# test config
+etc/cosi.yaml
+etc/reg-conf.toml
+
+# rpm and/or tar.gz in content tree
+content/**/*.rpm
+content/**/*.tar.gz
+
+# vendored packages
+vendor*/
+
+# goreleaser files
+dist/
+
+*will_be_overwritten.json
+*will_be_overwritten.yaml
+*will_be_overwritten.toml
+
+internal/registration/checks/testdata/registration-check-*.json
+internal/registration/*/testdata/registration*ignore*.json

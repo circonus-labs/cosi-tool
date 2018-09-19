@@ -1,0 +1,44 @@
+type = "dashboard"
+name = "test"
+version = "1.0.0"
+
+description = '''
+dashboard template for testing
+'''
+
+[configs.ignore]
+template = '''
+{
+    "title": "{{.HostName}} dashboard"
+}
+'''
+widgets = [
+{
+    graph_name = "graph-test",
+    template = '''
+    {
+        "active": true,
+        "height": 1,
+        "name": "Graph",
+        "origin": "a0",
+        "settings": {
+            "date_window": "global",
+            "graph_id": "{{.GraphUUID}}",
+            "hide_xaxis": false,
+            "hide_yaxis": false,
+            "key_inline": false,
+            "key_loc": "noop",
+            "key_size": 1,
+            "key_wrap": true,
+            "label": "Test",
+            "period": 2000,
+            "realtime": false,
+            "show_flags": true
+        },
+        "type": "graph",
+        "widget_id": "wA0",
+        "width": 3
+    }
+    '''
+}
+]

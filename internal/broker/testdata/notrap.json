@@ -1,0 +1,8 @@
+{
+    "broker": {
+        "fallback_list": [1],
+        "fallback_idx": 0,
+        "json_list": [1,2,3],
+        "json_idx": 1
+    }
+}

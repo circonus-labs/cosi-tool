@@ -1,0 +1,8 @@
+{
+    "broker": {
+        "json_list": [1,2,3],
+        "json_idx": 1,
+        "httptrap_list": [1,2,3],
+        "httptrap_idx": 2
+    }
+}

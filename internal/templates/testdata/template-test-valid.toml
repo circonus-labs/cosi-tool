@@ -1,0 +1,14 @@
+type = "foo"
+id = "bar"
+version = "0.0.0"
+
+description = '''
+a test template
+'''
+
+[configs.test]
+template = '''
+{
+    "foo":"bar"
+}
+'''

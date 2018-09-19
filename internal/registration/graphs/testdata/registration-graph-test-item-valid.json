@@ -1,0 +1,15 @@
+{
+  "datapoints": [
+    {
+      "data_formula": null,
+      "hidden": false,
+      "legend_formula": null,
+      "metric_name": "item1`valid",
+      "name": "",
+      "stack": null
+    }
+  ],
+  "line_style": null,
+  "style": null,
+  "title": "foo graph"
+}

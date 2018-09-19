@@ -1,0 +1,63 @@
+#
+# example COSI custom registration configuration
+#
+
+#
+# Generic
+#
+
+[host]
+name = ""           # default: os.Hostname()
+ip = ""             # default: first address returned from net.LookupHost(host.name)
+
+#
+# Checks
+#
+[checks.system]
+# NOTE: the creation of the system check cannot be disabled other than
+#       using the `--noregister` command line option to entirely
+#       disable registration.
+target = ""         # default: host.ip
+display_name = ""   # default: defined in template
+broker_id = ""      # default: checks.broker_id
+tags = []           # default: cosi generated
+
+[checks.group]
+create = false      # default: false
+# NOTE: the 'id' must be the same on all systems participating
+#       in the group check.
+id = ""             # empty disables creation
+display_name = ""   # default: defined in template
+broker_id = ""      # default: checks.broker_id
+tags = []           # default: cosi generated
+
+#
+# Visuals
+#
+
+[dashboards.system]
+create = true       # default: true
+title = ""          # default: defined in template
+# NOTE: if some of the graphs on the system dashboard are excluded below, the
+#       dashboard will still be created - with holes in it...
+
+[worksheets.system]
+create = true       # default: true
+title = ""          # default: defined in template
+tags = []           # default: cosi generated
+
+[graphs]
+include = [] # default: all plugins returned by agent /inventory (e.g. graph-cpu, graph-vm, etc.)
+exclude = []
+
+# Individual graph configuration override:
+#
+# [graphs.configs.PLUGIN_NAME.CONFIG_NAME]
+#
+# e.g. [graphs.configs.cpu.utilization]
+#
+# corresponds to the "cpu" plugin's "utilization" graph, found in the graph-cpu.toml template file.
+#
+# Options:
+# title string - default: defined in template
+# tags []string - default: cosi generated

@@ -1,0 +1,63 @@
+{
+    "_active": true,
+    "_cid": "/dashboard/123",
+    "_created": 1510164870,
+    "_created_by": "/user/123",
+    "_dashboard_uuid": "abc-123-456-789-def",
+    "_last_modified": 1510164870,
+    "account_default": false,
+    "grid_layout": {
+        "height": 5,
+        "width": 8
+    },
+    "options": {
+        "access_configs": [],
+        "fullscreen_hide_title": true,
+        "hide_grid": false,
+        "linkages": [],
+        "scale_text": false,
+        "text_size": 12
+    },
+    "shared": true,
+    "title": "foo",
+    "widgets": [
+        {
+            "widget_id": "w21",
+            "origin": "a4",
+            "type": "html",
+            "active": true,
+            "width": 8,
+            "settings": {
+                "markup": "<h1>Hi!</h1>",
+                "title": "xxx"
+            },
+            "name": "HTML",
+            "height": 1
+        },
+        {
+            "widget_id": "wD3",
+            "origin": "d3",
+            "type": "graph",
+            "active": true,
+            "settings": {
+                "realtime": false,
+                "overlay_set_id": "",
+                "hide_yaxis": false,
+                "date_window": "global",
+                "graph_id": "5f3a0a0a0-0000-4444-8d8d-24e824e824e8",
+                "key_wrap": true,
+                "show_flags": true,
+                "key_size": 1,
+                "label": "Disk Saturation",
+                "key_loc": "noop",
+                "_graph_title": "centos7 Disk Saturation",
+                "hide_xaxis": false,
+                "period": 2000,
+                "key_inline": false
+            },
+            "name": "Graph",
+            "height": 1,
+            "width": 3
+        }
+    ]
+}

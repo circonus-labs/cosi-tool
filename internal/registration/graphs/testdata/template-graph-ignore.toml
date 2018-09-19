@@ -1,0 +1,194 @@
+type = "graph"
+name = "ignore"
+version = "1.0.0"
+
+description = '''
+contrived template for testing
+'''
+
+[filters]
+include = []
+exclude = ["exclude"]
+
+[configs.variable]
+variable = true
+template = '''
+{
+    "access_keys": [],
+    "composites": [],
+    "datapoints": [],
+    "description": "variable graphs, one per item {{.Item}}",
+    "guides": [],
+    "line_style": "stepped",
+    "logarithmic_left_y": null,
+    "logarithmic_right_y": null,
+    "max_left_y": "100",
+    "max_right_y": null,
+    "metric_clusters": [],
+    "min_left_y": null,
+    "min_right_y": null,
+    "notes": null,
+    "style": "area",
+    "tags": [],
+    "title": "{{.HostName}} {{.Item}}"
+}
+'''
+
+datapoints = [
+{
+    variable = false,
+    metric_regex = "foo`([^`]+)`m1",
+    template = '''
+    {
+        "alpha": "0.3",
+        "axis": "l",
+        "check_id": {{.CheckID}},
+        "color": "#4fa18e",
+        "data_formula": null,
+        "derive": "gauge",
+        "hidden": false,
+        "legend_formula": null,
+        "metric_name": "{{.MetricName}}",
+        "metric_type": "numeric",
+        "name": "metric1",
+        "stack": null
+    }
+    '''
+},
+{
+    variable = false,
+    metric_regex = "foo`([^`]+)`m2",
+    template = '''
+    {
+        "alpha": "0.3",
+        "axis": "l",
+        "check_id": {{.CheckID}},
+        "color": "#657aa6",
+        "data_formula": null,
+        "derive": "gauge",
+        "hidden": false,
+        "legend_formula": null,
+        "metric_name": "{{.MetricName}}",
+        "metric_type": "numeric",
+        "name": "metric2",
+        "stack": null
+    }
+    '''
+}
+]
+
+[configs.static1]
+variable = false
+template = '''
+{
+    "access_keys": [],
+    "composites": [],
+    "datapoints": [],
+    "description": "variable datapoints",
+    "guides": [],
+    "line_style": "stepped",
+    "logarithmic_left_y": null,
+    "logarithmic_right_y": null,
+    "max_left_y": "100",
+    "max_right_y": null,
+    "metric_clusters": [],
+    "min_left_y": null,
+    "min_right_y": null,
+    "notes": null,
+    "style": "area",
+    "tags": [],
+    "title": "{{.HostName}}"
+}
+'''
+
+datapoints = [
+{
+    variable = true,
+    metric_regex = "bar`([^`]+)`m1",
+    filters = {
+        include = ["include"],
+        exclude = []
+    },
+    template = '''
+    {
+        "alpha": "0.3",
+        "axis": "l",
+        "check_id": {{.CheckID}},
+        "color": "#4fa18e",
+        "data_formula": null,
+        "derive": "gauge",
+        "hidden": false,
+        "legend_formula": null,
+        "metric_name": "{{.MetricName}}",
+        "metric_type": "numeric",
+        "name": "metric1",
+        "stack": null
+    }
+    '''
+}
+]
+
+[configs.static2]
+variable = false
+template = '''
+{
+    "access_keys": [],
+    "composites": [],
+    "datapoints": [],
+    "description": "static datapoints",
+    "guides": [],
+    "line_style": "stepped",
+    "logarithmic_left_y": null,
+    "logarithmic_right_y": null,
+    "max_left_y": "100",
+    "max_right_y": null,
+    "metric_clusters": [],
+    "min_left_y": null,
+    "min_right_y": null,
+    "notes": null,
+    "style": "area",
+    "tags": [],
+    "title": "{{.HostName}}"
+}
+'''
+
+datapoints = [
+{
+    variable = false,
+    template = '''
+    {
+        "alpha": "0.3",
+        "axis": "l",
+        "check_id": {{.CheckID}},
+        "color": "#4fa18e",
+        "data_formula": null,
+        "derive": "gauge",
+        "hidden": false,
+        "legend_formula": null,
+        "metric_name": "baz`m1",
+        "metric_type": "numeric",
+        "name": "metric1",
+        "stack": null
+    }
+    '''
+},
+{
+    variable = false,
+    template = '''
+    {
+        "alpha": "0.3",
+        "axis": "l",
+        "check_id": {{.CheckID}},
+        "color": "#4fa18e",
+        "data_formula": null,
+        "derive": "gauge",
+        "hidden": false,
+        "legend_formula": null,
+        "metric_name": "baz`m2",
+        "metric_type": "numeric",
+        "name": "metric2",
+        "stack": null
+    }
+    '''
+}
+]
