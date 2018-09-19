@@ -48,7 +48,7 @@ archive:
 
 release:
     github:
-        owner: maier
+        owner: circonus-labs
         name: cosi-tool
 
     prerelease: true
