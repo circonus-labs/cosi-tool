@@ -1,3 +1,7 @@
+# v0.3.2
+
+* upd: dependencies
+
 # v0.3.1
 
 * upd: switch to circonus-labs release target
