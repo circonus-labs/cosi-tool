@@ -22,4 +22,6 @@ The new cosi ecosystem is currently in pre-alpha. When it is available for publi
 1. Download from [latest release](https://github.com/circonus-labs/cosi-tool/releases/latest)
 1. Create an installation directory (e.g. `mkdir -p /opt/circonus/cosi`)
 1. Unpack release archive into installation directory
-1. See `bin/cosi --help` and `etc/example-cosi.json` for help configuring. Additionally, see `etc/example-reg-conf.toml` for customizing the registration portion.
+1. See `bin/cosi --help`
+    1. Configure `etc/example-cosi.json` (edit, rename `cosi.json` - see `cosi config -h` to get started)
+    1. Optionally, configure `etc/example-reg-conf.toml` for customizing the registration portion - if applicable
