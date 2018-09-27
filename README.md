@@ -25,3 +25,5 @@ The new cosi ecosystem is currently in pre-alpha. When it is available for publi
 1. See `bin/cosi --help`
     1. Configure `etc/example-cosi.json` (edit, rename `cosi.json` - see `cosi config -h` to get started)
     1. Optionally, configure `etc/example-reg-conf.toml` for customizing the registration portion - if applicable
+
+Unless otherwise noted, the source files are distributed under the BSD-style license found in the [LICENSE](LICENSE) file.
