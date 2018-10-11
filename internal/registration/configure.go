@@ -28,7 +28,7 @@ func (r *Registration) configure() error {
 		return err
 	}
 
-	if cfg, err := loadCustomConfig(viper.GetString(options.KeyRegConf), r.logger); err == nil {
+	if cfg, err := options.LoadConfigFile(viper.GetString(config.KeyRegConf)); err == nil {
 		r.config = cfg
 	} else {
 		return err
@@ -98,12 +98,6 @@ func verifyRegDir(regDir string, logger zerolog.Logger) error {
 	}
 
 	return nil
-}
-
-// Load custom configuration (if it exists)
-func loadCustomConfig(cfgFile string, logger zerolog.Logger) (*options.Options, error) {
-	logger.Info().Str("reg_conf", cfgFile).Msg("loading custom configuration file")
-	return options.LoadConfigFile(cfgFile)
 }
 
 // Get available metrics from agent
