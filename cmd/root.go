@@ -80,6 +80,19 @@ func init() {
 		RootCmd.PersistentFlags().StringVarP(&cfgFile, longOpt, shortOpt, "", description)
 	}
 
+	// registration options configuration file
+	{
+		const (
+			key         = config.KeyRegConf
+			longOpt     = "regconf"
+			envVar      = release.ENVPREFIX + "_REG_CONF"
+			description = "Registration options configuration file"
+		)
+		RootCmd.PersistentFlags().String(longOpt, "", desc(description, envVar))
+		viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
+		viper.BindEnv(key, envVar)
+	}
+
 	//
 	// Circonus API
 	//
