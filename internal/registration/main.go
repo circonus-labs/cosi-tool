@@ -8,6 +8,7 @@
 package registration
 
 import (
+	"os"
 	"path/filepath"
 	"time"
 
@@ -38,6 +39,10 @@ const (
 	// be used. Note that the system check is always implied during
 	// registration as no visuals could be created without a check.
 	KeyTemplateList = "register.template_list"
+
+	// KeyShowConfig flags the registration options config should be dumped and
+	// `cosi register` should then exit.
+	KeyShowConfig = "register.show_config"
 )
 
 // Registration defines the registration client
@@ -55,74 +60,6 @@ type Registration struct {
 	templates             *templates.Templates
 	maxBrokerResponseTime time.Duration
 	logger                zerolog.Logger
-}
-
-// Config defines the options available for --regconf config file command line option.
-type Config struct {
-	Checks     `json:"checks" toml:"checks" yaml:"checks"`
-	Dashboards `json:"dashboards" toml:"dashboards" yaml:"dashboards"`
-	Graphs     `json:"graphs" toml:"graphs" yaml:"graphs"`
-	Host       `json:"host" toml:"host" yaml:"host"`
-	Worksheets `json:"worksheets" toml:"worksheets" yaml:"worksheets"`
-}
-
-// Host defines the host overrides for registration
-type Host struct {
-	IP   string `json:"ip" toml:"ip" yaml:"ip"`
-	Name string `json:"name" toml:"name" yaml:"name"`
-}
-
-// Checks defines the checks supporting overrides
-type Checks struct {
-	Group  GroupCheck  `json:"group" toml:"group" yaml:"group"`
-	System SystemCheck `json:"system" toml:"system" yaml:"system"`
-}
-
-// SystemCheck defines the system check overrides for registration
-type SystemCheck struct {
-	DisplayName string `json:"display_name" toml:"display_name" yaml:"display_name"`
-	Target      string `json:"target" toml:"target" yaml:"target"`
-}
-
-// GroupCheck defines the group check overrides for registration
-type GroupCheck struct {
-	Create      bool   `json:"create" toml:"create" yaml:"create"`
-	DisplayName string `json:"display_name" toml:"display_name" yaml:"display_name"`
-	ID          string `json:"id" toml:"id" yaml:"id"`
-}
-
-// Dashboards defines the dashbaords supporting overrides
-type Dashboards struct {
-	System SystemDashboard `json:"system" toml:"system" yaml:"system"`
-}
-
-// SystemDashboard defines the system dashboard overrides for registration
-type SystemDashboard struct {
-	Create bool   `json:"create" toml:"create" yaml:"create"`
-	Title  string `json:"title" toml:"title" yaml:"title"`
-}
-
-// Graphs defines the graphs supporting overrides
-type Graphs struct {
-	Configs map[string]map[string]Graph `json:"configs" toml:"configs" yaml:"configs"`
-	Exclude []string                    `json:"exclude" toml:"exclude" yaml:"exclude"`
-	Include []string                    `json:"include" toml:"include" yaml:"include"`
-}
-
-// Graph defines the generic graph overrides for registration
-type Graph struct {
-	Title string `json:"title" toml:"title" yaml:"title"`
-}
-
-// Worksheets defines the worksheets supporting overrides
-type Worksheets struct {
-	System SystemWorksheet `json:"system" toml:"system" yaml:"system"`
-}
-
-// SystemWorksheet defines the system worksheet overrides for registration
-type SystemWorksheet struct {
-	Create bool   `json:"create" toml:"create" yaml:"create"`
-	Title  string `json:"title" toml:"title" yaml:"title"`
 }
 
 // New creates a new registration client
@@ -164,6 +101,11 @@ func New(circClient CircAPI) (*Registration, error) {
 	// configure and finalize registration setup
 	if err := r.configure(); err != nil {
 		return nil, err
+	}
+
+	if viper.GetString(KeyShowConfig) != "" {
+		options.DumpConfig(r.config, viper.GetString(KeyShowConfig), os.Stdout)
+		os.Exit(0)
 	}
 
 	return r, nil

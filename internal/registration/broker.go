@@ -149,27 +149,27 @@ func (r *Registration) selectFromConfigList(checkType string, brokers *[]api.Bro
 
 	var brokerID string
 
-	if checkType == jsonCheckType && len(cfg.SystemBrokers.List) > 0 {
-		if cfg.SystemBrokers.Default >= 0 {
-			if len(cfg.SystemBrokers.List) > cfg.SystemBrokers.Default {
-				brokerID = cfg.SystemBrokers.List[cfg.SystemBrokers.Default]
+	if checkType == jsonCheckType && len(cfg.System.List) > 0 {
+		if cfg.System.Default >= 0 {
+			if len(cfg.System.List) > cfg.System.Default {
+				brokerID = cfg.System.List[cfg.System.Default]
 			} else {
 				return false, "", errors.New("invalid system check broker config in regconf (default out of list range)")
 			}
-		} else if cfg.SystemBrokers.Default == -1 {
-			brokerID = cfg.SystemBrokers.List[rand.Intn(len(cfg.SystemBrokers.List))]
+		} else if cfg.System.Default == -1 {
+			brokerID = cfg.System.List[rand.Intn(len(cfg.System.List))]
 		} else {
 			return false, "", errors.New("invalid system check broker config in regconf (default invalid)")
 		}
-	} else if checkType == trapCheckType && len(cfg.GroupBrokers.List) > 0 {
-		if cfg.GroupBrokers.Default >= 0 {
-			if len(cfg.GroupBrokers.List) > cfg.GroupBrokers.Default {
-				brokerID = cfg.GroupBrokers.List[cfg.GroupBrokers.Default]
+	} else if checkType == trapCheckType && len(cfg.Group.List) > 0 {
+		if cfg.Group.Default >= 0 {
+			if len(cfg.Group.List) > cfg.Group.Default {
+				brokerID = cfg.Group.List[cfg.Group.Default]
 			} else {
 				return false, "", errors.New("invalid group check broker config in regconf (default out of list range)")
 			}
-		} else if cfg.GroupBrokers.Default == -1 {
-			brokerID = cfg.GroupBrokers.List[rand.Intn(len(cfg.GroupBrokers.List))]
+		} else if cfg.Group.Default == -1 {
+			brokerID = cfg.Group.List[rand.Intn(len(cfg.Group.List))]
 		} else {
 			return false, "", errors.New("invalid group check broker config in regconf (default invalid)")
 		}

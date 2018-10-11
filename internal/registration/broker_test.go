@@ -239,16 +239,16 @@ func TestSelectFromConfigList(t *testing.T) {
 		{"invalid options", "foo", &emptyBrokers, nil, false, false, true, "invalid options config (nil)"},
 		// system check
 		{"sys no optcfg, pass-through", "json", &emptyBrokers, &emptyOptions.Brokers, false, false, false, ""},
-		{"sys w/opt invalid default", "json", &validBrokers, &options.Brokers{SystemBrokers: options.SystemBrokers{List: validOptBrokerList, Default: -2}}, false, false, true, "invalid system check broker config in regconf (default invalid)"},
-		{"sys w/opt default out of range", "json", &validBrokers, &options.Brokers{SystemBrokers: options.SystemBrokers{List: validOptBrokerList, Default: 3}}, false, false, true, "invalid system check broker config in regconf (default out of list range)"},
-		{"sys w/opt 0", "json", &validBrokers, &options.Brokers{SystemBrokers: options.SystemBrokers{List: validOptBrokerList, Default: 0}}, true, true, false, ""},
-		{"sys w/opt -1", "json", &validBrokers, &options.Brokers{SystemBrokers: options.SystemBrokers{List: validOptBrokerList, Default: -1}}, true, true, false, ""},
+		{"sys w/opt invalid default", "json", &validBrokers, &options.Brokers{System: options.SystemBrokers{List: validOptBrokerList, Default: -2}}, false, false, true, "invalid system check broker config in regconf (default invalid)"},
+		{"sys w/opt default out of range", "json", &validBrokers, &options.Brokers{System: options.SystemBrokers{List: validOptBrokerList, Default: 3}}, false, false, true, "invalid system check broker config in regconf (default out of list range)"},
+		{"sys w/opt 0", "json", &validBrokers, &options.Brokers{System: options.SystemBrokers{List: validOptBrokerList, Default: 0}}, true, true, false, ""},
+		{"sys w/opt -1", "json", &validBrokers, &options.Brokers{System: options.SystemBrokers{List: validOptBrokerList, Default: -1}}, true, true, false, ""},
 		// group check
 		{"grp no optcfg, pass-through", "httptrap", &emptyBrokers, &emptyOptions.Brokers, false, false, false, ""},
-		{"grp w/opt invalid default", "httptrap", &validBrokers, &options.Brokers{GroupBrokers: options.GroupBrokers{List: validOptBrokerList, Default: -2}}, false, false, true, "invalid group check broker config in regconf (default invalid)"},
-		{"grp w/opt default out of range", "httptrap", &validBrokers, &options.Brokers{GroupBrokers: options.GroupBrokers{List: validOptBrokerList, Default: 3}}, false, false, true, "invalid group check broker config in regconf (default out of list range)"},
-		{"grp w/opt 0", "httptrap", &validBrokers, &options.Brokers{GroupBrokers: options.GroupBrokers{List: validOptBrokerList, Default: 0}}, true, true, false, ""},
-		{"grp w/opt -1", "httptrap", &validBrokers, &options.Brokers{GroupBrokers: options.GroupBrokers{List: validOptBrokerList, Default: -1}}, true, true, false, ""},
+		{"grp w/opt invalid default", "httptrap", &validBrokers, &options.Brokers{Group: options.GroupBrokers{List: validOptBrokerList, Default: -2}}, false, false, true, "invalid group check broker config in regconf (default invalid)"},
+		{"grp w/opt default out of range", "httptrap", &validBrokers, &options.Brokers{Group: options.GroupBrokers{List: validOptBrokerList, Default: 3}}, false, false, true, "invalid group check broker config in regconf (default out of list range)"},
+		{"grp w/opt 0", "httptrap", &validBrokers, &options.Brokers{Group: options.GroupBrokers{List: validOptBrokerList, Default: 0}}, true, true, false, ""},
+		{"grp w/opt -1", "httptrap", &validBrokers, &options.Brokers{Group: options.GroupBrokers{List: validOptBrokerList, Default: -1}}, true, true, false, ""},
 	}
 
 	for _, test := range tests {
