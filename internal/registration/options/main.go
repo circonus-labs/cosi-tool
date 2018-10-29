@@ -67,19 +67,21 @@ type Checks struct {
 
 // SystemCheck defines the system check overrides for registration
 type SystemCheck struct {
-	BrokerID    string   `json:"broker_id" toml:"broker_id" yaml:"broker_id"`
-	DisplayName string   `json:"display_name" toml:"display_name" yaml:"display_name"`
-	Tags        []string `json:"tags" toml:"tags" yaml:"tags"`
-	Target      string   `json:"target" toml:"target" yaml:"target"`
+	BrokerID      string     `json:"broker_id" toml:"broker_id" yaml:"broker_id"`
+	DisplayName   string     `json:"display_name" toml:"display_name" yaml:"display_name"`
+	Tags          []string   `json:"tags" toml:"tags" yaml:"tags"`
+	Target        string     `json:"target" toml:"target" yaml:"target"`
+	MetricFilters [][]string `json:"metric_filters" toml:"metric_filters" yaml:"metric_filters"`
 }
 
 // GroupCheck defines the group check overrides for registration
 type GroupCheck struct {
-	BrokerID    string   `json:"broker_id" toml:"broker_id" yaml:"broker_id"`
-	Create      bool     `json:"create" toml:"create" yaml:"create"`
-	DisplayName string   `json:"display_name" toml:"display_name" yaml:"display_name"`
-	ID          string   `json:"id" toml:"id" yaml:"id"`
-	Tags        []string `json:"tags" toml:"tags" yaml:"tags"`
+	BrokerID      string     `json:"broker_id" toml:"broker_id" yaml:"broker_id"`
+	Create        bool       `json:"create" toml:"create" yaml:"create"`
+	DisplayName   string     `json:"display_name" toml:"display_name" yaml:"display_name"`
+	ID            string     `json:"id" toml:"id" yaml:"id"`
+	Tags          []string   `json:"tags" toml:"tags" yaml:"tags"`
+	MetricFilters [][]string `json:"metric_filters" toml:"metric_filters" yaml:"metric_filters"`
 }
 
 // Dashboards defines the dashbaords supporting overrides
