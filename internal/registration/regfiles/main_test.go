@@ -11,8 +11,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/circonus-labs/circonus-gometrics/api"
-	circapi "github.com/circonus-labs/circonus-gometrics/api"
+	circapi "github.com/circonus-labs/go-apiclient"
 	"github.com/rs/zerolog"
 )
 
@@ -32,13 +31,13 @@ func TestSave(t *testing.T) {
 		// NOTE: an empty file emits the object to the screen (iow, a valid use case...)
 		// {"invalid file empty", "", nil, false, false, true, "invalid file name (empty)"},
 		{"invalid api object", file, nil, false, false, true, "invalid configuration (nil)"},
-		{"invalid file", "testdata/isdir", &api.CheckBundle{CID: "test"}, false, false, true, "testdata/isdir is a directory"},
-		{"valid create", file, &api.CheckBundle{CID: "test"}, false, true, false, ""},
-		{"valid overwrite", file, &api.CheckBundle{CID: "test"}, true, false, false, ""},
-		{"valid no overwrite", file, &api.CheckBundle{CID: "test"}, false, false, true, "testdata/will_be_overwritten.json already exists, see --force"},
-		{"valid create (yaml)", strings.Replace(file, ".json", ".yaml", 1), &api.CheckBundle{CID: "test"}, false, true, false, ""},
+		{"invalid file", "testdata/isdir", &circapi.CheckBundle{CID: "test"}, false, false, true, "testdata/isdir is a directory"},
+		{"valid create", file, &circapi.CheckBundle{CID: "test"}, false, true, false, ""},
+		{"valid overwrite", file, &circapi.CheckBundle{CID: "test"}, true, false, false, ""},
+		{"valid no overwrite", file, &circapi.CheckBundle{CID: "test"}, false, false, true, "testdata/will_be_overwritten.json already exists, see --force"},
+		{"valid create (yaml)", strings.Replace(file, ".json", ".yaml", 1), &circapi.CheckBundle{CID: "test"}, false, true, false, ""},
 		// NOTE: on toml version, pass struct not ptr to struct
-		{"valid create (toml)", strings.Replace(file, ".json", ".toml", 1), api.CheckBundle{CID: "test"}, false, true, false, ""},
+		{"valid create (toml)", strings.Replace(file, ".json", ".toml", 1), circapi.CheckBundle{CID: "test"}, false, true, false, ""},
 	}
 
 	// NOTE: these are sequential, not parallel
@@ -122,7 +121,7 @@ func TestLoad(t *testing.T) {
 		_, err := Load("testdata/reg-valid.json", v)
 		if err == nil {
 			t.Fatal("expected error")
-		} else if err.Error() != "invalid interface (api.CheckBundle) - nil or not pointer to struct" {
+		} else if err.Error() != "invalid interface (apiclient.CheckBundle) - nil or not pointer to struct" {
 			t.Fatalf("unexpected error (%s)", err)
 		}
 	}

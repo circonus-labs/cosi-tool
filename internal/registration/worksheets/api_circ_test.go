@@ -4,8 +4,9 @@
 package worksheets
 
 import (
-	"github.com/circonus-labs/circonus-gometrics/api"
 	"sync"
+
+	circapi "github.com/circonus-labs/go-apiclient"
 )
 
 var (
@@ -22,19 +23,19 @@ var (
 //
 //         // make and configure a mocked CircAPI
 //         mockedCircAPI := &CircAPIMock{
-//             CreateWorksheetFunc: func(cfg *api.Worksheet) (*api.Worksheet, error) {
+//             CreateWorksheetFunc: func(cfg *circapi.Worksheet) (*circapi.Worksheet, error) {
 // 	               panic("TODO: mock out the CreateWorksheet method")
 //             },
-//             DeleteWorksheetByCIDFunc: func(cid api.CIDType) (bool, error) {
+//             DeleteWorksheetByCIDFunc: func(cid circapi.CIDType) (bool, error) {
 // 	               panic("TODO: mock out the DeleteWorksheetByCID method")
 //             },
-//             FetchWorksheetFunc: func(cid api.CIDType) (*api.Worksheet, error) {
+//             FetchWorksheetFunc: func(cid circapi.CIDType) (*circapi.Worksheet, error) {
 // 	               panic("TODO: mock out the FetchWorksheet method")
 //             },
-//             SearchWorksheetsFunc: func(searchCriteria *api.SearchQueryType, filterCriteria *api.SearchFilterType) (*[]api.Worksheet, error) {
+//             SearchWorksheetsFunc: func(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.Worksheet, error) {
 // 	               panic("TODO: mock out the SearchWorksheets method")
 //             },
-//             UpdateWorksheetFunc: func(cfg *api.Worksheet) (*api.Worksheet, error) {
+//             UpdateWorksheetFunc: func(cfg *circapi.Worksheet) (*circapi.Worksheet, error) {
 // 	               panic("TODO: mock out the UpdateWorksheet method")
 //             },
 //         }
@@ -45,59 +46,59 @@ var (
 //     }
 type CircAPIMock struct {
 	// CreateWorksheetFunc mocks the CreateWorksheet method.
-	CreateWorksheetFunc func(cfg *api.Worksheet) (*api.Worksheet, error)
+	CreateWorksheetFunc func(cfg *circapi.Worksheet) (*circapi.Worksheet, error)
 
 	// DeleteWorksheetByCIDFunc mocks the DeleteWorksheetByCID method.
-	DeleteWorksheetByCIDFunc func(cid api.CIDType) (bool, error)
+	DeleteWorksheetByCIDFunc func(cid circapi.CIDType) (bool, error)
 
 	// FetchWorksheetFunc mocks the FetchWorksheet method.
-	FetchWorksheetFunc func(cid api.CIDType) (*api.Worksheet, error)
+	FetchWorksheetFunc func(cid circapi.CIDType) (*circapi.Worksheet, error)
 
 	// SearchWorksheetsFunc mocks the SearchWorksheets method.
-	SearchWorksheetsFunc func(searchCriteria *api.SearchQueryType, filterCriteria *api.SearchFilterType) (*[]api.Worksheet, error)
+	SearchWorksheetsFunc func(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.Worksheet, error)
 
 	// UpdateWorksheetFunc mocks the UpdateWorksheet method.
-	UpdateWorksheetFunc func(cfg *api.Worksheet) (*api.Worksheet, error)
+	UpdateWorksheetFunc func(cfg *circapi.Worksheet) (*circapi.Worksheet, error)
 
 	// calls tracks calls to the methods.
 	calls struct {
 		// CreateWorksheet holds details about calls to the CreateWorksheet method.
 		CreateWorksheet []struct {
 			// Cfg is the cfg argument value.
-			Cfg *api.Worksheet
+			Cfg *circapi.Worksheet
 		}
 		// DeleteWorksheetByCID holds details about calls to the DeleteWorksheetByCID method.
 		DeleteWorksheetByCID []struct {
 			// Cid is the cid argument value.
-			Cid api.CIDType
+			Cid circapi.CIDType
 		}
 		// FetchWorksheet holds details about calls to the FetchWorksheet method.
 		FetchWorksheet []struct {
 			// Cid is the cid argument value.
-			Cid api.CIDType
+			Cid circapi.CIDType
 		}
 		// SearchWorksheets holds details about calls to the SearchWorksheets method.
 		SearchWorksheets []struct {
 			// SearchCriteria is the searchCriteria argument value.
-			SearchCriteria *api.SearchQueryType
+			SearchCriteria *circapi.SearchQueryType
 			// FilterCriteria is the filterCriteria argument value.
-			FilterCriteria *api.SearchFilterType
+			FilterCriteria *circapi.SearchFilterType
 		}
 		// UpdateWorksheet holds details about calls to the UpdateWorksheet method.
 		UpdateWorksheet []struct {
 			// Cfg is the cfg argument value.
-			Cfg *api.Worksheet
+			Cfg *circapi.Worksheet
 		}
 	}
 }
 
 // CreateWorksheet calls CreateWorksheetFunc.
-func (mock *CircAPIMock) CreateWorksheet(cfg *api.Worksheet) (*api.Worksheet, error) {
+func (mock *CircAPIMock) CreateWorksheet(cfg *circapi.Worksheet) (*circapi.Worksheet, error) {
 	if mock.CreateWorksheetFunc == nil {
 		panic("moq: CircAPIMock.CreateWorksheetFunc is nil but CircAPI.CreateWorksheet was just called")
 	}
 	callInfo := struct {
-		Cfg *api.Worksheet
+		Cfg *circapi.Worksheet
 	}{
 		Cfg: cfg,
 	}
@@ -111,10 +112,10 @@ func (mock *CircAPIMock) CreateWorksheet(cfg *api.Worksheet) (*api.Worksheet, er
 // Check the length with:
 //     len(mockedCircAPI.CreateWorksheetCalls())
 func (mock *CircAPIMock) CreateWorksheetCalls() []struct {
-	Cfg *api.Worksheet
+	Cfg *circapi.Worksheet
 } {
 	var calls []struct {
-		Cfg *api.Worksheet
+		Cfg *circapi.Worksheet
 	}
 	lockCircAPIMockCreateWorksheet.RLock()
 	calls = mock.calls.CreateWorksheet
@@ -123,12 +124,12 @@ func (mock *CircAPIMock) CreateWorksheetCalls() []struct {
 }
 
 // DeleteWorksheetByCID calls DeleteWorksheetByCIDFunc.
-func (mock *CircAPIMock) DeleteWorksheetByCID(cid api.CIDType) (bool, error) {
+func (mock *CircAPIMock) DeleteWorksheetByCID(cid circapi.CIDType) (bool, error) {
 	if mock.DeleteWorksheetByCIDFunc == nil {
 		panic("moq: CircAPIMock.DeleteWorksheetByCIDFunc is nil but CircAPI.DeleteWorksheetByCID was just called")
 	}
 	callInfo := struct {
-		Cid api.CIDType
+		Cid circapi.CIDType
 	}{
 		Cid: cid,
 	}
@@ -142,10 +143,10 @@ func (mock *CircAPIMock) DeleteWorksheetByCID(cid api.CIDType) (bool, error) {
 // Check the length with:
 //     len(mockedCircAPI.DeleteWorksheetByCIDCalls())
 func (mock *CircAPIMock) DeleteWorksheetByCIDCalls() []struct {
-	Cid api.CIDType
+	Cid circapi.CIDType
 } {
 	var calls []struct {
-		Cid api.CIDType
+		Cid circapi.CIDType
 	}
 	lockCircAPIMockDeleteWorksheetByCID.RLock()
 	calls = mock.calls.DeleteWorksheetByCID
@@ -154,12 +155,12 @@ func (mock *CircAPIMock) DeleteWorksheetByCIDCalls() []struct {
 }
 
 // FetchWorksheet calls FetchWorksheetFunc.
-func (mock *CircAPIMock) FetchWorksheet(cid api.CIDType) (*api.Worksheet, error) {
+func (mock *CircAPIMock) FetchWorksheet(cid circapi.CIDType) (*circapi.Worksheet, error) {
 	if mock.FetchWorksheetFunc == nil {
 		panic("moq: CircAPIMock.FetchWorksheetFunc is nil but CircAPI.FetchWorksheet was just called")
 	}
 	callInfo := struct {
-		Cid api.CIDType
+		Cid circapi.CIDType
 	}{
 		Cid: cid,
 	}
@@ -173,10 +174,10 @@ func (mock *CircAPIMock) FetchWorksheet(cid api.CIDType) (*api.Worksheet, error)
 // Check the length with:
 //     len(mockedCircAPI.FetchWorksheetCalls())
 func (mock *CircAPIMock) FetchWorksheetCalls() []struct {
-	Cid api.CIDType
+	Cid circapi.CIDType
 } {
 	var calls []struct {
-		Cid api.CIDType
+		Cid circapi.CIDType
 	}
 	lockCircAPIMockFetchWorksheet.RLock()
 	calls = mock.calls.FetchWorksheet
@@ -185,13 +186,13 @@ func (mock *CircAPIMock) FetchWorksheetCalls() []struct {
 }
 
 // SearchWorksheets calls SearchWorksheetsFunc.
-func (mock *CircAPIMock) SearchWorksheets(searchCriteria *api.SearchQueryType, filterCriteria *api.SearchFilterType) (*[]api.Worksheet, error) {
+func (mock *CircAPIMock) SearchWorksheets(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.Worksheet, error) {
 	if mock.SearchWorksheetsFunc == nil {
 		panic("moq: CircAPIMock.SearchWorksheetsFunc is nil but CircAPI.SearchWorksheets was just called")
 	}
 	callInfo := struct {
-		SearchCriteria *api.SearchQueryType
-		FilterCriteria *api.SearchFilterType
+		SearchCriteria *circapi.SearchQueryType
+		FilterCriteria *circapi.SearchFilterType
 	}{
 		SearchCriteria: searchCriteria,
 		FilterCriteria: filterCriteria,
@@ -206,12 +207,12 @@ func (mock *CircAPIMock) SearchWorksheets(searchCriteria *api.SearchQueryType, f
 // Check the length with:
 //     len(mockedCircAPI.SearchWorksheetsCalls())
 func (mock *CircAPIMock) SearchWorksheetsCalls() []struct {
-	SearchCriteria *api.SearchQueryType
-	FilterCriteria *api.SearchFilterType
+	SearchCriteria *circapi.SearchQueryType
+	FilterCriteria *circapi.SearchFilterType
 } {
 	var calls []struct {
-		SearchCriteria *api.SearchQueryType
-		FilterCriteria *api.SearchFilterType
+		SearchCriteria *circapi.SearchQueryType
+		FilterCriteria *circapi.SearchFilterType
 	}
 	lockCircAPIMockSearchWorksheets.RLock()
 	calls = mock.calls.SearchWorksheets
@@ -220,12 +221,12 @@ func (mock *CircAPIMock) SearchWorksheetsCalls() []struct {
 }
 
 // UpdateWorksheet calls UpdateWorksheetFunc.
-func (mock *CircAPIMock) UpdateWorksheet(cfg *api.Worksheet) (*api.Worksheet, error) {
+func (mock *CircAPIMock) UpdateWorksheet(cfg *circapi.Worksheet) (*circapi.Worksheet, error) {
 	if mock.UpdateWorksheetFunc == nil {
 		panic("moq: CircAPIMock.UpdateWorksheetFunc is nil but CircAPI.UpdateWorksheet was just called")
 	}
 	callInfo := struct {
-		Cfg *api.Worksheet
+		Cfg *circapi.Worksheet
 	}{
 		Cfg: cfg,
 	}
@@ -239,10 +240,10 @@ func (mock *CircAPIMock) UpdateWorksheet(cfg *api.Worksheet) (*api.Worksheet, er
 // Check the length with:
 //     len(mockedCircAPI.UpdateWorksheetCalls())
 func (mock *CircAPIMock) UpdateWorksheetCalls() []struct {
-	Cfg *api.Worksheet
+	Cfg *circapi.Worksheet
 } {
 	var calls []struct {
-		Cfg *api.Worksheet
+		Cfg *circapi.Worksheet
 	}
 	lockCircAPIMockUpdateWorksheet.RLock()
 	calls = mock.calls.UpdateWorksheet

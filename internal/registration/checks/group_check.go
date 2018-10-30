@@ -6,7 +6,7 @@
 package checks
 
 import (
-	circapi "github.com/circonus-labs/circonus-gometrics/api"
+	circapi "github.com/circonus-labs/go-apiclient"
 )
 
 func (c *Checks) createGroupCheck() (*circapi.CheckBundle, error) {

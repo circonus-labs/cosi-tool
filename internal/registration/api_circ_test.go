@@ -4,8 +4,9 @@
 package registration
 
 import (
-	"github.com/circonus-labs/circonus-gometrics/api"
 	"sync"
+
+	circapi "github.com/circonus-labs/go-apiclient"
 )
 
 var (
@@ -40,73 +41,73 @@ var (
 //
 //         // make and configure a mocked CircAPI
 //         mockedCircAPI := &CircAPIMock{
-//             CreateCheckBundleFunc: func(cfg *api.CheckBundle) (*api.CheckBundle, error) {
+//             CreateCheckBundleFunc: func(cfg *circapi.CheckBundle) (*circapi.CheckBundle, error) {
 // 	               panic("TODO: mock out the CreateCheckBundle method")
 //             },
-//             CreateDashboardFunc: func(cfg *api.Dashboard) (*api.Dashboard, error) {
+//             CreateDashboardFunc: func(cfg *circapi.Dashboard) (*circapi.Dashboard, error) {
 // 	               panic("TODO: mock out the CreateDashboard method")
 //             },
-//             CreateGraphFunc: func(cfg *api.Graph) (*api.Graph, error) {
+//             CreateGraphFunc: func(cfg *circapi.Graph) (*circapi.Graph, error) {
 // 	               panic("TODO: mock out the CreateGraph method")
 //             },
-//             CreateRuleSetFunc: func(cfg *api.RuleSet) (*api.RuleSet, error) {
+//             CreateRuleSetFunc: func(cfg *circapi.RuleSet) (*circapi.RuleSet, error) {
 // 	               panic("TODO: mock out the CreateRuleSet method")
 //             },
-//             CreateWorksheetFunc: func(cfg *api.Worksheet) (*api.Worksheet, error) {
+//             CreateWorksheetFunc: func(cfg *circapi.Worksheet) (*circapi.Worksheet, error) {
 // 	               panic("TODO: mock out the CreateWorksheet method")
 //             },
-//             DeleteCheckBundleByCIDFunc: func(cid api.CIDType) (bool, error) {
+//             DeleteCheckBundleByCIDFunc: func(cid circapi.CIDType) (bool, error) {
 // 	               panic("TODO: mock out the DeleteCheckBundleByCID method")
 //             },
-//             DeleteDashboardByCIDFunc: func(cid api.CIDType) (bool, error) {
+//             DeleteDashboardByCIDFunc: func(cid circapi.CIDType) (bool, error) {
 // 	               panic("TODO: mock out the DeleteDashboardByCID method")
 //             },
-//             DeleteGraphByCIDFunc: func(cid api.CIDType) (bool, error) {
+//             DeleteGraphByCIDFunc: func(cid circapi.CIDType) (bool, error) {
 // 	               panic("TODO: mock out the DeleteGraphByCID method")
 //             },
-//             DeleteWorksheetByCIDFunc: func(cid api.CIDType) (bool, error) {
+//             DeleteWorksheetByCIDFunc: func(cid circapi.CIDType) (bool, error) {
 // 	               panic("TODO: mock out the DeleteWorksheetByCID method")
 //             },
-//             FetchBrokerFunc: func(cid api.CIDType) (*api.Broker, error) {
+//             FetchBrokerFunc: func(cid circapi.CIDType) (*circapi.Broker, error) {
 // 	               panic("TODO: mock out the FetchBroker method")
 //             },
-//             FetchBrokersFunc: func() (*[]api.Broker, error) {
+//             FetchBrokersFunc: func() (*[]circapi.Broker, error) {
 // 	               panic("TODO: mock out the FetchBrokers method")
 //             },
-//             FetchCheckBundleFunc: func(cid api.CIDType) (*api.CheckBundle, error) {
+//             FetchCheckBundleFunc: func(cid circapi.CIDType) (*circapi.CheckBundle, error) {
 // 	               panic("TODO: mock out the FetchCheckBundle method")
 //             },
-//             FetchDashboardFunc: func(cid api.CIDType) (*api.Dashboard, error) {
+//             FetchDashboardFunc: func(cid circapi.CIDType) (*circapi.Dashboard, error) {
 // 	               panic("TODO: mock out the FetchDashboard method")
 //             },
-//             FetchGraphFunc: func(cid api.CIDType) (*api.Graph, error) {
+//             FetchGraphFunc: func(cid circapi.CIDType) (*circapi.Graph, error) {
 // 	               panic("TODO: mock out the FetchGraph method")
 //             },
-//             FetchWorksheetFunc: func(cid api.CIDType) (*api.Worksheet, error) {
+//             FetchWorksheetFunc: func(cid circapi.CIDType) (*circapi.Worksheet, error) {
 // 	               panic("TODO: mock out the FetchWorksheet method")
 //             },
-//             SearchCheckBundlesFunc: func(searchCriteria *api.SearchQueryType, filterCriteria *map[string][]string) (*[]api.CheckBundle, error) {
+//             SearchCheckBundlesFunc: func(searchCriteria *circapi.SearchQueryType, filterCriteria *map[string][]string) (*[]circapi.CheckBundle, error) {
 // 	               panic("TODO: mock out the SearchCheckBundles method")
 //             },
-//             SearchDashboardsFunc: func(searchCriteria *api.SearchQueryType, filterCriteria *api.SearchFilterType) (*[]api.Dashboard, error) {
+//             SearchDashboardsFunc: func(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.Dashboard, error) {
 // 	               panic("TODO: mock out the SearchDashboards method")
 //             },
-//             SearchGraphsFunc: func(searchCriteria *api.SearchQueryType, filterCriteria *api.SearchFilterType) (*[]api.Graph, error) {
+//             SearchGraphsFunc: func(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.Graph, error) {
 // 	               panic("TODO: mock out the SearchGraphs method")
 //             },
-//             SearchWorksheetsFunc: func(searchCriteria *api.SearchQueryType, filterCriteria *api.SearchFilterType) (*[]api.Worksheet, error) {
+//             SearchWorksheetsFunc: func(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.Worksheet, error) {
 // 	               panic("TODO: mock out the SearchWorksheets method")
 //             },
-//             UpdateCheckBundleFunc: func(cfg *api.CheckBundle) (*api.CheckBundle, error) {
+//             UpdateCheckBundleFunc: func(cfg *circapi.CheckBundle) (*circapi.CheckBundle, error) {
 // 	               panic("TODO: mock out the UpdateCheckBundle method")
 //             },
-//             UpdateDashboardFunc: func(cfg *api.Dashboard) (*api.Dashboard, error) {
+//             UpdateDashboardFunc: func(cfg *circapi.Dashboard) (*circapi.Dashboard, error) {
 // 	               panic("TODO: mock out the UpdateDashboard method")
 //             },
-//             UpdateGraphFunc: func(cfg *api.Graph) (*api.Graph, error) {
+//             UpdateGraphFunc: func(cfg *circapi.Graph) (*circapi.Graph, error) {
 // 	               panic("TODO: mock out the UpdateGraph method")
 //             },
-//             UpdateWorksheetFunc: func(cfg *api.Worksheet) (*api.Worksheet, error) {
+//             UpdateWorksheetFunc: func(cfg *circapi.Worksheet) (*circapi.Worksheet, error) {
 // 	               panic("TODO: mock out the UpdateWorksheet method")
 //             },
 //         }
@@ -117,125 +118,125 @@ var (
 //     }
 type CircAPIMock struct {
 	// CreateCheckBundleFunc mocks the CreateCheckBundle method.
-	CreateCheckBundleFunc func(cfg *api.CheckBundle) (*api.CheckBundle, error)
+	CreateCheckBundleFunc func(cfg *circapi.CheckBundle) (*circapi.CheckBundle, error)
 
 	// CreateDashboardFunc mocks the CreateDashboard method.
-	CreateDashboardFunc func(cfg *api.Dashboard) (*api.Dashboard, error)
+	CreateDashboardFunc func(cfg *circapi.Dashboard) (*circapi.Dashboard, error)
 
 	// CreateGraphFunc mocks the CreateGraph method.
-	CreateGraphFunc func(cfg *api.Graph) (*api.Graph, error)
+	CreateGraphFunc func(cfg *circapi.Graph) (*circapi.Graph, error)
 
 	// CreateRuleSetFunc mocks the CreateRuleSet method.
-	CreateRuleSetFunc func(cfg *api.RuleSet) (*api.RuleSet, error)
+	CreateRuleSetFunc func(cfg *circapi.RuleSet) (*circapi.RuleSet, error)
 
 	// CreateWorksheetFunc mocks the CreateWorksheet method.
-	CreateWorksheetFunc func(cfg *api.Worksheet) (*api.Worksheet, error)
+	CreateWorksheetFunc func(cfg *circapi.Worksheet) (*circapi.Worksheet, error)
 
 	// DeleteCheckBundleByCIDFunc mocks the DeleteCheckBundleByCID method.
-	DeleteCheckBundleByCIDFunc func(cid api.CIDType) (bool, error)
+	DeleteCheckBundleByCIDFunc func(cid circapi.CIDType) (bool, error)
 
 	// DeleteDashboardByCIDFunc mocks the DeleteDashboardByCID method.
-	DeleteDashboardByCIDFunc func(cid api.CIDType) (bool, error)
+	DeleteDashboardByCIDFunc func(cid circapi.CIDType) (bool, error)
 
 	// DeleteGraphByCIDFunc mocks the DeleteGraphByCID method.
-	DeleteGraphByCIDFunc func(cid api.CIDType) (bool, error)
+	DeleteGraphByCIDFunc func(cid circapi.CIDType) (bool, error)
 
 	// DeleteWorksheetByCIDFunc mocks the DeleteWorksheetByCID method.
-	DeleteWorksheetByCIDFunc func(cid api.CIDType) (bool, error)
+	DeleteWorksheetByCIDFunc func(cid circapi.CIDType) (bool, error)
 
 	// FetchBrokerFunc mocks the FetchBroker method.
-	FetchBrokerFunc func(cid api.CIDType) (*api.Broker, error)
+	FetchBrokerFunc func(cid circapi.CIDType) (*circapi.Broker, error)
 
 	// FetchBrokersFunc mocks the FetchBrokers method.
-	FetchBrokersFunc func() (*[]api.Broker, error)
+	FetchBrokersFunc func() (*[]circapi.Broker, error)
 
 	// FetchCheckBundleFunc mocks the FetchCheckBundle method.
-	FetchCheckBundleFunc func(cid api.CIDType) (*api.CheckBundle, error)
+	FetchCheckBundleFunc func(cid circapi.CIDType) (*circapi.CheckBundle, error)
 
 	// FetchDashboardFunc mocks the FetchDashboard method.
-	FetchDashboardFunc func(cid api.CIDType) (*api.Dashboard, error)
+	FetchDashboardFunc func(cid circapi.CIDType) (*circapi.Dashboard, error)
 
 	// FetchGraphFunc mocks the FetchGraph method.
-	FetchGraphFunc func(cid api.CIDType) (*api.Graph, error)
+	FetchGraphFunc func(cid circapi.CIDType) (*circapi.Graph, error)
 
 	// FetchWorksheetFunc mocks the FetchWorksheet method.
-	FetchWorksheetFunc func(cid api.CIDType) (*api.Worksheet, error)
+	FetchWorksheetFunc func(cid circapi.CIDType) (*circapi.Worksheet, error)
 
 	// SearchCheckBundlesFunc mocks the SearchCheckBundles method.
-	SearchCheckBundlesFunc func(searchCriteria *api.SearchQueryType, filterCriteria *map[string][]string) (*[]api.CheckBundle, error)
+	SearchCheckBundlesFunc func(searchCriteria *circapi.SearchQueryType, filterCriteria *map[string][]string) (*[]circapi.CheckBundle, error)
 
 	// SearchDashboardsFunc mocks the SearchDashboards method.
-	SearchDashboardsFunc func(searchCriteria *api.SearchQueryType, filterCriteria *api.SearchFilterType) (*[]api.Dashboard, error)
+	SearchDashboardsFunc func(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.Dashboard, error)
 
 	// SearchGraphsFunc mocks the SearchGraphs method.
-	SearchGraphsFunc func(searchCriteria *api.SearchQueryType, filterCriteria *api.SearchFilterType) (*[]api.Graph, error)
+	SearchGraphsFunc func(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.Graph, error)
 
 	// SearchWorksheetsFunc mocks the SearchWorksheets method.
-	SearchWorksheetsFunc func(searchCriteria *api.SearchQueryType, filterCriteria *api.SearchFilterType) (*[]api.Worksheet, error)
+	SearchWorksheetsFunc func(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.Worksheet, error)
 
 	// UpdateCheckBundleFunc mocks the UpdateCheckBundle method.
-	UpdateCheckBundleFunc func(cfg *api.CheckBundle) (*api.CheckBundle, error)
+	UpdateCheckBundleFunc func(cfg *circapi.CheckBundle) (*circapi.CheckBundle, error)
 
 	// UpdateDashboardFunc mocks the UpdateDashboard method.
-	UpdateDashboardFunc func(cfg *api.Dashboard) (*api.Dashboard, error)
+	UpdateDashboardFunc func(cfg *circapi.Dashboard) (*circapi.Dashboard, error)
 
 	// UpdateGraphFunc mocks the UpdateGraph method.
-	UpdateGraphFunc func(cfg *api.Graph) (*api.Graph, error)
+	UpdateGraphFunc func(cfg *circapi.Graph) (*circapi.Graph, error)
 
 	// UpdateWorksheetFunc mocks the UpdateWorksheet method.
-	UpdateWorksheetFunc func(cfg *api.Worksheet) (*api.Worksheet, error)
+	UpdateWorksheetFunc func(cfg *circapi.Worksheet) (*circapi.Worksheet, error)
 
 	// calls tracks calls to the methods.
 	calls struct {
 		// CreateCheckBundle holds details about calls to the CreateCheckBundle method.
 		CreateCheckBundle []struct {
 			// Cfg is the cfg argument value.
-			Cfg *api.CheckBundle
+			Cfg *circapi.CheckBundle
 		}
 		// CreateDashboard holds details about calls to the CreateDashboard method.
 		CreateDashboard []struct {
 			// Cfg is the cfg argument value.
-			Cfg *api.Dashboard
+			Cfg *circapi.Dashboard
 		}
 		// CreateGraph holds details about calls to the CreateGraph method.
 		CreateGraph []struct {
 			// Cfg is the cfg argument value.
-			Cfg *api.Graph
+			Cfg *circapi.Graph
 		}
 		// CreateRuleSet holds details about calls to the CreateRuleSet method.
 		CreateRuleSet []struct {
 			// Cfg is the cfg argument value.
-			Cfg *api.RuleSet
+			Cfg *circapi.RuleSet
 		}
 		// CreateWorksheet holds details about calls to the CreateWorksheet method.
 		CreateWorksheet []struct {
 			// Cfg is the cfg argument value.
-			Cfg *api.Worksheet
+			Cfg *circapi.Worksheet
 		}
 		// DeleteCheckBundleByCID holds details about calls to the DeleteCheckBundleByCID method.
 		DeleteCheckBundleByCID []struct {
 			// Cid is the cid argument value.
-			Cid api.CIDType
+			Cid circapi.CIDType
 		}
 		// DeleteDashboardByCID holds details about calls to the DeleteDashboardByCID method.
 		DeleteDashboardByCID []struct {
 			// Cid is the cid argument value.
-			Cid api.CIDType
+			Cid circapi.CIDType
 		}
 		// DeleteGraphByCID holds details about calls to the DeleteGraphByCID method.
 		DeleteGraphByCID []struct {
 			// Cid is the cid argument value.
-			Cid api.CIDType
+			Cid circapi.CIDType
 		}
 		// DeleteWorksheetByCID holds details about calls to the DeleteWorksheetByCID method.
 		DeleteWorksheetByCID []struct {
 			// Cid is the cid argument value.
-			Cid api.CIDType
+			Cid circapi.CIDType
 		}
 		// FetchBroker holds details about calls to the FetchBroker method.
 		FetchBroker []struct {
 			// Cid is the cid argument value.
-			Cid api.CIDType
+			Cid circapi.CIDType
 		}
 		// FetchBrokers holds details about calls to the FetchBrokers method.
 		FetchBrokers []struct {
@@ -243,81 +244,81 @@ type CircAPIMock struct {
 		// FetchCheckBundle holds details about calls to the FetchCheckBundle method.
 		FetchCheckBundle []struct {
 			// Cid is the cid argument value.
-			Cid api.CIDType
+			Cid circapi.CIDType
 		}
 		// FetchDashboard holds details about calls to the FetchDashboard method.
 		FetchDashboard []struct {
 			// Cid is the cid argument value.
-			Cid api.CIDType
+			Cid circapi.CIDType
 		}
 		// FetchGraph holds details about calls to the FetchGraph method.
 		FetchGraph []struct {
 			// Cid is the cid argument value.
-			Cid api.CIDType
+			Cid circapi.CIDType
 		}
 		// FetchWorksheet holds details about calls to the FetchWorksheet method.
 		FetchWorksheet []struct {
 			// Cid is the cid argument value.
-			Cid api.CIDType
+			Cid circapi.CIDType
 		}
 		// SearchCheckBundles holds details about calls to the SearchCheckBundles method.
 		SearchCheckBundles []struct {
 			// SearchCriteria is the searchCriteria argument value.
-			SearchCriteria *api.SearchQueryType
+			SearchCriteria *circapi.SearchQueryType
 			// FilterCriteria is the filterCriteria argument value.
 			FilterCriteria *map[string][]string
 		}
 		// SearchDashboards holds details about calls to the SearchDashboards method.
 		SearchDashboards []struct {
 			// SearchCriteria is the searchCriteria argument value.
-			SearchCriteria *api.SearchQueryType
+			SearchCriteria *circapi.SearchQueryType
 			// FilterCriteria is the filterCriteria argument value.
-			FilterCriteria *api.SearchFilterType
+			FilterCriteria *circapi.SearchFilterType
 		}
 		// SearchGraphs holds details about calls to the SearchGraphs method.
 		SearchGraphs []struct {
 			// SearchCriteria is the searchCriteria argument value.
-			SearchCriteria *api.SearchQueryType
+			SearchCriteria *circapi.SearchQueryType
 			// FilterCriteria is the filterCriteria argument value.
-			FilterCriteria *api.SearchFilterType
+			FilterCriteria *circapi.SearchFilterType
 		}
 		// SearchWorksheets holds details about calls to the SearchWorksheets method.
 		SearchWorksheets []struct {
 			// SearchCriteria is the searchCriteria argument value.
-			SearchCriteria *api.SearchQueryType
+			SearchCriteria *circapi.SearchQueryType
 			// FilterCriteria is the filterCriteria argument value.
-			FilterCriteria *api.SearchFilterType
+			FilterCriteria *circapi.SearchFilterType
 		}
 		// UpdateCheckBundle holds details about calls to the UpdateCheckBundle method.
 		UpdateCheckBundle []struct {
 			// Cfg is the cfg argument value.
-			Cfg *api.CheckBundle
+			Cfg *circapi.CheckBundle
 		}
 		// UpdateDashboard holds details about calls to the UpdateDashboard method.
 		UpdateDashboard []struct {
 			// Cfg is the cfg argument value.
-			Cfg *api.Dashboard
+			Cfg *circapi.Dashboard
 		}
 		// UpdateGraph holds details about calls to the UpdateGraph method.
 		UpdateGraph []struct {
 			// Cfg is the cfg argument value.
-			Cfg *api.Graph
+			Cfg *circapi.Graph
 		}
 		// UpdateWorksheet holds details about calls to the UpdateWorksheet method.
 		UpdateWorksheet []struct {
 			// Cfg is the cfg argument value.
-			Cfg *api.Worksheet
+			Cfg *circapi.Worksheet
 		}
 	}
 }
 
 // CreateCheckBundle calls CreateCheckBundleFunc.
-func (mock *CircAPIMock) CreateCheckBundle(cfg *api.CheckBundle) (*api.CheckBundle, error) {
+func (mock *CircAPIMock) CreateCheckBundle(cfg *circapi.CheckBundle) (*circapi.CheckBundle, error) {
 	if mock.CreateCheckBundleFunc == nil {
 		panic("moq: CircAPIMock.CreateCheckBundleFunc is nil but CircAPI.CreateCheckBundle was just called")
 	}
 	callInfo := struct {
-		Cfg *api.CheckBundle
+		Cfg *circapi.CheckBundle
 	}{
 		Cfg: cfg,
 	}
@@ -331,10 +332,10 @@ func (mock *CircAPIMock) CreateCheckBundle(cfg *api.CheckBundle) (*api.CheckBund
 // Check the length with:
 //     len(mockedCircAPI.CreateCheckBundleCalls())
 func (mock *CircAPIMock) CreateCheckBundleCalls() []struct {
-	Cfg *api.CheckBundle
+	Cfg *circapi.CheckBundle
 } {
 	var calls []struct {
-		Cfg *api.CheckBundle
+		Cfg *circapi.CheckBundle
 	}
 	lockCircAPIMockCreateCheckBundle.RLock()
 	calls = mock.calls.CreateCheckBundle
@@ -343,12 +344,12 @@ func (mock *CircAPIMock) CreateCheckBundleCalls() []struct {
 }
 
 // CreateDashboard calls CreateDashboardFunc.
-func (mock *CircAPIMock) CreateDashboard(cfg *api.Dashboard) (*api.Dashboard, error) {
+func (mock *CircAPIMock) CreateDashboard(cfg *circapi.Dashboard) (*circapi.Dashboard, error) {
 	if mock.CreateDashboardFunc == nil {
 		panic("moq: CircAPIMock.CreateDashboardFunc is nil but CircAPI.CreateDashboard was just called")
 	}
 	callInfo := struct {
-		Cfg *api.Dashboard
+		Cfg *circapi.Dashboard
 	}{
 		Cfg: cfg,
 	}
@@ -362,10 +363,10 @@ func (mock *CircAPIMock) CreateDashboard(cfg *api.Dashboard) (*api.Dashboard, er
 // Check the length with:
 //     len(mockedCircAPI.CreateDashboardCalls())
 func (mock *CircAPIMock) CreateDashboardCalls() []struct {
-	Cfg *api.Dashboard
+	Cfg *circapi.Dashboard
 } {
 	var calls []struct {
-		Cfg *api.Dashboard
+		Cfg *circapi.Dashboard
 	}
 	lockCircAPIMockCreateDashboard.RLock()
 	calls = mock.calls.CreateDashboard
@@ -374,12 +375,12 @@ func (mock *CircAPIMock) CreateDashboardCalls() []struct {
 }
 
 // CreateGraph calls CreateGraphFunc.
-func (mock *CircAPIMock) CreateGraph(cfg *api.Graph) (*api.Graph, error) {
+func (mock *CircAPIMock) CreateGraph(cfg *circapi.Graph) (*circapi.Graph, error) {
 	if mock.CreateGraphFunc == nil {
 		panic("moq: CircAPIMock.CreateGraphFunc is nil but CircAPI.CreateGraph was just called")
 	}
 	callInfo := struct {
-		Cfg *api.Graph
+		Cfg *circapi.Graph
 	}{
 		Cfg: cfg,
 	}
@@ -393,10 +394,10 @@ func (mock *CircAPIMock) CreateGraph(cfg *api.Graph) (*api.Graph, error) {
 // Check the length with:
 //     len(mockedCircAPI.CreateGraphCalls())
 func (mock *CircAPIMock) CreateGraphCalls() []struct {
-	Cfg *api.Graph
+	Cfg *circapi.Graph
 } {
 	var calls []struct {
-		Cfg *api.Graph
+		Cfg *circapi.Graph
 	}
 	lockCircAPIMockCreateGraph.RLock()
 	calls = mock.calls.CreateGraph
@@ -405,12 +406,12 @@ func (mock *CircAPIMock) CreateGraphCalls() []struct {
 }
 
 // CreateRuleSet calls CreateRuleSetFunc.
-func (mock *CircAPIMock) CreateRuleSet(cfg *api.RuleSet) (*api.RuleSet, error) {
+func (mock *CircAPIMock) CreateRuleSet(cfg *circapi.RuleSet) (*circapi.RuleSet, error) {
 	if mock.CreateRuleSetFunc == nil {
 		panic("moq: CircAPIMock.CreateRuleSetFunc is nil but CircAPI.CreateRuleSet was just called")
 	}
 	callInfo := struct {
-		Cfg *api.RuleSet
+		Cfg *circapi.RuleSet
 	}{
 		Cfg: cfg,
 	}
@@ -424,10 +425,10 @@ func (mock *CircAPIMock) CreateRuleSet(cfg *api.RuleSet) (*api.RuleSet, error) {
 // Check the length with:
 //     len(mockedCircAPI.CreateRuleSetCalls())
 func (mock *CircAPIMock) CreateRuleSetCalls() []struct {
-	Cfg *api.RuleSet
+	Cfg *circapi.RuleSet
 } {
 	var calls []struct {
-		Cfg *api.RuleSet
+		Cfg *circapi.RuleSet
 	}
 	lockCircAPIMockCreateRuleSet.RLock()
 	calls = mock.calls.CreateRuleSet
@@ -436,12 +437,12 @@ func (mock *CircAPIMock) CreateRuleSetCalls() []struct {
 }
 
 // CreateWorksheet calls CreateWorksheetFunc.
-func (mock *CircAPIMock) CreateWorksheet(cfg *api.Worksheet) (*api.Worksheet, error) {
+func (mock *CircAPIMock) CreateWorksheet(cfg *circapi.Worksheet) (*circapi.Worksheet, error) {
 	if mock.CreateWorksheetFunc == nil {
 		panic("moq: CircAPIMock.CreateWorksheetFunc is nil but CircAPI.CreateWorksheet was just called")
 	}
 	callInfo := struct {
-		Cfg *api.Worksheet
+		Cfg *circapi.Worksheet
 	}{
 		Cfg: cfg,
 	}
@@ -455,10 +456,10 @@ func (mock *CircAPIMock) CreateWorksheet(cfg *api.Worksheet) (*api.Worksheet, er
 // Check the length with:
 //     len(mockedCircAPI.CreateWorksheetCalls())
 func (mock *CircAPIMock) CreateWorksheetCalls() []struct {
-	Cfg *api.Worksheet
+	Cfg *circapi.Worksheet
 } {
 	var calls []struct {
-		Cfg *api.Worksheet
+		Cfg *circapi.Worksheet
 	}
 	lockCircAPIMockCreateWorksheet.RLock()
 	calls = mock.calls.CreateWorksheet
@@ -467,12 +468,12 @@ func (mock *CircAPIMock) CreateWorksheetCalls() []struct {
 }
 
 // DeleteCheckBundleByCID calls DeleteCheckBundleByCIDFunc.
-func (mock *CircAPIMock) DeleteCheckBundleByCID(cid api.CIDType) (bool, error) {
+func (mock *CircAPIMock) DeleteCheckBundleByCID(cid circapi.CIDType) (bool, error) {
 	if mock.DeleteCheckBundleByCIDFunc == nil {
 		panic("moq: CircAPIMock.DeleteCheckBundleByCIDFunc is nil but CircAPI.DeleteCheckBundleByCID was just called")
 	}
 	callInfo := struct {
-		Cid api.CIDType
+		Cid circapi.CIDType
 	}{
 		Cid: cid,
 	}
@@ -486,10 +487,10 @@ func (mock *CircAPIMock) DeleteCheckBundleByCID(cid api.CIDType) (bool, error) {
 // Check the length with:
 //     len(mockedCircAPI.DeleteCheckBundleByCIDCalls())
 func (mock *CircAPIMock) DeleteCheckBundleByCIDCalls() []struct {
-	Cid api.CIDType
+	Cid circapi.CIDType
 } {
 	var calls []struct {
-		Cid api.CIDType
+		Cid circapi.CIDType
 	}
 	lockCircAPIMockDeleteCheckBundleByCID.RLock()
 	calls = mock.calls.DeleteCheckBundleByCID
@@ -498,12 +499,12 @@ func (mock *CircAPIMock) DeleteCheckBundleByCIDCalls() []struct {
 }
 
 // DeleteDashboardByCID calls DeleteDashboardByCIDFunc.
-func (mock *CircAPIMock) DeleteDashboardByCID(cid api.CIDType) (bool, error) {
+func (mock *CircAPIMock) DeleteDashboardByCID(cid circapi.CIDType) (bool, error) {
 	if mock.DeleteDashboardByCIDFunc == nil {
 		panic("moq: CircAPIMock.DeleteDashboardByCIDFunc is nil but CircAPI.DeleteDashboardByCID was just called")
 	}
 	callInfo := struct {
-		Cid api.CIDType
+		Cid circapi.CIDType
 	}{
 		Cid: cid,
 	}
@@ -517,10 +518,10 @@ func (mock *CircAPIMock) DeleteDashboardByCID(cid api.CIDType) (bool, error) {
 // Check the length with:
 //     len(mockedCircAPI.DeleteDashboardByCIDCalls())
 func (mock *CircAPIMock) DeleteDashboardByCIDCalls() []struct {
-	Cid api.CIDType
+	Cid circapi.CIDType
 } {
 	var calls []struct {
-		Cid api.CIDType
+		Cid circapi.CIDType
 	}
 	lockCircAPIMockDeleteDashboardByCID.RLock()
 	calls = mock.calls.DeleteDashboardByCID
@@ -529,12 +530,12 @@ func (mock *CircAPIMock) DeleteDashboardByCIDCalls() []struct {
 }
 
 // DeleteGraphByCID calls DeleteGraphByCIDFunc.
-func (mock *CircAPIMock) DeleteGraphByCID(cid api.CIDType) (bool, error) {
+func (mock *CircAPIMock) DeleteGraphByCID(cid circapi.CIDType) (bool, error) {
 	if mock.DeleteGraphByCIDFunc == nil {
 		panic("moq: CircAPIMock.DeleteGraphByCIDFunc is nil but CircAPI.DeleteGraphByCID was just called")
 	}
 	callInfo := struct {
-		Cid api.CIDType
+		Cid circapi.CIDType
 	}{
 		Cid: cid,
 	}
@@ -548,10 +549,10 @@ func (mock *CircAPIMock) DeleteGraphByCID(cid api.CIDType) (bool, error) {
 // Check the length with:
 //     len(mockedCircAPI.DeleteGraphByCIDCalls())
 func (mock *CircAPIMock) DeleteGraphByCIDCalls() []struct {
-	Cid api.CIDType
+	Cid circapi.CIDType
 } {
 	var calls []struct {
-		Cid api.CIDType
+		Cid circapi.CIDType
 	}
 	lockCircAPIMockDeleteGraphByCID.RLock()
 	calls = mock.calls.DeleteGraphByCID
@@ -560,12 +561,12 @@ func (mock *CircAPIMock) DeleteGraphByCIDCalls() []struct {
 }
 
 // DeleteWorksheetByCID calls DeleteWorksheetByCIDFunc.
-func (mock *CircAPIMock) DeleteWorksheetByCID(cid api.CIDType) (bool, error) {
+func (mock *CircAPIMock) DeleteWorksheetByCID(cid circapi.CIDType) (bool, error) {
 	if mock.DeleteWorksheetByCIDFunc == nil {
 		panic("moq: CircAPIMock.DeleteWorksheetByCIDFunc is nil but CircAPI.DeleteWorksheetByCID was just called")
 	}
 	callInfo := struct {
-		Cid api.CIDType
+		Cid circapi.CIDType
 	}{
 		Cid: cid,
 	}
@@ -579,10 +580,10 @@ func (mock *CircAPIMock) DeleteWorksheetByCID(cid api.CIDType) (bool, error) {
 // Check the length with:
 //     len(mockedCircAPI.DeleteWorksheetByCIDCalls())
 func (mock *CircAPIMock) DeleteWorksheetByCIDCalls() []struct {
-	Cid api.CIDType
+	Cid circapi.CIDType
 } {
 	var calls []struct {
-		Cid api.CIDType
+		Cid circapi.CIDType
 	}
 	lockCircAPIMockDeleteWorksheetByCID.RLock()
 	calls = mock.calls.DeleteWorksheetByCID
@@ -591,12 +592,12 @@ func (mock *CircAPIMock) DeleteWorksheetByCIDCalls() []struct {
 }
 
 // FetchBroker calls FetchBrokerFunc.
-func (mock *CircAPIMock) FetchBroker(cid api.CIDType) (*api.Broker, error) {
+func (mock *CircAPIMock) FetchBroker(cid circapi.CIDType) (*circapi.Broker, error) {
 	if mock.FetchBrokerFunc == nil {
 		panic("moq: CircAPIMock.FetchBrokerFunc is nil but CircAPI.FetchBroker was just called")
 	}
 	callInfo := struct {
-		Cid api.CIDType
+		Cid circapi.CIDType
 	}{
 		Cid: cid,
 	}
@@ -610,10 +611,10 @@ func (mock *CircAPIMock) FetchBroker(cid api.CIDType) (*api.Broker, error) {
 // Check the length with:
 //     len(mockedCircAPI.FetchBrokerCalls())
 func (mock *CircAPIMock) FetchBrokerCalls() []struct {
-	Cid api.CIDType
+	Cid circapi.CIDType
 } {
 	var calls []struct {
-		Cid api.CIDType
+		Cid circapi.CIDType
 	}
 	lockCircAPIMockFetchBroker.RLock()
 	calls = mock.calls.FetchBroker
@@ -622,7 +623,7 @@ func (mock *CircAPIMock) FetchBrokerCalls() []struct {
 }
 
 // FetchBrokers calls FetchBrokersFunc.
-func (mock *CircAPIMock) FetchBrokers() (*[]api.Broker, error) {
+func (mock *CircAPIMock) FetchBrokers() (*[]circapi.Broker, error) {
 	if mock.FetchBrokersFunc == nil {
 		panic("moq: CircAPIMock.FetchBrokersFunc is nil but CircAPI.FetchBrokers was just called")
 	}
@@ -648,12 +649,12 @@ func (mock *CircAPIMock) FetchBrokersCalls() []struct {
 }
 
 // FetchCheckBundle calls FetchCheckBundleFunc.
-func (mock *CircAPIMock) FetchCheckBundle(cid api.CIDType) (*api.CheckBundle, error) {
+func (mock *CircAPIMock) FetchCheckBundle(cid circapi.CIDType) (*circapi.CheckBundle, error) {
 	if mock.FetchCheckBundleFunc == nil {
 		panic("moq: CircAPIMock.FetchCheckBundleFunc is nil but CircAPI.FetchCheckBundle was just called")
 	}
 	callInfo := struct {
-		Cid api.CIDType
+		Cid circapi.CIDType
 	}{
 		Cid: cid,
 	}
@@ -667,10 +668,10 @@ func (mock *CircAPIMock) FetchCheckBundle(cid api.CIDType) (*api.CheckBundle, er
 // Check the length with:
 //     len(mockedCircAPI.FetchCheckBundleCalls())
 func (mock *CircAPIMock) FetchCheckBundleCalls() []struct {
-	Cid api.CIDType
+	Cid circapi.CIDType
 } {
 	var calls []struct {
-		Cid api.CIDType
+		Cid circapi.CIDType
 	}
 	lockCircAPIMockFetchCheckBundle.RLock()
 	calls = mock.calls.FetchCheckBundle
@@ -679,12 +680,12 @@ func (mock *CircAPIMock) FetchCheckBundleCalls() []struct {
 }
 
 // FetchDashboard calls FetchDashboardFunc.
-func (mock *CircAPIMock) FetchDashboard(cid api.CIDType) (*api.Dashboard, error) {
+func (mock *CircAPIMock) FetchDashboard(cid circapi.CIDType) (*circapi.Dashboard, error) {
 	if mock.FetchDashboardFunc == nil {
 		panic("moq: CircAPIMock.FetchDashboardFunc is nil but CircAPI.FetchDashboard was just called")
 	}
 	callInfo := struct {
-		Cid api.CIDType
+		Cid circapi.CIDType
 	}{
 		Cid: cid,
 	}
@@ -698,10 +699,10 @@ func (mock *CircAPIMock) FetchDashboard(cid api.CIDType) (*api.Dashboard, error)
 // Check the length with:
 //     len(mockedCircAPI.FetchDashboardCalls())
 func (mock *CircAPIMock) FetchDashboardCalls() []struct {
-	Cid api.CIDType
+	Cid circapi.CIDType
 } {
 	var calls []struct {
-		Cid api.CIDType
+		Cid circapi.CIDType
 	}
 	lockCircAPIMockFetchDashboard.RLock()
 	calls = mock.calls.FetchDashboard
@@ -710,12 +711,12 @@ func (mock *CircAPIMock) FetchDashboardCalls() []struct {
 }
 
 // FetchGraph calls FetchGraphFunc.
-func (mock *CircAPIMock) FetchGraph(cid api.CIDType) (*api.Graph, error) {
+func (mock *CircAPIMock) FetchGraph(cid circapi.CIDType) (*circapi.Graph, error) {
 	if mock.FetchGraphFunc == nil {
 		panic("moq: CircAPIMock.FetchGraphFunc is nil but CircAPI.FetchGraph was just called")
 	}
 	callInfo := struct {
-		Cid api.CIDType
+		Cid circapi.CIDType
 	}{
 		Cid: cid,
 	}
@@ -729,10 +730,10 @@ func (mock *CircAPIMock) FetchGraph(cid api.CIDType) (*api.Graph, error) {
 // Check the length with:
 //     len(mockedCircAPI.FetchGraphCalls())
 func (mock *CircAPIMock) FetchGraphCalls() []struct {
-	Cid api.CIDType
+	Cid circapi.CIDType
 } {
 	var calls []struct {
-		Cid api.CIDType
+		Cid circapi.CIDType
 	}
 	lockCircAPIMockFetchGraph.RLock()
 	calls = mock.calls.FetchGraph
@@ -741,12 +742,12 @@ func (mock *CircAPIMock) FetchGraphCalls() []struct {
 }
 
 // FetchWorksheet calls FetchWorksheetFunc.
-func (mock *CircAPIMock) FetchWorksheet(cid api.CIDType) (*api.Worksheet, error) {
+func (mock *CircAPIMock) FetchWorksheet(cid circapi.CIDType) (*circapi.Worksheet, error) {
 	if mock.FetchWorksheetFunc == nil {
 		panic("moq: CircAPIMock.FetchWorksheetFunc is nil but CircAPI.FetchWorksheet was just called")
 	}
 	callInfo := struct {
-		Cid api.CIDType
+		Cid circapi.CIDType
 	}{
 		Cid: cid,
 	}
@@ -760,10 +761,10 @@ func (mock *CircAPIMock) FetchWorksheet(cid api.CIDType) (*api.Worksheet, error)
 // Check the length with:
 //     len(mockedCircAPI.FetchWorksheetCalls())
 func (mock *CircAPIMock) FetchWorksheetCalls() []struct {
-	Cid api.CIDType
+	Cid circapi.CIDType
 } {
 	var calls []struct {
-		Cid api.CIDType
+		Cid circapi.CIDType
 	}
 	lockCircAPIMockFetchWorksheet.RLock()
 	calls = mock.calls.FetchWorksheet
@@ -772,12 +773,12 @@ func (mock *CircAPIMock) FetchWorksheetCalls() []struct {
 }
 
 // SearchCheckBundles calls SearchCheckBundlesFunc.
-func (mock *CircAPIMock) SearchCheckBundles(searchCriteria *api.SearchQueryType, filterCriteria *map[string][]string) (*[]api.CheckBundle, error) {
+func (mock *CircAPIMock) SearchCheckBundles(searchCriteria *circapi.SearchQueryType, filterCriteria *map[string][]string) (*[]circapi.CheckBundle, error) {
 	if mock.SearchCheckBundlesFunc == nil {
 		panic("moq: CircAPIMock.SearchCheckBundlesFunc is nil but CircAPI.SearchCheckBundles was just called")
 	}
 	callInfo := struct {
-		SearchCriteria *api.SearchQueryType
+		SearchCriteria *circapi.SearchQueryType
 		FilterCriteria *map[string][]string
 	}{
 		SearchCriteria: searchCriteria,
@@ -793,11 +794,11 @@ func (mock *CircAPIMock) SearchCheckBundles(searchCriteria *api.SearchQueryType,
 // Check the length with:
 //     len(mockedCircAPI.SearchCheckBundlesCalls())
 func (mock *CircAPIMock) SearchCheckBundlesCalls() []struct {
-	SearchCriteria *api.SearchQueryType
+	SearchCriteria *circapi.SearchQueryType
 	FilterCriteria *map[string][]string
 } {
 	var calls []struct {
-		SearchCriteria *api.SearchQueryType
+		SearchCriteria *circapi.SearchQueryType
 		FilterCriteria *map[string][]string
 	}
 	lockCircAPIMockSearchCheckBundles.RLock()
@@ -807,13 +808,13 @@ func (mock *CircAPIMock) SearchCheckBundlesCalls() []struct {
 }
 
 // SearchDashboards calls SearchDashboardsFunc.
-func (mock *CircAPIMock) SearchDashboards(searchCriteria *api.SearchQueryType, filterCriteria *api.SearchFilterType) (*[]api.Dashboard, error) {
+func (mock *CircAPIMock) SearchDashboards(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.Dashboard, error) {
 	if mock.SearchDashboardsFunc == nil {
 		panic("moq: CircAPIMock.SearchDashboardsFunc is nil but CircAPI.SearchDashboards was just called")
 	}
 	callInfo := struct {
-		SearchCriteria *api.SearchQueryType
-		FilterCriteria *api.SearchFilterType
+		SearchCriteria *circapi.SearchQueryType
+		FilterCriteria *circapi.SearchFilterType
 	}{
 		SearchCriteria: searchCriteria,
 		FilterCriteria: filterCriteria,
@@ -828,12 +829,12 @@ func (mock *CircAPIMock) SearchDashboards(searchCriteria *api.SearchQueryType, f
 // Check the length with:
 //     len(mockedCircAPI.SearchDashboardsCalls())
 func (mock *CircAPIMock) SearchDashboardsCalls() []struct {
-	SearchCriteria *api.SearchQueryType
-	FilterCriteria *api.SearchFilterType
+	SearchCriteria *circapi.SearchQueryType
+	FilterCriteria *circapi.SearchFilterType
 } {
 	var calls []struct {
-		SearchCriteria *api.SearchQueryType
-		FilterCriteria *api.SearchFilterType
+		SearchCriteria *circapi.SearchQueryType
+		FilterCriteria *circapi.SearchFilterType
 	}
 	lockCircAPIMockSearchDashboards.RLock()
 	calls = mock.calls.SearchDashboards
@@ -842,13 +843,13 @@ func (mock *CircAPIMock) SearchDashboardsCalls() []struct {
 }
 
 // SearchGraphs calls SearchGraphsFunc.
-func (mock *CircAPIMock) SearchGraphs(searchCriteria *api.SearchQueryType, filterCriteria *api.SearchFilterType) (*[]api.Graph, error) {
+func (mock *CircAPIMock) SearchGraphs(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.Graph, error) {
 	if mock.SearchGraphsFunc == nil {
 		panic("moq: CircAPIMock.SearchGraphsFunc is nil but CircAPI.SearchGraphs was just called")
 	}
 	callInfo := struct {
-		SearchCriteria *api.SearchQueryType
-		FilterCriteria *api.SearchFilterType
+		SearchCriteria *circapi.SearchQueryType
+		FilterCriteria *circapi.SearchFilterType
 	}{
 		SearchCriteria: searchCriteria,
 		FilterCriteria: filterCriteria,
@@ -863,12 +864,12 @@ func (mock *CircAPIMock) SearchGraphs(searchCriteria *api.SearchQueryType, filte
 // Check the length with:
 //     len(mockedCircAPI.SearchGraphsCalls())
 func (mock *CircAPIMock) SearchGraphsCalls() []struct {
-	SearchCriteria *api.SearchQueryType
-	FilterCriteria *api.SearchFilterType
+	SearchCriteria *circapi.SearchQueryType
+	FilterCriteria *circapi.SearchFilterType
 } {
 	var calls []struct {
-		SearchCriteria *api.SearchQueryType
-		FilterCriteria *api.SearchFilterType
+		SearchCriteria *circapi.SearchQueryType
+		FilterCriteria *circapi.SearchFilterType
 	}
 	lockCircAPIMockSearchGraphs.RLock()
 	calls = mock.calls.SearchGraphs
@@ -877,13 +878,13 @@ func (mock *CircAPIMock) SearchGraphsCalls() []struct {
 }
 
 // SearchWorksheets calls SearchWorksheetsFunc.
-func (mock *CircAPIMock) SearchWorksheets(searchCriteria *api.SearchQueryType, filterCriteria *api.SearchFilterType) (*[]api.Worksheet, error) {
+func (mock *CircAPIMock) SearchWorksheets(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.Worksheet, error) {
 	if mock.SearchWorksheetsFunc == nil {
 		panic("moq: CircAPIMock.SearchWorksheetsFunc is nil but CircAPI.SearchWorksheets was just called")
 	}
 	callInfo := struct {
-		SearchCriteria *api.SearchQueryType
-		FilterCriteria *api.SearchFilterType
+		SearchCriteria *circapi.SearchQueryType
+		FilterCriteria *circapi.SearchFilterType
 	}{
 		SearchCriteria: searchCriteria,
 		FilterCriteria: filterCriteria,
@@ -898,12 +899,12 @@ func (mock *CircAPIMock) SearchWorksheets(searchCriteria *api.SearchQueryType, f
 // Check the length with:
 //     len(mockedCircAPI.SearchWorksheetsCalls())
 func (mock *CircAPIMock) SearchWorksheetsCalls() []struct {
-	SearchCriteria *api.SearchQueryType
-	FilterCriteria *api.SearchFilterType
+	SearchCriteria *circapi.SearchQueryType
+	FilterCriteria *circapi.SearchFilterType
 } {
 	var calls []struct {
-		SearchCriteria *api.SearchQueryType
-		FilterCriteria *api.SearchFilterType
+		SearchCriteria *circapi.SearchQueryType
+		FilterCriteria *circapi.SearchFilterType
 	}
 	lockCircAPIMockSearchWorksheets.RLock()
 	calls = mock.calls.SearchWorksheets
@@ -912,12 +913,12 @@ func (mock *CircAPIMock) SearchWorksheetsCalls() []struct {
 }
 
 // UpdateCheckBundle calls UpdateCheckBundleFunc.
-func (mock *CircAPIMock) UpdateCheckBundle(cfg *api.CheckBundle) (*api.CheckBundle, error) {
+func (mock *CircAPIMock) UpdateCheckBundle(cfg *circapi.CheckBundle) (*circapi.CheckBundle, error) {
 	if mock.UpdateCheckBundleFunc == nil {
 		panic("moq: CircAPIMock.UpdateCheckBundleFunc is nil but CircAPI.UpdateCheckBundle was just called")
 	}
 	callInfo := struct {
-		Cfg *api.CheckBundle
+		Cfg *circapi.CheckBundle
 	}{
 		Cfg: cfg,
 	}
@@ -931,10 +932,10 @@ func (mock *CircAPIMock) UpdateCheckBundle(cfg *api.CheckBundle) (*api.CheckBund
 // Check the length with:
 //     len(mockedCircAPI.UpdateCheckBundleCalls())
 func (mock *CircAPIMock) UpdateCheckBundleCalls() []struct {
-	Cfg *api.CheckBundle
+	Cfg *circapi.CheckBundle
 } {
 	var calls []struct {
-		Cfg *api.CheckBundle
+		Cfg *circapi.CheckBundle
 	}
 	lockCircAPIMockUpdateCheckBundle.RLock()
 	calls = mock.calls.UpdateCheckBundle
@@ -943,12 +944,12 @@ func (mock *CircAPIMock) UpdateCheckBundleCalls() []struct {
 }
 
 // UpdateDashboard calls UpdateDashboardFunc.
-func (mock *CircAPIMock) UpdateDashboard(cfg *api.Dashboard) (*api.Dashboard, error) {
+func (mock *CircAPIMock) UpdateDashboard(cfg *circapi.Dashboard) (*circapi.Dashboard, error) {
 	if mock.UpdateDashboardFunc == nil {
 		panic("moq: CircAPIMock.UpdateDashboardFunc is nil but CircAPI.UpdateDashboard was just called")
 	}
 	callInfo := struct {
-		Cfg *api.Dashboard
+		Cfg *circapi.Dashboard
 	}{
 		Cfg: cfg,
 	}
@@ -962,10 +963,10 @@ func (mock *CircAPIMock) UpdateDashboard(cfg *api.Dashboard) (*api.Dashboard, er
 // Check the length with:
 //     len(mockedCircAPI.UpdateDashboardCalls())
 func (mock *CircAPIMock) UpdateDashboardCalls() []struct {
-	Cfg *api.Dashboard
+	Cfg *circapi.Dashboard
 } {
 	var calls []struct {
-		Cfg *api.Dashboard
+		Cfg *circapi.Dashboard
 	}
 	lockCircAPIMockUpdateDashboard.RLock()
 	calls = mock.calls.UpdateDashboard
@@ -974,12 +975,12 @@ func (mock *CircAPIMock) UpdateDashboardCalls() []struct {
 }
 
 // UpdateGraph calls UpdateGraphFunc.
-func (mock *CircAPIMock) UpdateGraph(cfg *api.Graph) (*api.Graph, error) {
+func (mock *CircAPIMock) UpdateGraph(cfg *circapi.Graph) (*circapi.Graph, error) {
 	if mock.UpdateGraphFunc == nil {
 		panic("moq: CircAPIMock.UpdateGraphFunc is nil but CircAPI.UpdateGraph was just called")
 	}
 	callInfo := struct {
-		Cfg *api.Graph
+		Cfg *circapi.Graph
 	}{
 		Cfg: cfg,
 	}
@@ -993,10 +994,10 @@ func (mock *CircAPIMock) UpdateGraph(cfg *api.Graph) (*api.Graph, error) {
 // Check the length with:
 //     len(mockedCircAPI.UpdateGraphCalls())
 func (mock *CircAPIMock) UpdateGraphCalls() []struct {
-	Cfg *api.Graph
+	Cfg *circapi.Graph
 } {
 	var calls []struct {
-		Cfg *api.Graph
+		Cfg *circapi.Graph
 	}
 	lockCircAPIMockUpdateGraph.RLock()
 	calls = mock.calls.UpdateGraph
@@ -1005,12 +1006,12 @@ func (mock *CircAPIMock) UpdateGraphCalls() []struct {
 }
 
 // UpdateWorksheet calls UpdateWorksheetFunc.
-func (mock *CircAPIMock) UpdateWorksheet(cfg *api.Worksheet) (*api.Worksheet, error) {
+func (mock *CircAPIMock) UpdateWorksheet(cfg *circapi.Worksheet) (*circapi.Worksheet, error) {
 	if mock.UpdateWorksheetFunc == nil {
 		panic("moq: CircAPIMock.UpdateWorksheetFunc is nil but CircAPI.UpdateWorksheet was just called")
 	}
 	callInfo := struct {
-		Cfg *api.Worksheet
+		Cfg *circapi.Worksheet
 	}{
 		Cfg: cfg,
 	}
@@ -1024,10 +1025,10 @@ func (mock *CircAPIMock) UpdateWorksheet(cfg *api.Worksheet) (*api.Worksheet, er
 // Check the length with:
 //     len(mockedCircAPI.UpdateWorksheetCalls())
 func (mock *CircAPIMock) UpdateWorksheetCalls() []struct {
-	Cfg *api.Worksheet
+	Cfg *circapi.Worksheet
 } {
 	var calls []struct {
-		Cfg *api.Worksheet
+		Cfg *circapi.Worksheet
 	}
 	lockCircAPIMockUpdateWorksheet.RLock()
 	calls = mock.calls.UpdateWorksheet

@@ -13,7 +13,6 @@ import (
 	"time"
 
 	agentapi "github.com/circonus-labs/circonus-agent/api"
-	circapi "github.com/circonus-labs/circonus-gometrics/api"
 	cosiapi "github.com/circonus-labs/cosi-server/api"
 	"github.com/circonus-labs/cosi-tool/internal/config"
 	"github.com/circonus-labs/cosi-tool/internal/config/defaults"
@@ -24,6 +23,7 @@ import (
 	"github.com/circonus-labs/cosi-tool/internal/registration/rulesets"
 	"github.com/circonus-labs/cosi-tool/internal/registration/worksheets"
 	"github.com/circonus-labs/cosi-tool/internal/templates"
+	circapi "github.com/circonus-labs/go-apiclient"
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"

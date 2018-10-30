@@ -9,10 +9,10 @@ import (
 	"io/ioutil"
 	"testing"
 
-	circapi "github.com/circonus-labs/circonus-gometrics/api"
 	cosiapi "github.com/circonus-labs/cosi-server/api"
 	"github.com/circonus-labs/cosi-tool/internal/registration/options"
 	"github.com/circonus-labs/cosi-tool/internal/templates"
+	circapi "github.com/circonus-labs/go-apiclient"
 	toml "github.com/pelletier/go-toml"
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog"

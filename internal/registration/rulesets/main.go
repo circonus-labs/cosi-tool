@@ -13,10 +13,10 @@ import (
 	"path/filepath"
 	"strings"
 
-	circapi "github.com/circonus-labs/circonus-gometrics/api"
 	"github.com/circonus-labs/cosi-tool/internal/registration/checks"
 	"github.com/circonus-labs/cosi-tool/internal/registration/options"
 	"github.com/circonus-labs/cosi-tool/internal/registration/regfiles"
+	circapi "github.com/circonus-labs/go-apiclient"
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"

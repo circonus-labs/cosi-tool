@@ -17,10 +17,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/circonus-labs/circonus-gometrics/api"
 	"github.com/circonus-labs/cosi-tool/internal/config"
 	"github.com/circonus-labs/cosi-tool/internal/config/defaults"
 	"github.com/circonus-labs/cosi-tool/internal/release"
+	"github.com/circonus-labs/go-apiclient"
 	"github.com/fatih/color"
 	"github.com/gofrs/uuid"
 	"github.com/pkg/errors"
@@ -30,7 +30,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-var client *api.API
+var client *apiclient.API
 var cfgFile string
 
 // RootCmd represents the base command when called without any subcommands
@@ -411,7 +411,7 @@ func initLogging() error {
 
 // initAPIClient initializes global api client used by majority of commands
 func initAPIClient() error {
-	opt := &api.Config{
+	opt := &apiclient.Config{
 		URL:      viper.GetString(config.KeyAPIURL),
 		TokenKey: viper.GetString(config.KeyAPITokenKey),
 		TokenApp: viper.GetString(config.KeyAPITokenApp),
@@ -433,7 +433,7 @@ func initAPIClient() error {
 		}
 	}
 
-	c, err := api.New(opt)
+	c, err := apiclient.New(opt)
 	if err != nil {
 		return errors.Wrap(err, "unable to initialize api client")
 	}

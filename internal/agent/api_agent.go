@@ -3,7 +3,7 @@
 // license that can be found in the LICENSE file.
 //
 
-package registration
+package agent
 
 import (
 	agentapi "github.com/circonus-labs/circonus-agent/api"

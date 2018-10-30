@@ -6,13 +6,13 @@
 package agent
 
 import (
-	"github.com/circonus-labs/circonus-agent/api"
+	agentapi "github.com/circonus-labs/circonus-agent/api"
 	"github.com/pkg/errors"
 )
 
 // Client defines the circonus-agent api client configuration
 type Client struct {
-	apiClient API
+	apiClient AgentAPI
 }
 
 // New creates a new circonus-agent api client
@@ -21,7 +21,7 @@ func New(agentURL string) (*Client, error) {
 		return nil, errors.New("invalid agent URL (empty)")
 	}
 
-	c, err := api.New(agentURL)
+	c, err := agentapi.New(agentURL)
 	if err != nil {
 		return nil, err
 	}
@@ -60,6 +60,6 @@ func (c *Client) ActivePluginList() (*[]string, error) {
 }
 
 // AvailableMetrics returns a list of metrics available from the agent
-func (c *Client) AvailableMetrics(pluginID string) (*api.Metrics, error) {
+func (c *Client) AvailableMetrics(pluginID string) (*agentapi.Metrics, error) {
 	return c.apiClient.Metrics(pluginID)
 }

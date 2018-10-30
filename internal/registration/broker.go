@@ -12,9 +12,9 @@ import (
 	"regexp"
 	"time"
 
-	"github.com/circonus-labs/circonus-gometrics/api"
 	"github.com/circonus-labs/cosi-tool/internal/broker"
 	"github.com/circonus-labs/cosi-tool/internal/registration/options"
+	"github.com/circonus-labs/go-apiclient"
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
 )
@@ -98,7 +98,7 @@ func (r *Registration) selectBroker(checkType string) (string, error) {
 }
 
 // getExplicit broker from command line or specific check section of config
-func (r *Registration) getExplicit(checkType string, brokers *[]api.Broker, cfg *options.Checks) (bool, string, error) {
+func (r *Registration) getExplicit(checkType string, brokers *[]apiclient.Broker, cfg *options.Checks) (bool, string, error) {
 	logger := log.With().Str("cmd", "register.broker").Logger()
 	if checkType == "" {
 		return false, "", errors.New("invalid check type (empty)")
@@ -135,7 +135,7 @@ func (r *Registration) getExplicit(checkType string, brokers *[]api.Broker, cfg 
 }
 
 // selectFromConfigList will use an explicit list of brokers configured for a check type in the configuraion file
-func (r *Registration) selectFromConfigList(checkType string, brokers *[]api.Broker, cfg *options.Brokers) (bool, string, error) {
+func (r *Registration) selectFromConfigList(checkType string, brokers *[]apiclient.Broker, cfg *options.Brokers) (bool, string, error) {
 	logger := log.With().Str("cmd", "register.broker").Logger()
 	if checkType == "" {
 		return false, "", errors.New("invalid check type (empty)")
@@ -189,7 +189,7 @@ func (r *Registration) selectFromConfigList(checkType string, brokers *[]api.Bro
 	return false, "", nil // fall-through to next selection method
 }
 
-func (r *Registration) selectEnterprise(checkType string, brokers *[]api.Broker) (bool, string, error) {
+func (r *Registration) selectEnterprise(checkType string, brokers *[]apiclient.Broker) (bool, string, error) {
 	logger := log.With().Str("cmd", "register.broker").Logger()
 
 	if checkType == "" {
@@ -250,7 +250,7 @@ func (r *Registration) selectEnterprise(checkType string, brokers *[]api.Broker)
 }
 
 // getCosiDefault contacts the cosi-server to get the default broker for the check type
-func (r *Registration) getCosiDefault(checkType string, brokers *[]api.Broker, client CosiAPI) (bool, string, error) {
+func (r *Registration) getCosiDefault(checkType string, brokers *[]apiclient.Broker, client CosiAPI) (bool, string, error) {
 	if checkType == "" {
 		return false, "", errors.New("invalid check type (empty)")
 	}
@@ -270,7 +270,7 @@ func (r *Registration) getCosiDefault(checkType string, brokers *[]api.Broker, c
 }
 
 // checkBroker verifies a broker has correct module for check type and is reachable
-func (r *Registration) checkBroker(checkType, brokerID string, brokers *[]api.Broker) (bool, string, error) {
+func (r *Registration) checkBroker(checkType, brokerID string, brokers *[]apiclient.Broker) (bool, string, error) {
 	if checkType == "" {
 		return false, "", errors.New("invalid check type (empty)")
 	}

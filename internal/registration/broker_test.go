@@ -15,13 +15,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/circonus-labs/circonus-gometrics/api"
 	"github.com/circonus-labs/cosi-tool/internal/registration/options"
+	"github.com/circonus-labs/go-apiclient"
 	"github.com/rs/zerolog"
 )
 
 var (
-	emptyBrokers = []api.Broker{}
+	emptyBrokers = []apiclient.Broker{}
 	emptyOptions = options.Options{
 		Brokers: options.Brokers{},
 		Checks:  options.Checks{},
@@ -85,10 +85,10 @@ func TestGetExplicit(t *testing.T) {
 		t.Fatalf("error parsing broker url port (%s)", err)
 	}
 
-	validBrokers := []api.Broker{
+	validBrokers := []apiclient.Broker{
 		{
 			CID: "/broker/1",
-			Details: []api.BrokerDetail{
+			Details: []apiclient.BrokerDetail{
 				{
 					Status:       "active",
 					Modules:      []string{"json", "httptrap"},
@@ -99,7 +99,7 @@ func TestGetExplicit(t *testing.T) {
 		},
 		{
 			CID: "/broker/2",
-			Details: []api.BrokerDetail{
+			Details: []apiclient.BrokerDetail{
 				{
 					Status:       "active",
 					Modules:      []string{"json", "httptrap"},
@@ -118,7 +118,7 @@ func TestGetExplicit(t *testing.T) {
 	tests := []struct {
 		name        string
 		checkType   string
-		brokers     *[]api.Broker
+		brokers     *[]apiclient.Broker
 		options     *options.Checks
 		expectValid bool
 		expectBid   bool
@@ -194,10 +194,10 @@ func TestSelectFromConfigList(t *testing.T) {
 		t.Fatalf("error parsing broker url port (%s)", err)
 	}
 
-	validBrokers := []api.Broker{
+	validBrokers := []apiclient.Broker{
 		{
 			CID: "/broker/1",
-			Details: []api.BrokerDetail{
+			Details: []apiclient.BrokerDetail{
 				{
 					Status:       "active",
 					Modules:      []string{"json", "httptrap"},
@@ -208,7 +208,7 @@ func TestSelectFromConfigList(t *testing.T) {
 		},
 		{
 			CID: "/broker/2",
-			Details: []api.BrokerDetail{
+			Details: []apiclient.BrokerDetail{
 				{
 					Status:       "active",
 					Modules:      []string{"json", "httptrap"},
@@ -227,7 +227,7 @@ func TestSelectFromConfigList(t *testing.T) {
 	tests := []struct {
 		name        string
 		checkType   string
-		brokers     *[]api.Broker
+		brokers     *[]apiclient.Broker
 		options     *options.Brokers
 		expectValid bool
 		expectBid   bool
@@ -307,11 +307,11 @@ func TestSelectEnterprise(t *testing.T) {
 		t.Fatalf("error parsing broker url port (%s)", err)
 	}
 
-	noValidEntBrokers := []api.Broker{
+	noValidEntBrokers := []apiclient.Broker{
 		{
 			CID:  "/broker/1",
 			Type: "enterprise",
-			Details: []api.BrokerDetail{
+			Details: []apiclient.BrokerDetail{
 				{
 					Status:       "active",
 					Modules:      []string{"invalid"},
@@ -322,11 +322,11 @@ func TestSelectEnterprise(t *testing.T) {
 		},
 	}
 
-	validBrokers := []api.Broker{
+	validBrokers := []apiclient.Broker{
 		{
 			CID:  "/broker/1",
 			Type: "enterprise",
-			Details: []api.BrokerDetail{
+			Details: []apiclient.BrokerDetail{
 				{
 					Status:       "active",
 					Modules:      []string{"httptrap"},
@@ -338,7 +338,7 @@ func TestSelectEnterprise(t *testing.T) {
 		{
 			CID:  "/broker/2",
 			Type: "enterprise",
-			Details: []api.BrokerDetail{
+			Details: []apiclient.BrokerDetail{
 				{
 					Status:       "active",
 					Modules:      []string{"json"},
@@ -350,7 +350,7 @@ func TestSelectEnterprise(t *testing.T) {
 		{
 			CID:  "/broker/3",
 			Type: "enterprise",
-			Details: []api.BrokerDetail{
+			Details: []apiclient.BrokerDetail{
 				{
 					Status:       "active",
 					Modules:      []string{"json"},
@@ -369,7 +369,7 @@ func TestSelectEnterprise(t *testing.T) {
 	tests := []struct {
 		name        string
 		checkType   string
-		brokers     *[]api.Broker
+		brokers     *[]apiclient.Broker
 		expectValid bool
 		expectBid   bool
 		shouldFail  bool
@@ -442,10 +442,10 @@ func TestGetCosiDefault(t *testing.T) {
 		t.Fatalf("error parsing broker url port (%s)", err)
 	}
 
-	validBrokers := []api.Broker{
+	validBrokers := []apiclient.Broker{
 		{
 			CID: "/broker/1",
-			Details: []api.BrokerDetail{
+			Details: []apiclient.BrokerDetail{
 				{
 					Status:       "active",
 					Modules:      []string{"json", "httptrap"},
@@ -456,7 +456,7 @@ func TestGetCosiDefault(t *testing.T) {
 		},
 		{
 			CID: "/broker/2",
-			Details: []api.BrokerDetail{
+			Details: []apiclient.BrokerDetail{
 				{
 					Status:       "active",
 					Modules:      []string{"json", "httptrap"},
@@ -476,7 +476,7 @@ func TestGetCosiDefault(t *testing.T) {
 	tests := []struct {
 		name        string
 		checkType   string
-		brokers     *[]api.Broker
+		brokers     *[]apiclient.Broker
 		client      CosiAPI
 		expectValid bool
 		expectBid   bool
@@ -550,10 +550,10 @@ func TestCheckBroker(t *testing.T) {
 	}
 	bport := uint16(port)
 
-	validBrokers := []api.Broker{
+	validBrokers := []apiclient.Broker{
 		{
 			CID: "/broker/1",
-			Details: []api.BrokerDetail{
+			Details: []apiclient.BrokerDetail{
 				{
 					Status:       "active",
 					Modules:      []string{"json", "httptrap"},
@@ -564,7 +564,7 @@ func TestCheckBroker(t *testing.T) {
 		},
 		{
 			CID: "/broker/2",
-			Details: []api.BrokerDetail{
+			Details: []apiclient.BrokerDetail{
 				{
 					Status:  "active",
 					Modules: []string{"json", "httptrap"},
@@ -585,7 +585,7 @@ func TestCheckBroker(t *testing.T) {
 		name        string
 		checkType   string
 		brokerID    string
-		brokers     *[]api.Broker
+		brokers     *[]apiclient.Broker
 		expectValid bool
 		expectBid   bool
 		shouldFail  bool

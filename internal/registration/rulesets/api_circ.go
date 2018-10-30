@@ -5,11 +5,11 @@
 
 package rulesets
 
-import "github.com/circonus-labs/circonus-gometrics/api"
+import circapi "github.com/circonus-labs/go-apiclient"
 
 //go:generate moq -out api_circ_test.go . CircAPI
 
 // CircAPI interface abstraction of circonus api (for mocking)
 type CircAPI interface {
-	CreateRuleSet(cfg *api.RuleSet) (*api.RuleSet, error)
+	CreateRuleSet(cfg *circapi.RuleSet) (*circapi.RuleSet, error)
 }

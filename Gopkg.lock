@@ -4,23 +4,23 @@
 [[projects]]
   name = "github.com/circonus-labs/circonus-agent"
   packages = ["api"]
-  revision = "aa23df7a7a386c7d773dd98e3ed5952daf8e4556"
-  version = "v0.17.0"
-
-[[projects]]
-  name = "github.com/circonus-labs/circonus-gometrics"
-  packages = [
-    "api",
-    "api/config"
-  ]
-  revision = "45b42878bb7aca6fc64fe0a6641a2aa1a5cb2723"
-  version = "v2.2.3"
+  revision = "e95db915d0677704d358948ac15e06a56f9c47fe"
+  version = "v0.17.2"
 
 [[projects]]
   name = "github.com/circonus-labs/cosi-server"
   packages = ["api"]
-  revision = "9ff434c93af6fe6dbcd251c2aa7c9b78fc2c9e30"
-  version = "v0.4.0"
+  revision = "4d2dc1ac463d91817ffcfc9f164cc2adc798f79a"
+  version = "v0.4.1"
+
+[[projects]]
+  name = "github.com/circonus-labs/go-apiclient"
+  packages = [
+    ".",
+    "config"
+  ]
+  revision = "adb72bc548261c251e5ab341b695c3d678ed5c99"
+  version = "v0.5.0"
 
 [[projects]]
   name = "github.com/fatih/color"
@@ -37,8 +37,8 @@
 [[projects]]
   name = "github.com/gofrs/uuid"
   packages = ["."]
-  revision = "370558f003bfe29580cd0f698d8640daccdcc45c"
-  version = "v3.1.1"
+  revision = "7077aa61129615a0d7f45c49101cd011ab221c27"
+  version = "v3.1.2"
 
 [[projects]]
   name = "github.com/hashicorp/go-cleanhttp"
@@ -96,8 +96,8 @@
 [[projects]]
   name = "github.com/mitchellh/mapstructure"
   packages = ["."]
-  revision = "fa473d140ef3c6adf42d6b391fe76707f1f243c8"
-  version = "v1.0.0"
+  revision = "3536a929edddb9a5b34bd6861dc4a9647cb459fe"
+  version = "v1.1.2"
 
 [[projects]]
   name = "github.com/pelletier/go-toml"
@@ -134,8 +134,8 @@
 [[projects]]
   name = "github.com/spf13/cast"
   packages = ["."]
-  revision = "8965335b8c7107321228e3e3702cab9832751bac"
-  version = "v1.2.0"
+  revision = "8c9545af88b134710ab1cd196795e7f2388358d7"
+  version = "v1.3.0"
 
 [[projects]]
   name = "github.com/spf13/cobra"
@@ -152,20 +152,20 @@
 [[projects]]
   name = "github.com/spf13/pflag"
   packages = ["."]
-  revision = "9a97c102cda95a86cec2345a6f09f55a939babf5"
-  version = "v1.0.2"
+  revision = "298182f68c66c05229eb03ac171abe6e309ee79a"
+  version = "v1.0.3"
 
 [[projects]]
   branch = "master"
   name = "github.com/spf13/viper"
   packages = ["."]
-  revision = "3171ef9a229903ce60a9513ec3899b63c003e91c"
+  revision = "62edee319679b6ceaec16de03b966102d2dea709"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
-  revision = "c2ed4eda69e7f62900806e4cd6e45f0429f859fa"
+  revision = "7e31e0c00fa05cb5fbf4347b585621d6709e19a4"
 
 [[projects]]
   name = "golang.org/x/text"
@@ -189,6 +189,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "a277f88912cbedf339d4ea9e8fec36ff36e38853e6c4f667665c69f519480b11"
+  inputs-digest = "d6e864f06672c55d6f2637fcea904f9c318274a79432f4d81810b6e1483664f9"
   solver-name = "gps-cdcl"
   solver-version = 1

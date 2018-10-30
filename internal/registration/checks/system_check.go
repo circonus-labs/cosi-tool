@@ -6,8 +6,8 @@
 package checks
 
 import (
-	circapi "github.com/circonus-labs/circonus-gometrics/api"
 	"github.com/circonus-labs/cosi-tool/internal/config"
+	circapi "github.com/circonus-labs/go-apiclient"
 	"github.com/spf13/viper"
 )
 
@@ -56,12 +56,17 @@ func (c *Checks) createSystemCheck() (*circapi.CheckBundle, error) {
 		notes += *cfg.Notes
 	}
 	cfg.Notes = &notes
-	// add placeholder metric
-	cfg.Metrics = append(cfg.Metrics, circapi.CheckBundleMetric{Name: "cosi_placeholder", Status: "active", Type: "numeric"})
 	// set display name if configured in custom option
 	if c.config.Checks.System.DisplayName != "" {
 		cfg.DisplayName = c.config.Checks.System.DisplayName
 	}
+	if len(c.config.Checks.System.MetricFilters) > 0 {
+		cfg.MetricFilters = c.config.Checks.System.MetricFilters
+	} else {
+		cfg.MetricFilters = [][]string{{"deny", "^$", ""}, {"allow", "^.+$", ""}}
+	}
+	// // add placeholder metric
+	// cfg.Metrics = append(cfg.Metrics, circapi.CheckBundleMetric{Name: "cosi_placeholder", Status: "active", Type: "numeric"})
 
 	return c.createCheck(checkID, cfg)
 }
