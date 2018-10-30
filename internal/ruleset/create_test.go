@@ -24,7 +24,7 @@ func TestCreateFromFile(t *testing.T) {
 		{"invalid input file (empty)", client, "", "", false, true, "invalid input file (empty)"},
 		{"invalid input file (missing)", client, "testdata/missing.json", "", false, true, "reading configuration file: open testdata/missing.json: no such file or directory"},
 		{"invalid input file (parsing)", client, "testdata/bad.json", "", false, true, "loading configuration: unexpected end of JSON input"},
-		{"valid input file (apierr)", client, "testdata/api-error.json", "", false, true, "Circonus API error creating ruleset: forced mock api call error"},
+		{"valid input file (apierr)", client, "testdata/api-error.json", "", false, true, "Circonus CircAPI error creating ruleset: forced mock api call error"},
 		{"valid input file", client, "testdata/valid-ignore.json", "testdata/will_be_overwritten.json", true, false, ""},
 		{"valid input file (no force)", client, "testdata/valid-ignore.json", "testdata/will_be_overwritten.json", false, true, "saving created ruleset: testdata/will_be_overwritten.json already exists, see --force"},
 	}

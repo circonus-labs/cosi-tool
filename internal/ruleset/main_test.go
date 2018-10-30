@@ -9,18 +9,18 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/circonus-labs/circonus-gometrics/api"
+	circapi "github.com/circonus-labs/go-apiclient"
 )
 
 func genMockClient() *APIMock {
 	return &APIMock{
-		CreateRuleSetFunc: func(cfg *api.RuleSet) (*api.RuleSet, error) {
+		CreateRuleSetFunc: func(cfg *circapi.RuleSet) (*circapi.RuleSet, error) {
 			if strings.Contains(cfg.CID, "error") {
 				return nil, errors.New("forced mock api call error")
 			}
 			return cfg, nil
 		},
-		DeleteRuleSetByCIDFunc: func(cid api.CIDType) (bool, error) {
+		DeleteRuleSetByCIDFunc: func(cid circapi.CIDType) (bool, error) {
 			if *cid == "/rule_set/123_test_metric" {
 				return true, nil
 			} else if *cid == "error" {
@@ -28,17 +28,17 @@ func genMockClient() *APIMock {
 			}
 			return false, nil
 		},
-		FetchRuleSetFunc: func(cid api.CIDType) (*api.RuleSet, error) {
+		FetchRuleSetFunc: func(cid circapi.CIDType) (*circapi.RuleSet, error) {
 			if *cid == "/rule_set/000_error" {
 				return nil, errors.New("forced mock api call error")
 			}
-			b := api.RuleSet{CID: *cid}
+			b := circapi.RuleSet{CID: *cid}
 			return &b, nil
 		},
-		SearchRuleSetsFunc: func(searchCriteria *api.SearchQueryType, filterCriteria *api.SearchFilterType) (*[]api.RuleSet, error) {
+		SearchRuleSetsFunc: func(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.RuleSet, error) {
 			panic("TODO: mock out the SearchRuleSets method")
 		},
-		UpdateRuleSetFunc: func(cfg *api.RuleSet) (*api.RuleSet, error) {
+		UpdateRuleSetFunc: func(cfg *circapi.RuleSet) (*circapi.RuleSet, error) {
 			panic("TODO: mock out the UpdateRuleSet method")
 		},
 	}
