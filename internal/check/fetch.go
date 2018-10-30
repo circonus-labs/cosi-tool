@@ -12,12 +12,12 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/circonus-labs/circonus-gometrics/api"
+	circapi "github.com/circonus-labs/go-apiclient"
 	"github.com/pkg/errors"
 )
 
 // Fetch retrieves a check using the Circonus API
-func Fetch(client API, regDir, id, checkType, name, target string) (*api.CheckBundle, error) {
+func Fetch(client CircAPI, regDir, id, checkType, name, target string) (*circapi.CheckBundle, error) {
 	// logger := log.With().Str("cmd", "cosi check fetch").Logger()
 
 	if client == nil {
@@ -54,7 +54,7 @@ func Fetch(client API, regDir, id, checkType, name, target string) (*api.CheckBu
 }
 
 // FetchByID retrieves a check bundle by CID using Circonus API
-func FetchByID(client API, id string) (*api.CheckBundle, error) {
+func FetchByID(client CircAPI, id string) (*circapi.CheckBundle, error) {
 	if client == nil {
 		return nil, errors.New("invalid state, nil client")
 	}
@@ -70,7 +70,7 @@ func FetchByID(client API, id string) (*api.CheckBundle, error) {
 	} else if !ok {
 		return nil, errors.Errorf("invalid check bundle id (%s)", id)
 	}
-	b, err := client.FetchCheckBundle(api.CIDType(&cid))
+	b, err := client.FetchCheckBundle(circapi.CIDType(&cid))
 	if err != nil {
 		return nil, errors.Wrap(err, "fetch api")
 	}
@@ -78,7 +78,7 @@ func FetchByID(client API, id string) (*api.CheckBundle, error) {
 }
 
 // FetchByType retrieves a check bundle by COSI check type (system|group) using Circonus API
-func FetchByType(client API, regDir, checkType string) (*api.CheckBundle, error) {
+func FetchByType(client CircAPI, regDir, checkType string) (*circapi.CheckBundle, error) {
 	if client == nil {
 		return nil, errors.New("invalid state, nil client")
 	}
@@ -101,7 +101,7 @@ func FetchByType(client API, regDir, checkType string) (*api.CheckBundle, error)
 		return nil, errors.Wrap(err, "loading check type")
 	}
 
-	var b *api.CheckBundle
+	var b *circapi.CheckBundle
 	if err := json.Unmarshal(data, &b); err != nil {
 		return nil, errors.Wrap(err, "parsing json")
 	}
@@ -110,7 +110,7 @@ func FetchByType(client API, regDir, checkType string) (*api.CheckBundle, error)
 }
 
 // FetchByName retrieves a check bundle by Display Name using Circonus API
-func FetchByName(client API, name string) (*api.CheckBundle, error) {
+func FetchByName(client CircAPI, name string) (*circapi.CheckBundle, error) {
 	if client == nil {
 		return nil, errors.New("invalid state, nil client")
 	}
@@ -118,7 +118,7 @@ func FetchByName(client API, name string) (*api.CheckBundle, error) {
 		return nil, errors.Errorf("invalid display name (empty)")
 	}
 
-	query := api.SearchQueryType("\"" + name + "\" (active:1)")
+	query := circapi.SearchQueryType("\"" + name + "\" (active:1)")
 
 	bundles, err := client.SearchCheckBundles(&query, nil)
 	if err != nil {
@@ -142,7 +142,7 @@ func FetchByName(client API, name string) (*api.CheckBundle, error) {
 }
 
 // FetchByTarget retrieves a check bundle by Target using Circonus API
-func FetchByTarget(client API, target string) (*api.CheckBundle, error) {
+func FetchByTarget(client CircAPI, target string) (*circapi.CheckBundle, error) {
 	if client == nil {
 		return nil, errors.New("invalid state, nil client")
 	}
@@ -150,7 +150,7 @@ func FetchByTarget(client API, target string) (*api.CheckBundle, error) {
 		return nil, errors.Errorf("invalid target (empty)")
 	}
 
-	query := api.SearchQueryType("(host:\"" + target + "\")(active:1)")
+	query := circapi.SearchQueryType("(host:\"" + target + "\")(active:1)")
 
 	bundles, err := client.SearchCheckBundles(&query, nil)
 	if err != nil {

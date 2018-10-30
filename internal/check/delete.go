@@ -12,12 +12,12 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/circonus-labs/circonus-gometrics/api"
+	circapi "github.com/circonus-labs/go-apiclient"
 	"github.com/pkg/errors"
 )
 
 // Delete uses Circonus API to delete a check from supplied configuration file, type or id
-func Delete(client API, regDir, id, checkType, in string) error {
+func Delete(client CircAPI, regDir, id, checkType, in string) error {
 	// logger := log.With().Str("cmd", "cosi check delete").Logger()
 
 	if client == nil {
@@ -42,7 +42,7 @@ func Delete(client API, regDir, id, checkType, in string) error {
 			return errors.Wrap(err, "reading configuration file")
 		}
 
-		var cfg api.CheckBundle
+		var cfg circapi.CheckBundle
 		if err = json.Unmarshal(data, &cfg); err != nil {
 			return errors.Wrap(err, "loading configuration")
 		}
@@ -64,7 +64,7 @@ func Delete(client API, regDir, id, checkType, in string) error {
 			return errors.Wrap(err, "loading check type")
 		}
 
-		var c *api.CheckBundle
+		var c *circapi.CheckBundle
 		if err := json.Unmarshal(data, &c); err != nil {
 			return errors.Wrap(err, "parsing json")
 		}

@@ -4,8 +4,9 @@
 package check
 
 import (
-	"github.com/circonus-labs/circonus-gometrics/api"
 	"sync"
+
+	circapi "github.com/circonus-labs/go-apiclient"
 )
 
 var (
@@ -22,19 +23,19 @@ var (
 //
 //         // make and configure a mocked API
 //         mockedAPI := &APIMock{
-//             CreateCheckBundleFunc: func(cfg *api.CheckBundle) (*api.CheckBundle, error) {
+//             CreateCheckBundleFunc: func(cfg *circapi.CheckBundle) (*circapi.CheckBundle, error) {
 // 	               panic("TODO: mock out the CreateCheckBundle method")
 //             },
-//             DeleteCheckBundleByCIDFunc: func(cid api.CIDType) (bool, error) {
+//             DeleteCheckBundleByCIDFunc: func(cid circapi.CIDType) (bool, error) {
 // 	               panic("TODO: mock out the DeleteCheckBundleByCID method")
 //             },
-//             FetchCheckBundleFunc: func(cid api.CIDType) (*api.CheckBundle, error) {
+//             FetchCheckBundleFunc: func(cid circapi.CIDType) (*circapi.CheckBundle, error) {
 // 	               panic("TODO: mock out the FetchCheckBundle method")
 //             },
-//             SearchCheckBundlesFunc: func(searchCriteria *api.SearchQueryType, filterCriteria *map[string][]string) (*[]api.CheckBundle, error) {
+//             SearchCheckBundlesFunc: func(searchCriteria *circapi.SearchQueryType, filterCriteria *map[string][]string) (*[]circapi.CheckBundle, error) {
 // 	               panic("TODO: mock out the SearchCheckBundles method")
 //             },
-//             UpdateCheckBundleFunc: func(cfg *api.CheckBundle) (*api.CheckBundle, error) {
+//             UpdateCheckBundleFunc: func(cfg *circapi.CheckBundle) (*circapi.CheckBundle, error) {
 // 	               panic("TODO: mock out the UpdateCheckBundle method")
 //             },
 //         }
@@ -45,59 +46,59 @@ var (
 //     }
 type APIMock struct {
 	// CreateCheckBundleFunc mocks the CreateCheckBundle method.
-	CreateCheckBundleFunc func(cfg *api.CheckBundle) (*api.CheckBundle, error)
+	CreateCheckBundleFunc func(cfg *circapi.CheckBundle) (*circapi.CheckBundle, error)
 
 	// DeleteCheckBundleByCIDFunc mocks the DeleteCheckBundleByCID method.
-	DeleteCheckBundleByCIDFunc func(cid api.CIDType) (bool, error)
+	DeleteCheckBundleByCIDFunc func(cid circapi.CIDType) (bool, error)
 
 	// FetchCheckBundleFunc mocks the FetchCheckBundle method.
-	FetchCheckBundleFunc func(cid api.CIDType) (*api.CheckBundle, error)
+	FetchCheckBundleFunc func(cid circapi.CIDType) (*circapi.CheckBundle, error)
 
 	// SearchCheckBundlesFunc mocks the SearchCheckBundles method.
-	SearchCheckBundlesFunc func(searchCriteria *api.SearchQueryType, filterCriteria *map[string][]string) (*[]api.CheckBundle, error)
+	SearchCheckBundlesFunc func(searchCriteria *circapi.SearchQueryType, filterCriteria *map[string][]string) (*[]circapi.CheckBundle, error)
 
 	// UpdateCheckBundleFunc mocks the UpdateCheckBundle method.
-	UpdateCheckBundleFunc func(cfg *api.CheckBundle) (*api.CheckBundle, error)
+	UpdateCheckBundleFunc func(cfg *circapi.CheckBundle) (*circapi.CheckBundle, error)
 
 	// calls tracks calls to the methods.
 	calls struct {
 		// CreateCheckBundle holds details about calls to the CreateCheckBundle method.
 		CreateCheckBundle []struct {
 			// Cfg is the cfg argument value.
-			Cfg *api.CheckBundle
+			Cfg *circapi.CheckBundle
 		}
 		// DeleteCheckBundleByCID holds details about calls to the DeleteCheckBundleByCID method.
 		DeleteCheckBundleByCID []struct {
 			// Cid is the cid argument value.
-			Cid api.CIDType
+			Cid circapi.CIDType
 		}
 		// FetchCheckBundle holds details about calls to the FetchCheckBundle method.
 		FetchCheckBundle []struct {
 			// Cid is the cid argument value.
-			Cid api.CIDType
+			Cid circapi.CIDType
 		}
 		// SearchCheckBundles holds details about calls to the SearchCheckBundles method.
 		SearchCheckBundles []struct {
 			// SearchCriteria is the searchCriteria argument value.
-			SearchCriteria *api.SearchQueryType
+			SearchCriteria *circapi.SearchQueryType
 			// FilterCriteria is the filterCriteria argument value.
 			FilterCriteria *map[string][]string
 		}
 		// UpdateCheckBundle holds details about calls to the UpdateCheckBundle method.
 		UpdateCheckBundle []struct {
 			// Cfg is the cfg argument value.
-			Cfg *api.CheckBundle
+			Cfg *circapi.CheckBundle
 		}
 	}
 }
 
 // CreateCheckBundle calls CreateCheckBundleFunc.
-func (mock *APIMock) CreateCheckBundle(cfg *api.CheckBundle) (*api.CheckBundle, error) {
+func (mock *APIMock) CreateCheckBundle(cfg *circapi.CheckBundle) (*circapi.CheckBundle, error) {
 	if mock.CreateCheckBundleFunc == nil {
 		panic("moq: APIMock.CreateCheckBundleFunc is nil but API.CreateCheckBundle was just called")
 	}
 	callInfo := struct {
-		Cfg *api.CheckBundle
+		Cfg *circapi.CheckBundle
 	}{
 		Cfg: cfg,
 	}
@@ -111,10 +112,10 @@ func (mock *APIMock) CreateCheckBundle(cfg *api.CheckBundle) (*api.CheckBundle, 
 // Check the length with:
 //     len(mockedAPI.CreateCheckBundleCalls())
 func (mock *APIMock) CreateCheckBundleCalls() []struct {
-	Cfg *api.CheckBundle
+	Cfg *circapi.CheckBundle
 } {
 	var calls []struct {
-		Cfg *api.CheckBundle
+		Cfg *circapi.CheckBundle
 	}
 	lockAPIMockCreateCheckBundle.RLock()
 	calls = mock.calls.CreateCheckBundle
@@ -123,12 +124,12 @@ func (mock *APIMock) CreateCheckBundleCalls() []struct {
 }
 
 // DeleteCheckBundleByCID calls DeleteCheckBundleByCIDFunc.
-func (mock *APIMock) DeleteCheckBundleByCID(cid api.CIDType) (bool, error) {
+func (mock *APIMock) DeleteCheckBundleByCID(cid circapi.CIDType) (bool, error) {
 	if mock.DeleteCheckBundleByCIDFunc == nil {
 		panic("moq: APIMock.DeleteCheckBundleByCIDFunc is nil but API.DeleteCheckBundleByCID was just called")
 	}
 	callInfo := struct {
-		Cid api.CIDType
+		Cid circapi.CIDType
 	}{
 		Cid: cid,
 	}
@@ -142,10 +143,10 @@ func (mock *APIMock) DeleteCheckBundleByCID(cid api.CIDType) (bool, error) {
 // Check the length with:
 //     len(mockedAPI.DeleteCheckBundleByCIDCalls())
 func (mock *APIMock) DeleteCheckBundleByCIDCalls() []struct {
-	Cid api.CIDType
+	Cid circapi.CIDType
 } {
 	var calls []struct {
-		Cid api.CIDType
+		Cid circapi.CIDType
 	}
 	lockAPIMockDeleteCheckBundleByCID.RLock()
 	calls = mock.calls.DeleteCheckBundleByCID
@@ -154,12 +155,12 @@ func (mock *APIMock) DeleteCheckBundleByCIDCalls() []struct {
 }
 
 // FetchCheckBundle calls FetchCheckBundleFunc.
-func (mock *APIMock) FetchCheckBundle(cid api.CIDType) (*api.CheckBundle, error) {
+func (mock *APIMock) FetchCheckBundle(cid circapi.CIDType) (*circapi.CheckBundle, error) {
 	if mock.FetchCheckBundleFunc == nil {
 		panic("moq: APIMock.FetchCheckBundleFunc is nil but API.FetchCheckBundle was just called")
 	}
 	callInfo := struct {
-		Cid api.CIDType
+		Cid circapi.CIDType
 	}{
 		Cid: cid,
 	}
@@ -173,10 +174,10 @@ func (mock *APIMock) FetchCheckBundle(cid api.CIDType) (*api.CheckBundle, error)
 // Check the length with:
 //     len(mockedAPI.FetchCheckBundleCalls())
 func (mock *APIMock) FetchCheckBundleCalls() []struct {
-	Cid api.CIDType
+	Cid circapi.CIDType
 } {
 	var calls []struct {
-		Cid api.CIDType
+		Cid circapi.CIDType
 	}
 	lockAPIMockFetchCheckBundle.RLock()
 	calls = mock.calls.FetchCheckBundle
@@ -185,12 +186,12 @@ func (mock *APIMock) FetchCheckBundleCalls() []struct {
 }
 
 // SearchCheckBundles calls SearchCheckBundlesFunc.
-func (mock *APIMock) SearchCheckBundles(searchCriteria *api.SearchQueryType, filterCriteria *map[string][]string) (*[]api.CheckBundle, error) {
+func (mock *APIMock) SearchCheckBundles(searchCriteria *circapi.SearchQueryType, filterCriteria *map[string][]string) (*[]circapi.CheckBundle, error) {
 	if mock.SearchCheckBundlesFunc == nil {
 		panic("moq: APIMock.SearchCheckBundlesFunc is nil but API.SearchCheckBundles was just called")
 	}
 	callInfo := struct {
-		SearchCriteria *api.SearchQueryType
+		SearchCriteria *circapi.SearchQueryType
 		FilterCriteria *map[string][]string
 	}{
 		SearchCriteria: searchCriteria,
@@ -206,11 +207,11 @@ func (mock *APIMock) SearchCheckBundles(searchCriteria *api.SearchQueryType, fil
 // Check the length with:
 //     len(mockedAPI.SearchCheckBundlesCalls())
 func (mock *APIMock) SearchCheckBundlesCalls() []struct {
-	SearchCriteria *api.SearchQueryType
+	SearchCriteria *circapi.SearchQueryType
 	FilterCriteria *map[string][]string
 } {
 	var calls []struct {
-		SearchCriteria *api.SearchQueryType
+		SearchCriteria *circapi.SearchQueryType
 		FilterCriteria *map[string][]string
 	}
 	lockAPIMockSearchCheckBundles.RLock()
@@ -220,12 +221,12 @@ func (mock *APIMock) SearchCheckBundlesCalls() []struct {
 }
 
 // UpdateCheckBundle calls UpdateCheckBundleFunc.
-func (mock *APIMock) UpdateCheckBundle(cfg *api.CheckBundle) (*api.CheckBundle, error) {
+func (mock *APIMock) UpdateCheckBundle(cfg *circapi.CheckBundle) (*circapi.CheckBundle, error) {
 	if mock.UpdateCheckBundleFunc == nil {
 		panic("moq: APIMock.UpdateCheckBundleFunc is nil but API.UpdateCheckBundle was just called")
 	}
 	callInfo := struct {
-		Cfg *api.CheckBundle
+		Cfg *circapi.CheckBundle
 	}{
 		Cfg: cfg,
 	}
@@ -239,10 +240,10 @@ func (mock *APIMock) UpdateCheckBundle(cfg *api.CheckBundle) (*api.CheckBundle, 
 // Check the length with:
 //     len(mockedAPI.UpdateCheckBundleCalls())
 func (mock *APIMock) UpdateCheckBundleCalls() []struct {
-	Cfg *api.CheckBundle
+	Cfg *circapi.CheckBundle
 } {
 	var calls []struct {
-		Cfg *api.CheckBundle
+		Cfg *circapi.CheckBundle
 	}
 	lockAPIMockUpdateCheckBundle.RLock()
 	calls = mock.calls.UpdateCheckBundle
