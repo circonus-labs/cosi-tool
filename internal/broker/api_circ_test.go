@@ -4,8 +4,9 @@
 package broker
 
 import (
-	"github.com/circonus-labs/circonus-gometrics/api"
 	"sync"
+
+	circapi "github.com/circonus-labs/go-apiclient"
 )
 
 var (
@@ -19,10 +20,10 @@ var (
 //
 //         // make and configure a mocked API
 //         mockedAPI := &APIMock{
-//             FetchBrokerFunc: func(cid api.CIDType) (*api.Broker, error) {
+//             FetchBrokerFunc: func(cid circapi.CIDType) (*circapi.Broker, error) {
 // 	               panic("TODO: mock out the FetchBroker method")
 //             },
-//             FetchBrokersFunc: func() (*[]api.Broker, error) {
+//             FetchBrokersFunc: func() (*[]circapi.Broker, error) {
 // 	               panic("TODO: mock out the FetchBrokers method")
 //             },
 //         }
@@ -33,17 +34,17 @@ var (
 //     }
 type APIMock struct {
 	// FetchBrokerFunc mocks the FetchBroker method.
-	FetchBrokerFunc func(cid api.CIDType) (*api.Broker, error)
+	FetchBrokerFunc func(cid circapi.CIDType) (*circapi.Broker, error)
 
 	// FetchBrokersFunc mocks the FetchBrokers method.
-	FetchBrokersFunc func() (*[]api.Broker, error)
+	FetchBrokersFunc func() (*[]circapi.Broker, error)
 
 	// calls tracks calls to the methods.
 	calls struct {
 		// FetchBroker holds details about calls to the FetchBroker method.
 		FetchBroker []struct {
 			// Cid is the cid argument value.
-			Cid api.CIDType
+			Cid circapi.CIDType
 		}
 		// FetchBrokers holds details about calls to the FetchBrokers method.
 		FetchBrokers []struct {
@@ -52,12 +53,12 @@ type APIMock struct {
 }
 
 // FetchBroker calls FetchBrokerFunc.
-func (mock *APIMock) FetchBroker(cid api.CIDType) (*api.Broker, error) {
+func (mock *APIMock) FetchBroker(cid circapi.CIDType) (*circapi.Broker, error) {
 	if mock.FetchBrokerFunc == nil {
 		panic("moq: APIMock.FetchBrokerFunc is nil but API.FetchBroker was just called")
 	}
 	callInfo := struct {
-		Cid api.CIDType
+		Cid circapi.CIDType
 	}{
 		Cid: cid,
 	}
@@ -71,10 +72,10 @@ func (mock *APIMock) FetchBroker(cid api.CIDType) (*api.Broker, error) {
 // Check the length with:
 //     len(mockedAPI.FetchBrokerCalls())
 func (mock *APIMock) FetchBrokerCalls() []struct {
-	Cid api.CIDType
+	Cid circapi.CIDType
 } {
 	var calls []struct {
-		Cid api.CIDType
+		Cid circapi.CIDType
 	}
 	lockAPIMockFetchBroker.RLock()
 	calls = mock.calls.FetchBroker
@@ -83,7 +84,7 @@ func (mock *APIMock) FetchBrokerCalls() []struct {
 }
 
 // FetchBrokers calls FetchBrokersFunc.
-func (mock *APIMock) FetchBrokers() (*[]api.Broker, error) {
+func (mock *APIMock) FetchBrokers() (*[]circapi.Broker, error) {
 	if mock.FetchBrokersFunc == nil {
 		panic("moq: APIMock.FetchBrokersFunc is nil but API.FetchBrokers was just called")
 	}
