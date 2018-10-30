@@ -4,8 +4,9 @@
 package graph
 
 import (
-	"github.com/circonus-labs/circonus-gometrics/api"
 	"sync"
+
+	circapi "github.com/circonus-labs/go-apiclient"
 )
 
 var (
@@ -22,19 +23,19 @@ var (
 //
 //         // make and configure a mocked API
 //         mockedAPI := &APIMock{
-//             CreateGraphFunc: func(cfg *api.Graph) (*api.Graph, error) {
+//             CreateGraphFunc: func(cfg *circapi.Graph) (*circapi.Graph, error) {
 // 	               panic("TODO: mock out the CreateGraph method")
 //             },
-//             DeleteGraphByCIDFunc: func(cid api.CIDType) (bool, error) {
+//             DeleteGraphByCIDFunc: func(cid circapi.CIDType) (bool, error) {
 // 	               panic("TODO: mock out the DeleteGraphByCID method")
 //             },
-//             FetchGraphFunc: func(cid api.CIDType) (*api.Graph, error) {
+//             FetchGraphFunc: func(cid circapi.CIDType) (*circapi.Graph, error) {
 // 	               panic("TODO: mock out the FetchGraph method")
 //             },
-//             SearchGraphsFunc: func(searchCriteria *api.SearchQueryType, filterCriteria *api.SearchFilterType) (*[]api.Graph, error) {
+//             SearchGraphsFunc: func(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.Graph, error) {
 // 	               panic("TODO: mock out the SearchGraphs method")
 //             },
-//             UpdateGraphFunc: func(cfg *api.Graph) (*api.Graph, error) {
+//             UpdateGraphFunc: func(cfg *circapi.Graph) (*circapi.Graph, error) {
 // 	               panic("TODO: mock out the UpdateGraph method")
 //             },
 //         }
@@ -45,59 +46,59 @@ var (
 //     }
 type APIMock struct {
 	// CreateGraphFunc mocks the CreateGraph method.
-	CreateGraphFunc func(cfg *api.Graph) (*api.Graph, error)
+	CreateGraphFunc func(cfg *circapi.Graph) (*circapi.Graph, error)
 
 	// DeleteGraphByCIDFunc mocks the DeleteGraphByCID method.
-	DeleteGraphByCIDFunc func(cid api.CIDType) (bool, error)
+	DeleteGraphByCIDFunc func(cid circapi.CIDType) (bool, error)
 
 	// FetchGraphFunc mocks the FetchGraph method.
-	FetchGraphFunc func(cid api.CIDType) (*api.Graph, error)
+	FetchGraphFunc func(cid circapi.CIDType) (*circapi.Graph, error)
 
 	// SearchGraphsFunc mocks the SearchGraphs method.
-	SearchGraphsFunc func(searchCriteria *api.SearchQueryType, filterCriteria *api.SearchFilterType) (*[]api.Graph, error)
+	SearchGraphsFunc func(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.Graph, error)
 
 	// UpdateGraphFunc mocks the UpdateGraph method.
-	UpdateGraphFunc func(cfg *api.Graph) (*api.Graph, error)
+	UpdateGraphFunc func(cfg *circapi.Graph) (*circapi.Graph, error)
 
 	// calls tracks calls to the methods.
 	calls struct {
 		// CreateGraph holds details about calls to the CreateGraph method.
 		CreateGraph []struct {
 			// Cfg is the cfg argument value.
-			Cfg *api.Graph
+			Cfg *circapi.Graph
 		}
 		// DeleteGraphByCID holds details about calls to the DeleteGraphByCID method.
 		DeleteGraphByCID []struct {
 			// Cid is the cid argument value.
-			Cid api.CIDType
+			Cid circapi.CIDType
 		}
 		// FetchGraph holds details about calls to the FetchGraph method.
 		FetchGraph []struct {
 			// Cid is the cid argument value.
-			Cid api.CIDType
+			Cid circapi.CIDType
 		}
 		// SearchGraphs holds details about calls to the SearchGraphs method.
 		SearchGraphs []struct {
 			// SearchCriteria is the searchCriteria argument value.
-			SearchCriteria *api.SearchQueryType
+			SearchCriteria *circapi.SearchQueryType
 			// FilterCriteria is the filterCriteria argument value.
-			FilterCriteria *api.SearchFilterType
+			FilterCriteria *circapi.SearchFilterType
 		}
 		// UpdateGraph holds details about calls to the UpdateGraph method.
 		UpdateGraph []struct {
 			// Cfg is the cfg argument value.
-			Cfg *api.Graph
+			Cfg *circapi.Graph
 		}
 	}
 }
 
 // CreateGraph calls CreateGraphFunc.
-func (mock *APIMock) CreateGraph(cfg *api.Graph) (*api.Graph, error) {
+func (mock *APIMock) CreateGraph(cfg *circapi.Graph) (*circapi.Graph, error) {
 	if mock.CreateGraphFunc == nil {
 		panic("moq: APIMock.CreateGraphFunc is nil but API.CreateGraph was just called")
 	}
 	callInfo := struct {
-		Cfg *api.Graph
+		Cfg *circapi.Graph
 	}{
 		Cfg: cfg,
 	}
@@ -111,10 +112,10 @@ func (mock *APIMock) CreateGraph(cfg *api.Graph) (*api.Graph, error) {
 // Check the length with:
 //     len(mockedAPI.CreateGraphCalls())
 func (mock *APIMock) CreateGraphCalls() []struct {
-	Cfg *api.Graph
+	Cfg *circapi.Graph
 } {
 	var calls []struct {
-		Cfg *api.Graph
+		Cfg *circapi.Graph
 	}
 	lockAPIMockCreateGraph.RLock()
 	calls = mock.calls.CreateGraph
@@ -123,12 +124,12 @@ func (mock *APIMock) CreateGraphCalls() []struct {
 }
 
 // DeleteGraphByCID calls DeleteGraphByCIDFunc.
-func (mock *APIMock) DeleteGraphByCID(cid api.CIDType) (bool, error) {
+func (mock *APIMock) DeleteGraphByCID(cid circapi.CIDType) (bool, error) {
 	if mock.DeleteGraphByCIDFunc == nil {
 		panic("moq: APIMock.DeleteGraphByCIDFunc is nil but API.DeleteGraphByCID was just called")
 	}
 	callInfo := struct {
-		Cid api.CIDType
+		Cid circapi.CIDType
 	}{
 		Cid: cid,
 	}
@@ -142,10 +143,10 @@ func (mock *APIMock) DeleteGraphByCID(cid api.CIDType) (bool, error) {
 // Check the length with:
 //     len(mockedAPI.DeleteGraphByCIDCalls())
 func (mock *APIMock) DeleteGraphByCIDCalls() []struct {
-	Cid api.CIDType
+	Cid circapi.CIDType
 } {
 	var calls []struct {
-		Cid api.CIDType
+		Cid circapi.CIDType
 	}
 	lockAPIMockDeleteGraphByCID.RLock()
 	calls = mock.calls.DeleteGraphByCID
@@ -154,12 +155,12 @@ func (mock *APIMock) DeleteGraphByCIDCalls() []struct {
 }
 
 // FetchGraph calls FetchGraphFunc.
-func (mock *APIMock) FetchGraph(cid api.CIDType) (*api.Graph, error) {
+func (mock *APIMock) FetchGraph(cid circapi.CIDType) (*circapi.Graph, error) {
 	if mock.FetchGraphFunc == nil {
 		panic("moq: APIMock.FetchGraphFunc is nil but API.FetchGraph was just called")
 	}
 	callInfo := struct {
-		Cid api.CIDType
+		Cid circapi.CIDType
 	}{
 		Cid: cid,
 	}
@@ -173,10 +174,10 @@ func (mock *APIMock) FetchGraph(cid api.CIDType) (*api.Graph, error) {
 // Check the length with:
 //     len(mockedAPI.FetchGraphCalls())
 func (mock *APIMock) FetchGraphCalls() []struct {
-	Cid api.CIDType
+	Cid circapi.CIDType
 } {
 	var calls []struct {
-		Cid api.CIDType
+		Cid circapi.CIDType
 	}
 	lockAPIMockFetchGraph.RLock()
 	calls = mock.calls.FetchGraph
@@ -185,13 +186,13 @@ func (mock *APIMock) FetchGraphCalls() []struct {
 }
 
 // SearchGraphs calls SearchGraphsFunc.
-func (mock *APIMock) SearchGraphs(searchCriteria *api.SearchQueryType, filterCriteria *api.SearchFilterType) (*[]api.Graph, error) {
+func (mock *APIMock) SearchGraphs(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.Graph, error) {
 	if mock.SearchGraphsFunc == nil {
 		panic("moq: APIMock.SearchGraphsFunc is nil but API.SearchGraphs was just called")
 	}
 	callInfo := struct {
-		SearchCriteria *api.SearchQueryType
-		FilterCriteria *api.SearchFilterType
+		SearchCriteria *circapi.SearchQueryType
+		FilterCriteria *circapi.SearchFilterType
 	}{
 		SearchCriteria: searchCriteria,
 		FilterCriteria: filterCriteria,
@@ -206,12 +207,12 @@ func (mock *APIMock) SearchGraphs(searchCriteria *api.SearchQueryType, filterCri
 // Check the length with:
 //     len(mockedAPI.SearchGraphsCalls())
 func (mock *APIMock) SearchGraphsCalls() []struct {
-	SearchCriteria *api.SearchQueryType
-	FilterCriteria *api.SearchFilterType
+	SearchCriteria *circapi.SearchQueryType
+	FilterCriteria *circapi.SearchFilterType
 } {
 	var calls []struct {
-		SearchCriteria *api.SearchQueryType
-		FilterCriteria *api.SearchFilterType
+		SearchCriteria *circapi.SearchQueryType
+		FilterCriteria *circapi.SearchFilterType
 	}
 	lockAPIMockSearchGraphs.RLock()
 	calls = mock.calls.SearchGraphs
@@ -220,12 +221,12 @@ func (mock *APIMock) SearchGraphsCalls() []struct {
 }
 
 // UpdateGraph calls UpdateGraphFunc.
-func (mock *APIMock) UpdateGraph(cfg *api.Graph) (*api.Graph, error) {
+func (mock *APIMock) UpdateGraph(cfg *circapi.Graph) (*circapi.Graph, error) {
 	if mock.UpdateGraphFunc == nil {
 		panic("moq: APIMock.UpdateGraphFunc is nil but API.UpdateGraph was just called")
 	}
 	callInfo := struct {
-		Cfg *api.Graph
+		Cfg *circapi.Graph
 	}{
 		Cfg: cfg,
 	}
@@ -239,10 +240,10 @@ func (mock *APIMock) UpdateGraph(cfg *api.Graph) (*api.Graph, error) {
 // Check the length with:
 //     len(mockedAPI.UpdateGraphCalls())
 func (mock *APIMock) UpdateGraphCalls() []struct {
-	Cfg *api.Graph
+	Cfg *circapi.Graph
 } {
 	var calls []struct {
-		Cfg *api.Graph
+		Cfg *circapi.Graph
 	}
 	lockAPIMockUpdateGraph.RLock()
 	calls = mock.calls.UpdateGraph
