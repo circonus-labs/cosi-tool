@@ -9,12 +9,12 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/circonus-labs/circonus-gometrics/api"
+	circapi "github.com/circonus-labs/go-apiclient"
 	"github.com/pkg/errors"
 )
 
-// Fetch retrieves a dashboard using the Circonus API
-func Fetch(client API, id, title string) (*api.Dashboard, error) {
+// Fetch retrieves a dashboard using the Circonus CircAPI
+func Fetch(client CircAPI, id, title string) (*circapi.Dashboard, error) {
 	// logger := log.With().Str("cmd", "cosi dashboard fetch").Logger()
 
 	if client == nil {
@@ -38,8 +38,8 @@ func Fetch(client API, id, title string) (*api.Dashboard, error) {
 	return nil, errors.Errorf("missing required argument identifying which dashboard to fetch")
 }
 
-// FetchByID retrieves a dashboard by CID using Circonus API
-func FetchByID(client API, id string) (*api.Dashboard, error) {
+// FetchByID retrieves a dashboard by CID using Circonus CircAPI
+func FetchByID(client CircAPI, id string) (*circapi.Dashboard, error) {
 	if client == nil {
 		return nil, errors.New("invalid state, nil client")
 	}
@@ -55,15 +55,15 @@ func FetchByID(client API, id string) (*api.Dashboard, error) {
 	} else if !ok {
 		return nil, errors.Errorf("invalid dashboard id (%s)", id)
 	}
-	db, err := client.FetchDashboard(api.CIDType(&cid))
+	db, err := client.FetchDashboard(circapi.CIDType(&cid))
 	if err != nil {
 		return nil, errors.Wrap(err, "fetch api")
 	}
 	return db, nil
 }
 
-// FetchByTitle retrieves a dashboard by Display Title using Circonus API
-func FetchByTitle(client API, name string) (*api.Dashboard, error) {
+// FetchByTitle retrieves a dashboard by Display Title using Circonus CircAPI
+func FetchByTitle(client CircAPI, name string) (*circapi.Dashboard, error) {
 	if client == nil {
 		return nil, errors.New("invalid state, nil client")
 	}
@@ -71,7 +71,7 @@ func FetchByTitle(client API, name string) (*api.Dashboard, error) {
 		return nil, errors.Errorf("invalid title (empty)")
 	}
 
-	query := api.SearchQueryType("\"" + name + "\" (active:1)")
+	query := circapi.SearchQueryType("\"" + name + "\" (active:1)")
 
 	dbs, err := client.SearchDashboards(&query, nil)
 	if err != nil {

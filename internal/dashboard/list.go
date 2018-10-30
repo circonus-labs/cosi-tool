@@ -14,8 +14,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/circonus-labs/circonus-gometrics/api"
 	"github.com/circonus-labs/cosi-tool/internal/registration/regfiles"
+	circapi "github.com/circonus-labs/go-apiclient"
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
 )
@@ -31,7 +31,7 @@ type detail struct {
 }
 
 // List local cosi dashboards
-func List(client API, w io.Writer, uiURL, regDir string, quiet, verify, long bool) error {
+func List(client CircAPI, w io.Writer, uiURL, regDir string, quiet, verify, long bool) error {
 	logger := log.With().Str("cmd", "cosi dashboard list").Logger()
 
 	if regDir == "" {
@@ -62,7 +62,7 @@ func List(client API, w io.Writer, uiURL, regDir string, quiet, verify, long boo
 	return nil
 }
 
-func getDetail(client API, regDir, regFile, uiURL string, verifyCheck bool) (*detail, error) {
+func getDetail(client CircAPI, regDir, regFile, uiURL string, verifyCheck bool) (*detail, error) {
 	if regDir == "" {
 		return nil, errors.New("invalid registration directory (empty)")
 	}
@@ -70,7 +70,7 @@ func getDetail(client API, regDir, regFile, uiURL string, verifyCheck bool) (*de
 		return nil, errors.New("invalid dashboard registration file (empty)")
 	}
 
-	var db api.Dashboard
+	var db circapi.Dashboard
 
 	data, err := ioutil.ReadFile(path.Join(regDir, regFile))
 	if err != nil {
