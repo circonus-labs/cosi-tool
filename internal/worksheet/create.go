@@ -9,13 +9,13 @@ import (
 	"encoding/json"
 	"io/ioutil"
 
-	"github.com/circonus-labs/circonus-gometrics/api"
 	"github.com/circonus-labs/cosi-tool/internal/registration/regfiles"
+	circapi "github.com/circonus-labs/go-apiclient"
 	"github.com/pkg/errors"
 )
 
 // CreateFromFile uses supplied configuration file to create a worksheet
-func CreateFromFile(client API, in, out string, force bool) error {
+func CreateFromFile(client CircAPI, in, out string, force bool) error {
 	// logger := log.With().Str("cmd", "cosi worksheet create").Logger()
 
 	if client == nil {
@@ -31,7 +31,7 @@ func CreateFromFile(client API, in, out string, force bool) error {
 		return errors.Wrap(err, "reading configuration file")
 	}
 
-	var cfg api.Worksheet
+	var cfg circapi.Worksheet
 	if err = json.Unmarshal(data, &cfg); err != nil {
 		return errors.Wrap(err, "loading configuration")
 	}
@@ -48,8 +48,8 @@ func CreateFromFile(client API, in, out string, force bool) error {
 	return nil
 }
 
-// Create uses Circonus API to create a worksheet
-func Create(client API, cfg *api.Worksheet) (*api.Worksheet, error) {
+// Create uses Circonus CircAPI to create a worksheet
+func Create(client CircAPI, cfg *circapi.Worksheet) (*circapi.Worksheet, error) {
 	if client == nil {
 		return nil, errors.New("invalid client (nil)")
 	}

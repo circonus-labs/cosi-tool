@@ -9,13 +9,13 @@ import (
 	"encoding/json"
 	"io/ioutil"
 
-	"github.com/circonus-labs/circonus-gometrics/api"
 	"github.com/circonus-labs/cosi-tool/internal/registration/regfiles"
+	circapi "github.com/circonus-labs/go-apiclient"
 	"github.com/pkg/errors"
 )
 
-// Update uses Circonus API to update a worksheet from supplied configuration file
-func Update(client API, in, out string, force bool) error {
+// Update uses Circonus CircAPI to update a worksheet from supplied configuration file
+func Update(client CircAPI, in, out string, force bool) error {
 	// logger := log.With().Str("cmd", "cosi worksheet update").Logger()
 
 	if client == nil {
@@ -31,7 +31,7 @@ func Update(client API, in, out string, force bool) error {
 		return errors.Wrap(err, "reading configuration file")
 	}
 
-	var cfg api.Worksheet
+	var cfg circapi.Worksheet
 	if err = json.Unmarshal(data, &cfg); err != nil {
 		return errors.Wrap(err, "loading configuration")
 	}

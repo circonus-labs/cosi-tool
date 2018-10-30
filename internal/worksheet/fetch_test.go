@@ -19,7 +19,7 @@ func TestFetchByID(t *testing.T) {
 
 	tests := []struct {
 		desc   string
-		cli    API
+		cli    CircAPI
 		id     string
 		errMsg string
 	}{
@@ -55,7 +55,7 @@ func TestFetchByTitle(t *testing.T) {
 
 	tests := []struct {
 		desc   string
-		cli    API
+		cli    CircAPI
 		title  string
 		errMsg string
 	}{
@@ -92,7 +92,7 @@ func TestFetch(t *testing.T) {
 
 	tests := []struct {
 		desc   string
-		cli    API
+		cli    CircAPI
 		id     string
 		title  string
 		errMsg string

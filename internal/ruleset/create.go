@@ -38,7 +38,7 @@ func CreateFromFile(client CircAPI, in, out string, force bool) error {
 
 	c, err := Create(client, &cfg)
 	if err != nil {
-		return errors.Wrap(err, "Circonus CircAPI error creating ruleset")
+		return errors.Wrap(err, "Circonus API error creating ruleset")
 	}
 
 	if err = regfiles.Save(out, c, force); err != nil {
