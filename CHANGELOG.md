@@ -1,3 +1,11 @@
+# v0.4.0
+
+* upd: USE github.com/circonus-labs/go-apiclient for circonus api
+* upd: DEPRECATE github.com/circonus-labs/circonus-gometrics/api for circonus api
+* upd: normalize configuration options
+* add: `--show-config=fmt` to `cosi register` for skeleton configuration
+* doc: wip - flesh out documentation
+
 # v0.3.2
 
 * upd: dependencies

@@ -200,12 +200,15 @@ worksheets:
 ## Commands
 
 ### Broker
+
 ### Check
 ### Config
 ### Dashboard
 ### Graph
 ### Plugin
 ### Register
+> Note: the system check will always be created. All of the other items (group check, graphs, worksheets, dashboards, rulesets) are optional.
+
 ### Reset
 ### Ruleset
 ### Template
