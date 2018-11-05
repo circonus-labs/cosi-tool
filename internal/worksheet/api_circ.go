@@ -5,7 +5,7 @@
 
 package worksheet
 
-//go:generate moq -out api_test.go . CircAPI
+//go:generate moq -out api_circ_test.go . CircAPI
 
 import circapi "github.com/circonus-labs/go-apiclient"
 
