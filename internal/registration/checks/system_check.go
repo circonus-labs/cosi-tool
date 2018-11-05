@@ -60,6 +60,7 @@ func (c *Checks) createSystemCheck() (*circapi.CheckBundle, error) {
 	if c.config.Checks.System.DisplayName != "" {
 		cfg.DisplayName = c.config.Checks.System.DisplayName
 	}
+	// default to metric_filters
 	if len(c.config.Checks.System.MetricFilters) > 0 {
 		cfg.MetricFilters = c.config.Checks.System.MetricFilters
 	} else {

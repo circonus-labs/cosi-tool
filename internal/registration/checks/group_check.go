@@ -55,6 +55,11 @@ func (c *Checks) createGroupCheck() (*circapi.CheckBundle, error) {
 		notes += *cfg.Notes
 	}
 	cfg.Notes = &notes
+	// set display name if configured in custom option
+	if c.config.Checks.Group.DisplayName != "" {
+		cfg.DisplayName = c.config.Checks.Group.DisplayName
+	}
+	// default to using metric_filters
 	if len(c.config.Checks.Group.MetricFilters) > 0 {
 		cfg.MetricFilters = c.config.Checks.Group.MetricFilters
 	} else {
@@ -62,10 +67,6 @@ func (c *Checks) createGroupCheck() (*circapi.CheckBundle, error) {
 	}
 	// add placeholder metric
 	// cfg.Metrics = append(cfg.Metrics, circapi.CheckBundleMetric{Name: "cosi_placeholder", Status: "active", Type: "numeric"})
-	// set display name if configured in custom option
-	if c.config.Checks.Group.DisplayName != "" {
-		cfg.DisplayName = c.config.Checks.Group.DisplayName
-	}
 
 	return c.createCheck(checkID, cfg)
 }
