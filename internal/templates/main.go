@@ -12,7 +12,7 @@ import (
 	"strings"
 
 	agentapi "github.com/circonus-labs/circonus-agent/api"
-	"github.com/circonus-labs/cosi-server/api"
+	cosiapi "github.com/circonus-labs/cosi-server/api"
 	"github.com/circonus-labs/cosi-tool/internal/config"
 	"github.com/circonus-labs/cosi-tool/internal/registration/regfiles"
 	"github.com/pelletier/go-toml"
@@ -22,15 +22,15 @@ import (
 
 // Templates defines the template object
 type Templates struct {
-	client API
+	client CosiAPI
 }
 
 // FetchAllResult defines the result from a fetching attempt when
 // fetching all templates.
 type FetchAllResult struct {
-	IDX      int           // input templateList index
-	Template *api.Template // a fetched template or nil
-	Err      error         // an error or nil
+	IDX      int               // input templateList index
+	Template *cosiapi.Template // a fetched template or nil
+	Err      error             // an error or nil
 }
 
 const (
@@ -71,7 +71,7 @@ var (
 )
 
 // New returns a new templates instance
-func New(client API) (*Templates, error) {
+func New(client CosiAPI) (*Templates, error) {
 	if client == nil {
 		osType := viper.GetString(config.KeySystemOSType)
 		osDist := viper.GetString(config.KeySystemOSDistro)
@@ -95,7 +95,7 @@ func New(client API) (*Templates, error) {
 			return nil, errors.Errorf("invalid cosi url (empty)")
 		}
 
-		cli, err := api.New(&api.Config{
+		cli, err := cosiapi.New(&cosiapi.Config{
 			OSType:    osType,
 			OSDistro:  osDist,
 			OSVersion: osVers,
@@ -116,7 +116,7 @@ func New(client API) (*Templates, error) {
 }
 
 // Fetch retrieves a template using the cosi-server API
-func (t *Templates) Fetch(id string) (*api.Template, error) {
+func (t *Templates) Fetch(id string) (*cosiapi.Template, error) {
 	if id == "" {
 		return nil, errors.Errorf("invalid id (empty)")
 	}
@@ -147,7 +147,7 @@ func (t *Templates) FetchAll(templateList []string) (*[]FetchAllResult, error) {
 // Load returns a cosi template. It will load the template specified by <id>
 // if found in the dir. If not, it will fetch the template from the cosi api
 // and save it into the dir.
-func (t *Templates) Load(dir string, id string) (*api.Template, bool, error) {
+func (t *Templates) Load(dir string, id string) (*cosiapi.Template, bool, error) {
 	if dir == "" {
 		return nil, false, errors.Errorf("invalid directory (empty)")
 	}
@@ -155,7 +155,7 @@ func (t *Templates) Load(dir string, id string) (*api.Template, bool, error) {
 		return nil, false, errors.New("invalid id (empty)")
 	}
 
-	fn := path.Join(dir, "template-"+id+api.TemplateFileExtension)
+	fn := path.Join(dir, "template-"+id+cosiapi.TemplateFileExtension)
 
 	data, err := ioutil.ReadFile(fn)
 	if err != nil {
@@ -171,7 +171,7 @@ func (t *Templates) Load(dir string, id string) (*api.Template, bool, error) {
 		return tmpl, true, nil
 	}
 
-	tv := api.Template{}
+	tv := cosiapi.Template{}
 	if err := toml.Unmarshal(data, &tv); err != nil {
 		return nil, true, errors.Wrap(err, "parsing template")
 	}

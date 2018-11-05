@@ -11,19 +11,19 @@ import (
 	"testing"
 
 	agentapi "github.com/circonus-labs/circonus-agent/api"
-	"github.com/circonus-labs/cosi-server/api"
+	cosiapi "github.com/circonus-labs/cosi-server/api"
 )
 
 var (
-	checkTemplate     *api.Template
-	dashboardTemplate *api.Template
-	graphTemplate     *api.Template
-	worksheetTemplate *api.Template
+	checkTemplate     *cosiapi.Template
+	dashboardTemplate *cosiapi.Template
+	graphTemplate     *cosiapi.Template
+	worksheetTemplate *cosiapi.Template
 )
 
 func genMockClient() *APIMock {
 	return &APIMock{
-		FetchTemplateFunc: func(id string) (*api.Template, error) {
+		FetchTemplateFunc: func(id string) (*cosiapi.Template, error) {
 			if strings.Contains(id, "error") {
 				return nil, errors.New("forced mock api call error")
 			} else if strings.HasPrefix(id, "check-") {
