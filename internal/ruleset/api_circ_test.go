@@ -17,12 +17,12 @@ var (
 	lockAPIMockUpdateRuleSet      sync.RWMutex
 )
 
-// APIMock is a mock implementation of API.
+// CircAPIMock is a mock implementation of API.
 //
 //     func TestSomethingThatUsesAPI(t *testing.T) {
 //
 //         // make and configure a mocked API
-//         mockedAPI := &APIMock{
+//         mockedAPI := &CircAPIMock{
 //             CreateRuleSetFunc: func(cfg *circapi.RuleSet) (*circapi.RuleSet, error) {
 // 	               panic("TODO: mock out the CreateRuleSet method")
 //             },
@@ -44,7 +44,7 @@ var (
 //         //       and then make assertions.
 //
 //     }
-type APIMock struct {
+type CircAPIMock struct {
 	// CreateRuleSetFunc mocks the CreateRuleSet method.
 	CreateRuleSetFunc func(cfg *circapi.RuleSet) (*circapi.RuleSet, error)
 
@@ -93,9 +93,9 @@ type APIMock struct {
 }
 
 // CreateRuleSet calls CreateRuleSetFunc.
-func (mock *APIMock) CreateRuleSet(cfg *circapi.RuleSet) (*circapi.RuleSet, error) {
+func (mock *CircAPIMock) CreateRuleSet(cfg *circapi.RuleSet) (*circapi.RuleSet, error) {
 	if mock.CreateRuleSetFunc == nil {
-		panic("moq: APIMock.CreateRuleSetFunc is nil but API.CreateRuleSet was just called")
+		panic("moq: CircAPIMock.CreateRuleSetFunc is nil but API.CreateRuleSet was just called")
 	}
 	callInfo := struct {
 		Cfg *circapi.RuleSet
@@ -111,7 +111,7 @@ func (mock *APIMock) CreateRuleSet(cfg *circapi.RuleSet) (*circapi.RuleSet, erro
 // CreateRuleSetCalls gets all the calls that were made to CreateRuleSet.
 // Check the length with:
 //     len(mockedAPI.CreateRuleSetCalls())
-func (mock *APIMock) CreateRuleSetCalls() []struct {
+func (mock *CircAPIMock) CreateRuleSetCalls() []struct {
 	Cfg *circapi.RuleSet
 } {
 	var calls []struct {
@@ -124,9 +124,9 @@ func (mock *APIMock) CreateRuleSetCalls() []struct {
 }
 
 // DeleteRuleSetByCID calls DeleteRuleSetByCIDFunc.
-func (mock *APIMock) DeleteRuleSetByCID(cid circapi.CIDType) (bool, error) {
+func (mock *CircAPIMock) DeleteRuleSetByCID(cid circapi.CIDType) (bool, error) {
 	if mock.DeleteRuleSetByCIDFunc == nil {
-		panic("moq: APIMock.DeleteRuleSetByCIDFunc is nil but API.DeleteRuleSetByCID was just called")
+		panic("moq: CircAPIMock.DeleteRuleSetByCIDFunc is nil but API.DeleteRuleSetByCID was just called")
 	}
 	callInfo := struct {
 		Cid circapi.CIDType
@@ -142,7 +142,7 @@ func (mock *APIMock) DeleteRuleSetByCID(cid circapi.CIDType) (bool, error) {
 // DeleteRuleSetByCIDCalls gets all the calls that were made to DeleteRuleSetByCID.
 // Check the length with:
 //     len(mockedAPI.DeleteRuleSetByCIDCalls())
-func (mock *APIMock) DeleteRuleSetByCIDCalls() []struct {
+func (mock *CircAPIMock) DeleteRuleSetByCIDCalls() []struct {
 	Cid circapi.CIDType
 } {
 	var calls []struct {
@@ -155,9 +155,9 @@ func (mock *APIMock) DeleteRuleSetByCIDCalls() []struct {
 }
 
 // FetchRuleSet calls FetchRuleSetFunc.
-func (mock *APIMock) FetchRuleSet(cid circapi.CIDType) (*circapi.RuleSet, error) {
+func (mock *CircAPIMock) FetchRuleSet(cid circapi.CIDType) (*circapi.RuleSet, error) {
 	if mock.FetchRuleSetFunc == nil {
-		panic("moq: APIMock.FetchRuleSetFunc is nil but API.FetchRuleSet was just called")
+		panic("moq: CircAPIMock.FetchRuleSetFunc is nil but API.FetchRuleSet was just called")
 	}
 	callInfo := struct {
 		Cid circapi.CIDType
@@ -173,7 +173,7 @@ func (mock *APIMock) FetchRuleSet(cid circapi.CIDType) (*circapi.RuleSet, error)
 // FetchRuleSetCalls gets all the calls that were made to FetchRuleSet.
 // Check the length with:
 //     len(mockedAPI.FetchRuleSetCalls())
-func (mock *APIMock) FetchRuleSetCalls() []struct {
+func (mock *CircAPIMock) FetchRuleSetCalls() []struct {
 	Cid circapi.CIDType
 } {
 	var calls []struct {
@@ -186,9 +186,9 @@ func (mock *APIMock) FetchRuleSetCalls() []struct {
 }
 
 // SearchRuleSets calls SearchRuleSetsFunc.
-func (mock *APIMock) SearchRuleSets(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.RuleSet, error) {
+func (mock *CircAPIMock) SearchRuleSets(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.RuleSet, error) {
 	if mock.SearchRuleSetsFunc == nil {
-		panic("moq: APIMock.SearchRuleSetsFunc is nil but API.SearchRuleSets was just called")
+		panic("moq: CircAPIMock.SearchRuleSetsFunc is nil but API.SearchRuleSets was just called")
 	}
 	callInfo := struct {
 		SearchCriteria *circapi.SearchQueryType
@@ -206,7 +206,7 @@ func (mock *APIMock) SearchRuleSets(searchCriteria *circapi.SearchQueryType, fil
 // SearchRuleSetsCalls gets all the calls that were made to SearchRuleSets.
 // Check the length with:
 //     len(mockedAPI.SearchRuleSetsCalls())
-func (mock *APIMock) SearchRuleSetsCalls() []struct {
+func (mock *CircAPIMock) SearchRuleSetsCalls() []struct {
 	SearchCriteria *circapi.SearchQueryType
 	FilterCriteria *circapi.SearchFilterType
 } {
@@ -221,9 +221,9 @@ func (mock *APIMock) SearchRuleSetsCalls() []struct {
 }
 
 // UpdateRuleSet calls UpdateRuleSetFunc.
-func (mock *APIMock) UpdateRuleSet(cfg *circapi.RuleSet) (*circapi.RuleSet, error) {
+func (mock *CircAPIMock) UpdateRuleSet(cfg *circapi.RuleSet) (*circapi.RuleSet, error) {
 	if mock.UpdateRuleSetFunc == nil {
-		panic("moq: APIMock.UpdateRuleSetFunc is nil but API.UpdateRuleSet was just called")
+		panic("moq: CircAPIMock.UpdateRuleSetFunc is nil but API.UpdateRuleSet was just called")
 	}
 	callInfo := struct {
 		Cfg *circapi.RuleSet
@@ -239,7 +239,7 @@ func (mock *APIMock) UpdateRuleSet(cfg *circapi.RuleSet) (*circapi.RuleSet, erro
 // UpdateRuleSetCalls gets all the calls that were made to UpdateRuleSet.
 // Check the length with:
 //     len(mockedAPI.UpdateRuleSetCalls())
-func (mock *APIMock) UpdateRuleSetCalls() []struct {
+func (mock *CircAPIMock) UpdateRuleSetCalls() []struct {
 	Cfg *circapi.RuleSet
 } {
 	var calls []struct {

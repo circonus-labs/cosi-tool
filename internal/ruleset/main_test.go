@@ -12,8 +12,8 @@ import (
 	circapi "github.com/circonus-labs/go-apiclient"
 )
 
-func genMockClient() *APIMock {
-	return &APIMock{
+func genMockClient() *CircAPIMock {
+	return &CircAPIMock{
 		CreateRuleSetFunc: func(cfg *circapi.RuleSet) (*circapi.RuleSet, error) {
 			if strings.Contains(cfg.CID, "error") {
 				return nil, errors.New("forced mock api call error")

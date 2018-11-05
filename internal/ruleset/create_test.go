@@ -14,7 +14,7 @@ func TestCreateFromFile(t *testing.T) {
 
 	tests := []struct {
 		name        string
-		client      *APIMock
+		client      *CircAPIMock
 		inFile      string
 		outFile     string
 		force       bool
