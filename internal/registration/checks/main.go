@@ -212,7 +212,7 @@ func (c *Checks) createCheck(id string, cfg *circapi.CheckBundle) (*circapi.Chec
 }
 
 func (c *Checks) updateAgentConfig() error {
-	// TODO: update agent config here or in cosi install shell script
+	// TODO: TBD update agent config here or in cosi install shell script
 	// Set reverse mode on
 	// Set api key to "cosi"
 	// /opt/circonus/agent/sbin/circonus-agentd --reverse --api-key="cosi" --api-app="cosi" --show-config=toml > /opt/circonus/agent/etc/circonus-agent.toml
@@ -226,6 +226,15 @@ func (c *Checks) UpdateSystemCheck(metrics *map[string]string) error {
 		return errors.New("no system check found in check list")
 	}
 
+	// Do not attempt to update checks using metric_filters. Whether metrics
+	// are active is handled via regular expressions in the broker itself.
+	// The two methods of handling metric status are mutually exclusive.
+	if len(cfg.MetricFilters) > 0 {
+		return nil
+	}
+
+	// The check DOES NOT use metric_filters, metric status is being managed
+	// manually by updating the check configuration. (DEPRECATED - use filters)
 	updateCheck := false
 	for mn, mt := range *metrics {
 		c.logger.Debug().Str("metric_name", mn).Msg("find")
