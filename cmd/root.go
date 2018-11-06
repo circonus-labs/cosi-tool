@@ -64,6 +64,13 @@ func init() {
 	stdlog.SetFlags(0)
 	stdlog.SetOutput(zlog)
 
+	// ensure etc directory exists
+	if _, err := os.Stat(defaults.EtcPath); os.IsNotExist(err) {
+		if err := os.MkdirAll(defaults.EtcPath,0755); err != nil {
+			log.Fatal().Err(err).Msg("error creating etc directory")
+		}
+	}
+
 	cobra.OnInitialize(initConfig)
 
 	desc := func(desc, env string) string {
@@ -116,9 +123,10 @@ func init() {
 			description = "Circonus API Token App Name"
 		)
 
-		RootCmd.PersistentFlags().String(longOpt, "", desc(description, envVar))
+		RootCmd.PersistentFlags().String(longOpt, defaults.APIApp, desc(description, envVar))
 		viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
 		viper.BindEnv(key, envVar)
+		viper.SetDefault(key, defaults.APIApp)
 	}
 	{
 		const (
