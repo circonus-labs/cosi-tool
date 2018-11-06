@@ -21,6 +21,9 @@ const (
 	// APIURL is the Circonus API URL
 	APIURL = "https://api.circonus.com/v2/"
 
+	// APIApp defines the api app name associated with the api token key
+	APIApp = release.NAME
+
 	// AgentMode defines the mode for the check connecting to the agent
 	AgentMode = "reverse"
 	// AgentURL is the URL the agent is listening on
