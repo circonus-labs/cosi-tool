@@ -34,6 +34,11 @@ func (r *Registration) configure() error {
 		return err
 	}
 
+	if viper.GetString(KeyShowConfig) != "" {
+		options.DumpConfig(r.config, viper.GetString(KeyShowConfig), os.Stdout)
+		os.Exit(0)
+	}
+
 	// Set brokers for checks if they are not already set
 	r.logger.Info().Msg("selecting system check broker")
 	if bid, err := r.selectBroker("json"); err == nil {

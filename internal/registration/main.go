@@ -8,7 +8,6 @@
 package registration
 
 import (
-	"os"
 	"path/filepath"
 	"time"
 
@@ -103,10 +102,6 @@ func New(circClient CircAPI) (*Registration, error) {
 		return nil, err
 	}
 
-	if viper.GetString(KeyShowConfig) != "" {
-		options.DumpConfig(r.config, viper.GetString(KeyShowConfig), os.Stdout)
-		os.Exit(0)
-	}
 
 	return r, nil
 }
