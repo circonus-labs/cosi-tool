@@ -66,7 +66,7 @@ func init() {
 
 	// ensure etc directory exists
 	if _, err := os.Stat(defaults.EtcPath); os.IsNotExist(err) {
-		if err := os.MkdirAll(defaults.EtcPath,0755); err != nil {
+		if err := os.MkdirAll(defaults.EtcPath, 0755); err != nil {
 			log.Fatal().Err(err).Msg("error creating etc directory")
 		}
 	}
@@ -417,14 +417,23 @@ func initLogging() error {
 	return nil
 }
 
+// logshim is used to satisfy apiclient Logger interface (avoiding ptr receiver issue)
+type logshim struct {
+	logh zerolog.Logger
+}
+
+func (l logshim) Printf(fmt string, v ...interface{}) {
+	l.logh.Printf(fmt, v...)
+}
+
 // initAPIClient initializes global api client used by majority of commands
 func initAPIClient() error {
 	opt := &apiclient.Config{
-		URL:      viper.GetString(config.KeyAPIURL),
-		TokenKey: viper.GetString(config.KeyAPITokenKey),
-		TokenApp: viper.GetString(config.KeyAPITokenApp),
 		Debug:    viper.GetBool(config.KeyDebug),
-		Log:      stdlog.New(log.With().Str("pkg", "cgm.api").Logger(), "", 0),
+		Log:      logshim{logh:log.With().Str("pkg", "circ.api").Logger()},
+		TokenApp: viper.GetString(config.KeyAPITokenApp),
+		TokenKey: viper.GetString(config.KeyAPITokenKey),
+		URL:      viper.GetString(config.KeyAPIURL),
 	}
 
 	if viper.GetString(config.KeyAPICAFile) != "" {
