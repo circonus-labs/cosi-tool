@@ -12,7 +12,7 @@ import (
 	"fmt"
 	"text/template"
 
-	circapi "github.com/circonus-labs/circonus-gometrics/api"
+	circapi "github.com/circonus-labs/go-apiclient"
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
 )

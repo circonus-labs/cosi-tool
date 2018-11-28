@@ -9,13 +9,13 @@ import (
 	"encoding/json"
 	"io/ioutil"
 
-	"github.com/circonus-labs/circonus-gometrics/api"
 	"github.com/circonus-labs/cosi-tool/internal/registration/regfiles"
+	circapi "github.com/circonus-labs/go-apiclient"
 	"github.com/pkg/errors"
 )
 
 // CreateFromFile uses Circonus API to create a graph from supplied configuration file
-func CreateFromFile(client API, in, out string, force bool) error {
+func CreateFromFile(client CircAPI, in, out string, force bool) error {
 	// logger := log.With().Str("cmd", "cosi graph create").Logger()
 
 	if client == nil {
@@ -31,7 +31,7 @@ func CreateFromFile(client API, in, out string, force bool) error {
 		return errors.Wrap(err, "reading configuration file")
 	}
 
-	var cfg api.Graph
+	var cfg circapi.Graph
 	if err = json.Unmarshal(data, &cfg); err != nil {
 		return errors.Wrap(err, "loading configuration")
 	}
@@ -49,7 +49,7 @@ func CreateFromFile(client API, in, out string, force bool) error {
 }
 
 // Create graph from supplied configuration, returns created graph or error
-func Create(client API, cfg *api.Graph) (*api.Graph, error) {
+func Create(client CircAPI, cfg *circapi.Graph) (*circapi.Graph, error) {
 	if client == nil {
 		return nil, errors.New("invalid state, nil client")
 	}

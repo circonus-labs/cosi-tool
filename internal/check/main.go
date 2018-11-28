@@ -66,7 +66,7 @@ const (
 // isModfied fetches a check from the Circonus API, compares the last modified
 // time passed to what is received, returns true if the received check's last
 // modified time is different from the passed time, otherwise false
-func isModified(client API, id string, lm uint) (bool, error) {
+func isModified(client CircAPI, id string, lm uint) (bool, error) {
 	b, err := FetchByID(client, id)
 	if err != nil {
 		return false, errors.Wrap(err, "fetching check from API")

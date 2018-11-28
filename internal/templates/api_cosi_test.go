@@ -6,20 +6,20 @@ package templates
 import (
 	"sync"
 
-	"github.com/circonus-labs/cosi-server/api"
+	cosiapi "github.com/circonus-labs/cosi-server/api"
 )
 
 var (
 	lockAPIMockFetchTemplate sync.RWMutex
 )
 
-// APIMock is a mock implementation of API.
+// APIMock is a mock implementation of cosiapi.
 //
 //     func TestSomethingThatUsesAPI(t *testing.T) {
 //
 //         // make and configure a mocked API
 //         mockedAPI := &APIMock{
-//             FetchTemplateFunc: func(id string) (*api.Template, error) {
+//             FetchTemplateFunc: func(id string) (*cosiapi.Template, error) {
 // 	               panic("TODO: mock out the FetchTemplate method")
 //             },
 //         }
@@ -30,7 +30,7 @@ var (
 //     }
 type APIMock struct {
 	// FetchTemplateFunc mocks the FetchTemplate method.
-	FetchTemplateFunc func(id string) (*api.Template, error)
+	FetchTemplateFunc func(id string) (*cosiapi.Template, error)
 
 	// calls tracks calls to the methods.
 	calls struct {
@@ -43,9 +43,9 @@ type APIMock struct {
 }
 
 // FetchTemplate calls FetchTemplateFunc.
-func (mock *APIMock) FetchTemplate(id string) (*api.Template, error) {
+func (mock *APIMock) FetchTemplate(id string) (*cosiapi.Template, error) {
 	if mock.FetchTemplateFunc == nil {
-		panic("moq: APIMock.FetchTemplateFunc is nil but API.FetchTemplate was just called")
+		panic("moq: APIMock.FetchTemplateFunc is nil but cosiapi.FetchTemplate was just called")
 	}
 	callInfo := struct {
 		ID string
@@ -60,7 +60,7 @@ func (mock *APIMock) FetchTemplate(id string) (*api.Template, error) {
 
 // FetchTemplateCalls gets all the calls that were made to FetchTemplate.
 // Check the length with:
-//     len(mockedAPI.FetchTemplateCalls())
+//     len(mockedcosiapi.FetchTemplateCalls())
 func (mock *APIMock) FetchTemplateCalls() []struct {
 	ID string
 } {

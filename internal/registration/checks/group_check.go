@@ -6,7 +6,12 @@
 package checks
 
 import (
-	circapi "github.com/circonus-labs/circonus-gometrics/api"
+	"crypto/rand"
+	"crypto/sha256"
+	"encoding/hex"
+
+	circapi "github.com/circonus-labs/go-apiclient"
+	circapiconf "github.com/circonus-labs/go-apiclient/config"
 )
 
 func (c *Checks) createGroupCheck() (*circapi.CheckBundle, error) {
@@ -39,8 +44,23 @@ func (c *Checks) createGroupCheck() (*circapi.CheckBundle, error) {
 
 	// set broker
 	cfg.Brokers = []string{c.config.Checks.Group.BrokerID}
-	// set config.url = agenturl
-	cfg.Config = circapi.CheckBundleConfig{}
+	// set trap specific settings if not set in template
+	if cfg.Config == nil {
+		cfg.Config = circapi.CheckBundleConfig{}
+	}
+	if cfg.Type == "httptrap" {
+		if val, ok := cfg.Config[circapiconf.AsyncMetrics]; !ok || val == "" {
+			cfg.Config[circapiconf.AsyncMetrics] = "true"
+		}
+
+		if val, ok := cfg.Config[circapiconf.Secret]; !ok || val == "" {
+			s, err := genSecret()
+			if err != nil {
+				s = "myS3cr3t"
+			}
+			cfg.Config[circapiconf.Secret] = s
+		}
+	}
 	// add tags
 	if len(c.config.Common.Tags) > 0 {
 		cfg.Tags = append(cfg.Tags, c.config.Common.Tags...)
@@ -55,12 +75,28 @@ func (c *Checks) createGroupCheck() (*circapi.CheckBundle, error) {
 		notes += *cfg.Notes
 	}
 	cfg.Notes = &notes
-	// add placeholder metric
-	cfg.Metrics = append(cfg.Metrics, circapi.CheckBundleMetric{Name: "cosi_placeholder", Status: "active", Type: "numeric"})
 	// set display name if configured in custom option
 	if c.config.Checks.Group.DisplayName != "" {
 		cfg.DisplayName = c.config.Checks.Group.DisplayName
 	}
+	// default to using metric_filters
+	if len(c.config.Checks.Group.MetricFilters) > 0 {
+		cfg.MetricFilters = c.config.Checks.Group.MetricFilters
+	} else {
+		cfg.MetricFilters = [][]string{{"deny", "^$", ""}, {"allow", "^.+$", ""}}
+	}
+	// add placeholder metric
+	// cfg.Metrics = append(cfg.Metrics, circapi.CheckBundleMetric{Name: "cosi_placeholder", Status: "active", Type: "numeric"})
 
 	return c.createCheck(checkID, cfg)
+}
+
+func genSecret() (string, error) {
+	hash := sha256.New()
+	x := make([]byte, 2048)
+	if _, err := rand.Read(x); err != nil {
+		return "", err
+	}
+	hash.Write(x)
+	return hex.EncodeToString(hash.Sum(nil))[0:16], nil
 }

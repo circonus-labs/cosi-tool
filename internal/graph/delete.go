@@ -11,12 +11,12 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/circonus-labs/circonus-gometrics/api"
+	circapi "github.com/circonus-labs/go-apiclient"
 	"github.com/pkg/errors"
 )
 
 // Delete uses Circonus API to delete a graph from supplied configuration file or id
-func Delete(client API, id, in string) error {
+func Delete(client CircAPI, id, in string) error {
 	// logger := log.With().Str("cmd", "cosi graph delete").Logger()
 
 	if client == nil {
@@ -41,7 +41,7 @@ func Delete(client API, id, in string) error {
 			return errors.Wrap(err, "reading configuration file")
 		}
 
-		var cfg api.Graph
+		var cfg circapi.Graph
 		if err = json.Unmarshal(data, &cfg); err != nil {
 			return errors.Wrap(err, "loading configuration")
 		}

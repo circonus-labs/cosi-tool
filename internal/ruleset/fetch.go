@@ -9,18 +9,18 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/circonus-labs/circonus-gometrics/api"
+	circapi "github.com/circonus-labs/go-apiclient"
 	"github.com/pkg/errors"
 )
 
-// Fetch retrieves a ruleset using the Circonus API
-func Fetch(client API, id string) (*api.RuleSet, error) {
+// Fetch retrieves a ruleset using the Circonus CircAPI
+func Fetch(client CircAPI, id string) (*circapi.RuleSet, error) {
 	// logger := log.With().Str("cmd", "cosi ruleset fetch").Logger()
 	return FetchByID(client, id)
 }
 
-// FetchByID retrieves a ruleset by CID using Circonus API
-func FetchByID(client API, id string) (*api.RuleSet, error) {
+// FetchByID retrieves a ruleset by CID using Circonus CircAPI
+func FetchByID(client CircAPI, id string) (*circapi.RuleSet, error) {
 	if client == nil {
 		return nil, errors.New("invalid state, nil client")
 	}
@@ -36,7 +36,7 @@ func FetchByID(client API, id string) (*api.RuleSet, error) {
 	} else if !ok {
 		return nil, errors.Errorf("invalid ruleset id (%s)", id)
 	}
-	rs, err := client.FetchRuleSet(api.CIDType(&cid))
+	rs, err := client.FetchRuleSet(circapi.CIDType(&cid))
 	if err != nil {
 		return nil, errors.Wrap(err, "fetch api")
 	}

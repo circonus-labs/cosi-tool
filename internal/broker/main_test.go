@@ -14,7 +14,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/circonus-labs/circonus-gometrics/api"
+	circapi "github.com/circonus-labs/go-apiclient"
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog"
 )
@@ -46,16 +46,16 @@ var testCosiBrokers = httptest.NewServer(http.HandlerFunc(func(w http.ResponseWr
 
 func genMockClient() *APIMock {
 	return &APIMock{
-		FetchBrokerFunc: func(cid api.CIDType) (*api.Broker, error) {
+		FetchBrokerFunc: func(cid circapi.CIDType) (*circapi.Broker, error) {
 			switch *cid {
 			case "/broker/000":
 				return nil, errors.New("forced mock api call error")
 			case "/broker/123":
-				return &api.Broker{
+				return &circapi.Broker{
 					CID:  "/broker/123",
 					Name: "foo",
 					Type: "xxx",
-					Details: []api.BrokerDetail{
+					Details: []circapi.BrokerDetail{
 						{
 							Status:  "active",
 							Modules: []string{"abc", "selfcheck", "hidden:abc123", "abcdef", "abcdefghi", "abcdefghijkl", "abcdefghijklmnopqrstu"},
@@ -66,11 +66,11 @@ func genMockClient() *APIMock {
 					},
 				}, nil
 			case "/broker/456":
-				return &api.Broker{
+				return &circapi.Broker{
 					CID:  "/broker/456",
 					Name: "bar",
 					Type: "yyy",
-					Details: []api.BrokerDetail{
+					Details: []circapi.BrokerDetail{
 						{
 							Status: "foobar",
 						},
@@ -80,8 +80,8 @@ func genMockClient() *APIMock {
 				return nil, errors.Errorf("bad broker request cid (%s)", *cid)
 			}
 		},
-		FetchBrokersFunc: func() (*[]api.Broker, error) {
-			return &[]api.Broker{
+		FetchBrokersFunc: func() (*[]circapi.Broker, error) {
+			return &[]circapi.Broker{
 				{CID: "/broker/123", Name: "foo", Type: "circonus"},
 				{CID: "/broker/456", Name: "bar", Type: "enterprise"},
 				{CID: "/broker/789", Name: "baz", Type: "circonus"},

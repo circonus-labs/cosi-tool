@@ -10,9 +10,9 @@ import (
 	"path"
 	"testing"
 
-	circapi "github.com/circonus-labs/circonus-gometrics/api"
 	"github.com/circonus-labs/cosi-tool/internal/registration/options"
 	"github.com/circonus-labs/cosi-tool/internal/templates"
+	circapi "github.com/circonus-labs/go-apiclient"
 	"github.com/rs/zerolog"
 )
 

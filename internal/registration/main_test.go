@@ -11,7 +11,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/circonus-labs/circonus-gometrics/api"
+	"github.com/circonus-labs/go-apiclient"
 	"github.com/pkg/errors"
 )
 
@@ -32,31 +32,31 @@ func genMockAgent(t *testing.T) (*httptest.Server, func()) {
 
 func genMockCircAPI() *CircAPIMock {
 	return &CircAPIMock{
-		CreateCheckBundleFunc: func(cfg *api.CheckBundle) (*api.CheckBundle, error) {
+		CreateCheckBundleFunc: func(cfg *apiclient.CheckBundle) (*apiclient.CheckBundle, error) {
 			panic("TODO: mock out the CreateCheckBundle method")
 		},
-		CreateDashboardFunc: func(cfg *api.Dashboard) (*api.Dashboard, error) {
+		CreateDashboardFunc: func(cfg *apiclient.Dashboard) (*apiclient.Dashboard, error) {
 			panic("TODO: mock out the CreateDashboard method")
 		},
-		CreateGraphFunc: func(cfg *api.Graph) (*api.Graph, error) {
+		CreateGraphFunc: func(cfg *apiclient.Graph) (*apiclient.Graph, error) {
 			panic("TODO: mock out the CreateGraph method")
 		},
-		CreateWorksheetFunc: func(cfg *api.Worksheet) (*api.Worksheet, error) {
+		CreateWorksheetFunc: func(cfg *apiclient.Worksheet) (*apiclient.Worksheet, error) {
 			panic("TODO: mock out the CreateWorksheet method")
 		},
-		DeleteCheckBundleByCIDFunc: func(cid api.CIDType) (bool, error) {
+		DeleteCheckBundleByCIDFunc: func(cid apiclient.CIDType) (bool, error) {
 			panic("TODO: mock out the DeleteCheckBundleByCID method")
 		},
-		FetchBrokerFunc: func(cid api.CIDType) (*api.Broker, error) {
+		FetchBrokerFunc: func(cid apiclient.CIDType) (*apiclient.Broker, error) {
 			panic("TODO: mock out the FetchBroker method")
 		},
-		FetchBrokersFunc: func() (*[]api.Broker, error) {
-			return &[]api.Broker{}, nil
+		FetchBrokersFunc: func() (*[]apiclient.Broker, error) {
+			return &[]apiclient.Broker{}, nil
 		},
-		SearchCheckBundlesFunc: func(searchCriteria *api.SearchQueryType, filterCriteria *map[string][]string) (*[]api.CheckBundle, error) {
+		SearchCheckBundlesFunc: func(searchCriteria *apiclient.SearchQueryType, filterCriteria *apiclient.SearchFilterType) (*[]apiclient.CheckBundle, error) {
 			panic("TODO: mock out the SearchCheckBundles method")
 		},
-		UpdateCheckBundleFunc: func(cfg *api.CheckBundle) (*api.CheckBundle, error) {
+		UpdateCheckBundleFunc: func(cfg *apiclient.CheckBundle) (*apiclient.CheckBundle, error) {
 			panic("TODO: mock out the UpdateCheckBundle method")
 		},
 	}

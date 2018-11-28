@@ -4,8 +4,9 @@
 package registration
 
 import (
-	"github.com/circonus-labs/cosi-server/api"
 	"sync"
+
+	cosiapi "github.com/circonus-labs/cosi-server/api"
 )
 
 var (
@@ -22,7 +23,7 @@ var (
 //             FetchBrokerFunc: func(checkType string) (string, error) {
 // 	               panic("TODO: mock out the FetchBroker method")
 //             },
-//             FetchTemplateFunc: func(id string) (*api.Template, error) {
+//             FetchTemplateFunc: func(id string) (*cosiapi.Template, error) {
 // 	               panic("TODO: mock out the FetchTemplate method")
 //             },
 //         }
@@ -36,7 +37,7 @@ type CosiAPIMock struct {
 	FetchBrokerFunc func(checkType string) (string, error)
 
 	// FetchTemplateFunc mocks the FetchTemplate method.
-	FetchTemplateFunc func(id string) (*api.Template, error)
+	FetchTemplateFunc func(id string) (*cosiapi.Template, error)
 
 	// calls tracks calls to the methods.
 	calls struct {
@@ -85,7 +86,7 @@ func (mock *CosiAPIMock) FetchBrokerCalls() []struct {
 }
 
 // FetchTemplate calls FetchTemplateFunc.
-func (mock *CosiAPIMock) FetchTemplate(id string) (*api.Template, error) {
+func (mock *CosiAPIMock) FetchTemplate(id string) (*cosiapi.Template, error) {
 	if mock.FetchTemplateFunc == nil {
 		panic("moq: CosiAPIMock.FetchTemplateFunc is nil but CosiAPI.FetchTemplate was just called")
 	}

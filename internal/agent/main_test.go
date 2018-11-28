@@ -9,26 +9,26 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/circonus-labs/circonus-agent/api"
+	agentapi "github.com/circonus-labs/circonus-agent/api"
 )
 
 func genMockClient() *APIMock {
 	return &APIMock{
-		InventoryFunc: func() (*api.Inventory, error) {
-			return &api.Inventory{
-				api.Plugin{ID: "foo`bar", Name: "foo", Instance: "bar"},
-				api.Plugin{ID: "foo`baz", Name: "foo", Instance: "baz"},
-				api.Plugin{ID: "qux", Name: "qux", Instance: ""},
+		InventoryFunc: func() (*agentapi.Inventory, error) {
+			return &agentapi.Inventory{
+				agentapi.Plugin{ID: "foo`bar", Name: "foo", Instance: "bar"},
+				agentapi.Plugin{ID: "foo`baz", Name: "foo", Instance: "baz"},
+				agentapi.Plugin{ID: "qux", Name: "qux", Instance: ""},
 			}, nil
 		},
-		MetricsFunc: func(pluginID string) (*api.Metrics, error) {
+		MetricsFunc: func(pluginID string) (*agentapi.Metrics, error) {
 			switch pluginID {
 			case "zero":
-				return &api.Metrics{}, nil
+				return &agentapi.Metrics{}, nil
 			case "error":
 				return nil, errors.New("forced mock api error")
 			default:
-				return &api.Metrics{"foo`bar": api.Metric{Value: 0, Type: "n"}}, nil
+				return &agentapi.Metrics{"foo`bar": agentapi.Metric{Value: 0, Type: "n"}}, nil
 			}
 		},
 	}

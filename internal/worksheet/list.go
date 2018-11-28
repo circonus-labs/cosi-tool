@@ -13,8 +13,8 @@ import (
 	"path"
 	"strings"
 
-	"github.com/circonus-labs/circonus-gometrics/api"
 	"github.com/circonus-labs/cosi-tool/internal/registration/regfiles"
+	circapi "github.com/circonus-labs/go-apiclient"
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
 )
@@ -27,7 +27,7 @@ type detail struct {
 }
 
 // List local cosi worksheets
-func List(client API, w io.Writer, uiURL, regDir string, quiet, long bool) error {
+func List(client CircAPI, w io.Writer, uiURL, regDir string, quiet, long bool) error {
 	logger := log.With().Str("cmd", "cosi worksheet list").Logger()
 
 	if regDir == "" {
@@ -58,7 +58,7 @@ func List(client API, w io.Writer, uiURL, regDir string, quiet, long bool) error
 	return nil
 }
 
-func getDetail(client API, regDir, regFile, uiURL string) (*detail, error) {
+func getDetail(client CircAPI, regDir, regFile, uiURL string) (*detail, error) {
 	if regDir == "" {
 		return nil, errors.New("invalid registration directory (empty)")
 	}
@@ -66,7 +66,7 @@ func getDetail(client API, regDir, regFile, uiURL string) (*detail, error) {
 		return nil, errors.New("invalid worksheet registration file (empty)")
 	}
 
-	var w api.Worksheet
+	var w circapi.Worksheet
 
 	data, err := ioutil.ReadFile(path.Join(regDir, regFile))
 	if err != nil {

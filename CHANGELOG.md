@@ -1,3 +1,24 @@
+# v0.4.0
+
+* upd: move register show-config to configure method (before broker selection)
+* upd: add default API token app name
+* upd: create etc directory if it does not exist (should already exist, if installed by cosi installer)
+* upd: use api config consts for config keys
+* upd: finish config of group check
+* upd: switch to modules
+* upd: normalize mock api names for clarification in test code
+* upd: only update check bundle if NOT using metric filters
+* upd: default to metric_filters for checks
+* upd: build tag go1.11
+* upd: USE github.com/circonus-labs/go-apiclient for circonus api
+* upd: DEPRECATE github.com/circonus-labs/circonus-gometrics/api for circonus api
+* upd: normalize configuration options
+* add: `--show-config=fmt` to `cosi register` for skeleton configuration
+* doc: wip - flesh out documentation
+* upd: dependencies (circonus-agent, go-apiclient, zerolog)
+* upd: `SearchCheckBundles` method signature
+* upd: add zerolog shim for apiclient Logger interface
+
 # v0.3.2
 
 * upd: dependencies

@@ -19,7 +19,7 @@ func TestFetchByID(t *testing.T) {
 
 	tests := []struct {
 		desc   string
-		cli    API
+		cli    CircAPI
 		id     string
 		errMsg string
 	}{
@@ -56,7 +56,7 @@ func TestFetchByType(t *testing.T) {
 
 	tests := []struct {
 		desc   string
-		cli    API
+		cli    CircAPI
 		dir    string
 		ctype  string
 		errMsg string
@@ -94,7 +94,7 @@ func TestFetchByName(t *testing.T) {
 
 	tests := []struct {
 		desc   string
-		cli    API
+		cli    CircAPI
 		name   string
 		errMsg string
 	}{
@@ -131,7 +131,7 @@ func TestFetchByTarget(t *testing.T) {
 
 	tests := []struct {
 		desc   string
-		cli    API
+		cli    CircAPI
 		target string
 		errMsg string
 	}{
@@ -169,7 +169,7 @@ func TestFetch(t *testing.T) {
 
 	tests := []struct {
 		desc   string
-		cli    API
+		cli    CircAPI
 		id     string
 		ctype  string
 		name   string

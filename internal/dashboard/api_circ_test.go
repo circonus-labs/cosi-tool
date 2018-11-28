@@ -4,8 +4,9 @@
 package dashboard
 
 import (
-	"github.com/circonus-labs/circonus-gometrics/api"
 	"sync"
+
+	circapi "github.com/circonus-labs/go-apiclient"
 )
 
 var (
@@ -22,19 +23,19 @@ var (
 //
 //         // make and configure a mocked API
 //         mockedAPI := &APIMock{
-//             CreateDashboardFunc: func(cfg *api.Dashboard) (*api.Dashboard, error) {
+//             CreateDashboardFunc: func(cfg *circapi.Dashboard) (*circapi.Dashboard, error) {
 // 	               panic("TODO: mock out the CreateDashboard method")
 //             },
-//             DeleteDashboardByCIDFunc: func(cid api.CIDType) (bool, error) {
+//             DeleteDashboardByCIDFunc: func(cid circapi.CIDType) (bool, error) {
 // 	               panic("TODO: mock out the DeleteDashboardByCID method")
 //             },
-//             FetchDashboardFunc: func(cid api.CIDType) (*api.Dashboard, error) {
+//             FetchDashboardFunc: func(cid circapi.CIDType) (*circapi.Dashboard, error) {
 // 	               panic("TODO: mock out the FetchDashboard method")
 //             },
-//             SearchDashboardsFunc: func(searchCriteria *api.SearchQueryType, filterCriteria *api.SearchFilterType) (*[]api.Dashboard, error) {
+//             SearchDashboardsFunc: func(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.Dashboard, error) {
 // 	               panic("TODO: mock out the SearchDashboards method")
 //             },
-//             UpdateDashboardFunc: func(cfg *api.Dashboard) (*api.Dashboard, error) {
+//             UpdateDashboardFunc: func(cfg *circapi.Dashboard) (*circapi.Dashboard, error) {
 // 	               panic("TODO: mock out the UpdateDashboard method")
 //             },
 //         }
@@ -45,59 +46,59 @@ var (
 //     }
 type APIMock struct {
 	// CreateDashboardFunc mocks the CreateDashboard method.
-	CreateDashboardFunc func(cfg *api.Dashboard) (*api.Dashboard, error)
+	CreateDashboardFunc func(cfg *circapi.Dashboard) (*circapi.Dashboard, error)
 
 	// DeleteDashboardByCIDFunc mocks the DeleteDashboardByCID method.
-	DeleteDashboardByCIDFunc func(cid api.CIDType) (bool, error)
+	DeleteDashboardByCIDFunc func(cid circapi.CIDType) (bool, error)
 
 	// FetchDashboardFunc mocks the FetchDashboard method.
-	FetchDashboardFunc func(cid api.CIDType) (*api.Dashboard, error)
+	FetchDashboardFunc func(cid circapi.CIDType) (*circapi.Dashboard, error)
 
 	// SearchDashboardsFunc mocks the SearchDashboards method.
-	SearchDashboardsFunc func(searchCriteria *api.SearchQueryType, filterCriteria *api.SearchFilterType) (*[]api.Dashboard, error)
+	SearchDashboardsFunc func(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.Dashboard, error)
 
 	// UpdateDashboardFunc mocks the UpdateDashboard method.
-	UpdateDashboardFunc func(cfg *api.Dashboard) (*api.Dashboard, error)
+	UpdateDashboardFunc func(cfg *circapi.Dashboard) (*circapi.Dashboard, error)
 
 	// calls tracks calls to the methods.
 	calls struct {
 		// CreateDashboard holds details about calls to the CreateDashboard method.
 		CreateDashboard []struct {
 			// Cfg is the cfg argument value.
-			Cfg *api.Dashboard
+			Cfg *circapi.Dashboard
 		}
 		// DeleteDashboardByCID holds details about calls to the DeleteDashboardByCID method.
 		DeleteDashboardByCID []struct {
 			// Cid is the cid argument value.
-			Cid api.CIDType
+			Cid circapi.CIDType
 		}
 		// FetchDashboard holds details about calls to the FetchDashboard method.
 		FetchDashboard []struct {
 			// Cid is the cid argument value.
-			Cid api.CIDType
+			Cid circapi.CIDType
 		}
 		// SearchDashboards holds details about calls to the SearchDashboards method.
 		SearchDashboards []struct {
 			// SearchCriteria is the searchCriteria argument value.
-			SearchCriteria *api.SearchQueryType
+			SearchCriteria *circapi.SearchQueryType
 			// FilterCriteria is the filterCriteria argument value.
-			FilterCriteria *api.SearchFilterType
+			FilterCriteria *circapi.SearchFilterType
 		}
 		// UpdateDashboard holds details about calls to the UpdateDashboard method.
 		UpdateDashboard []struct {
 			// Cfg is the cfg argument value.
-			Cfg *api.Dashboard
+			Cfg *circapi.Dashboard
 		}
 	}
 }
 
 // CreateDashboard calls CreateDashboardFunc.
-func (mock *APIMock) CreateDashboard(cfg *api.Dashboard) (*api.Dashboard, error) {
+func (mock *APIMock) CreateDashboard(cfg *circapi.Dashboard) (*circapi.Dashboard, error) {
 	if mock.CreateDashboardFunc == nil {
 		panic("moq: APIMock.CreateDashboardFunc is nil but API.CreateDashboard was just called")
 	}
 	callInfo := struct {
-		Cfg *api.Dashboard
+		Cfg *circapi.Dashboard
 	}{
 		Cfg: cfg,
 	}
@@ -111,10 +112,10 @@ func (mock *APIMock) CreateDashboard(cfg *api.Dashboard) (*api.Dashboard, error)
 // Check the length with:
 //     len(mockedAPI.CreateDashboardCalls())
 func (mock *APIMock) CreateDashboardCalls() []struct {
-	Cfg *api.Dashboard
+	Cfg *circapi.Dashboard
 } {
 	var calls []struct {
-		Cfg *api.Dashboard
+		Cfg *circapi.Dashboard
 	}
 	lockAPIMockCreateDashboard.RLock()
 	calls = mock.calls.CreateDashboard
@@ -123,12 +124,12 @@ func (mock *APIMock) CreateDashboardCalls() []struct {
 }
 
 // DeleteDashboardByCID calls DeleteDashboardByCIDFunc.
-func (mock *APIMock) DeleteDashboardByCID(cid api.CIDType) (bool, error) {
+func (mock *APIMock) DeleteDashboardByCID(cid circapi.CIDType) (bool, error) {
 	if mock.DeleteDashboardByCIDFunc == nil {
 		panic("moq: APIMock.DeleteDashboardByCIDFunc is nil but API.DeleteDashboardByCID was just called")
 	}
 	callInfo := struct {
-		Cid api.CIDType
+		Cid circapi.CIDType
 	}{
 		Cid: cid,
 	}
@@ -142,10 +143,10 @@ func (mock *APIMock) DeleteDashboardByCID(cid api.CIDType) (bool, error) {
 // Check the length with:
 //     len(mockedAPI.DeleteDashboardByCIDCalls())
 func (mock *APIMock) DeleteDashboardByCIDCalls() []struct {
-	Cid api.CIDType
+	Cid circapi.CIDType
 } {
 	var calls []struct {
-		Cid api.CIDType
+		Cid circapi.CIDType
 	}
 	lockAPIMockDeleteDashboardByCID.RLock()
 	calls = mock.calls.DeleteDashboardByCID
@@ -154,12 +155,12 @@ func (mock *APIMock) DeleteDashboardByCIDCalls() []struct {
 }
 
 // FetchDashboard calls FetchDashboardFunc.
-func (mock *APIMock) FetchDashboard(cid api.CIDType) (*api.Dashboard, error) {
+func (mock *APIMock) FetchDashboard(cid circapi.CIDType) (*circapi.Dashboard, error) {
 	if mock.FetchDashboardFunc == nil {
 		panic("moq: APIMock.FetchDashboardFunc is nil but API.FetchDashboard was just called")
 	}
 	callInfo := struct {
-		Cid api.CIDType
+		Cid circapi.CIDType
 	}{
 		Cid: cid,
 	}
@@ -173,10 +174,10 @@ func (mock *APIMock) FetchDashboard(cid api.CIDType) (*api.Dashboard, error) {
 // Check the length with:
 //     len(mockedAPI.FetchDashboardCalls())
 func (mock *APIMock) FetchDashboardCalls() []struct {
-	Cid api.CIDType
+	Cid circapi.CIDType
 } {
 	var calls []struct {
-		Cid api.CIDType
+		Cid circapi.CIDType
 	}
 	lockAPIMockFetchDashboard.RLock()
 	calls = mock.calls.FetchDashboard
@@ -185,13 +186,13 @@ func (mock *APIMock) FetchDashboardCalls() []struct {
 }
 
 // SearchDashboards calls SearchDashboardsFunc.
-func (mock *APIMock) SearchDashboards(searchCriteria *api.SearchQueryType, filterCriteria *api.SearchFilterType) (*[]api.Dashboard, error) {
+func (mock *APIMock) SearchDashboards(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.Dashboard, error) {
 	if mock.SearchDashboardsFunc == nil {
 		panic("moq: APIMock.SearchDashboardsFunc is nil but API.SearchDashboards was just called")
 	}
 	callInfo := struct {
-		SearchCriteria *api.SearchQueryType
-		FilterCriteria *api.SearchFilterType
+		SearchCriteria *circapi.SearchQueryType
+		FilterCriteria *circapi.SearchFilterType
 	}{
 		SearchCriteria: searchCriteria,
 		FilterCriteria: filterCriteria,
@@ -206,12 +207,12 @@ func (mock *APIMock) SearchDashboards(searchCriteria *api.SearchQueryType, filte
 // Check the length with:
 //     len(mockedAPI.SearchDashboardsCalls())
 func (mock *APIMock) SearchDashboardsCalls() []struct {
-	SearchCriteria *api.SearchQueryType
-	FilterCriteria *api.SearchFilterType
+	SearchCriteria *circapi.SearchQueryType
+	FilterCriteria *circapi.SearchFilterType
 } {
 	var calls []struct {
-		SearchCriteria *api.SearchQueryType
-		FilterCriteria *api.SearchFilterType
+		SearchCriteria *circapi.SearchQueryType
+		FilterCriteria *circapi.SearchFilterType
 	}
 	lockAPIMockSearchDashboards.RLock()
 	calls = mock.calls.SearchDashboards
@@ -220,12 +221,12 @@ func (mock *APIMock) SearchDashboardsCalls() []struct {
 }
 
 // UpdateDashboard calls UpdateDashboardFunc.
-func (mock *APIMock) UpdateDashboard(cfg *api.Dashboard) (*api.Dashboard, error) {
+func (mock *APIMock) UpdateDashboard(cfg *circapi.Dashboard) (*circapi.Dashboard, error) {
 	if mock.UpdateDashboardFunc == nil {
 		panic("moq: APIMock.UpdateDashboardFunc is nil but API.UpdateDashboard was just called")
 	}
 	callInfo := struct {
-		Cfg *api.Dashboard
+		Cfg *circapi.Dashboard
 	}{
 		Cfg: cfg,
 	}
@@ -239,10 +240,10 @@ func (mock *APIMock) UpdateDashboard(cfg *api.Dashboard) (*api.Dashboard, error)
 // Check the length with:
 //     len(mockedAPI.UpdateDashboardCalls())
 func (mock *APIMock) UpdateDashboardCalls() []struct {
-	Cfg *api.Dashboard
+	Cfg *circapi.Dashboard
 } {
 	var calls []struct {
-		Cfg *api.Dashboard
+		Cfg *circapi.Dashboard
 	}
 	lockAPIMockUpdateDashboard.RLock()
 	calls = mock.calls.UpdateDashboard

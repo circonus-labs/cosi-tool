@@ -21,7 +21,7 @@ var brokerDefaultCmd = &cobra.Command{
 	Long:  `Use COSI API to show the default broker`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		cosiURL := viper.GetString(config.KeyCosiURL)
-		optsFile := viper.GetString(config.KeyHostOptionsFile)
+		optsFile := viper.GetString(config.KeyRegConf)
 		cosiBID := viper.GetInt(config.KeyHostBrokerID)
 
 		return broker.Default(cosiURL, os.Stdout, uint(cosiBID), optsFile)

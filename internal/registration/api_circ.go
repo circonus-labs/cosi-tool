@@ -5,33 +5,33 @@
 
 package registration
 
-import "github.com/circonus-labs/circonus-gometrics/api"
+import circapi "github.com/circonus-labs/go-apiclient"
 
 //go:generate moq -out api_circ_test.go . CircAPI
 
 // CircAPI interface abstraction of circonus api (for mocking)
 type CircAPI interface {
-	CreateCheckBundle(cfg *api.CheckBundle) (*api.CheckBundle, error)
-	CreateDashboard(cfg *api.Dashboard) (*api.Dashboard, error)
-	CreateGraph(cfg *api.Graph) (*api.Graph, error)
-	CreateRuleSet(cfg *api.RuleSet) (*api.RuleSet, error)
-	CreateWorksheet(cfg *api.Worksheet) (*api.Worksheet, error)
-	DeleteCheckBundleByCID(cid api.CIDType) (bool, error)
-	DeleteDashboardByCID(cid api.CIDType) (bool, error)
-	DeleteGraphByCID(cid api.CIDType) (bool, error)
-	DeleteWorksheetByCID(cid api.CIDType) (bool, error)
-	FetchCheckBundle(cid api.CIDType) (*api.CheckBundle, error)
-	FetchBroker(cid api.CIDType) (*api.Broker, error)
-	FetchBrokers() (*[]api.Broker, error)
-	FetchDashboard(cid api.CIDType) (*api.Dashboard, error)
-	FetchGraph(cid api.CIDType) (*api.Graph, error)
-	FetchWorksheet(cid api.CIDType) (*api.Worksheet, error)
-	SearchCheckBundles(searchCriteria *api.SearchQueryType, filterCriteria *map[string][]string) (*[]api.CheckBundle, error)
-	SearchDashboards(searchCriteria *api.SearchQueryType, filterCriteria *api.SearchFilterType) (*[]api.Dashboard, error)
-	SearchGraphs(searchCriteria *api.SearchQueryType, filterCriteria *api.SearchFilterType) (*[]api.Graph, error)
-	SearchWorksheets(searchCriteria *api.SearchQueryType, filterCriteria *api.SearchFilterType) (*[]api.Worksheet, error)
-	UpdateCheckBundle(cfg *api.CheckBundle) (*api.CheckBundle, error)
-	UpdateDashboard(cfg *api.Dashboard) (*api.Dashboard, error)
-	UpdateGraph(cfg *api.Graph) (*api.Graph, error)
-	UpdateWorksheet(cfg *api.Worksheet) (*api.Worksheet, error)
+	CreateCheckBundle(cfg *circapi.CheckBundle) (*circapi.CheckBundle, error)
+	CreateDashboard(cfg *circapi.Dashboard) (*circapi.Dashboard, error)
+	CreateGraph(cfg *circapi.Graph) (*circapi.Graph, error)
+	CreateRuleSet(cfg *circapi.RuleSet) (*circapi.RuleSet, error)
+	CreateWorksheet(cfg *circapi.Worksheet) (*circapi.Worksheet, error)
+	DeleteCheckBundleByCID(cid circapi.CIDType) (bool, error)
+	DeleteDashboardByCID(cid circapi.CIDType) (bool, error)
+	DeleteGraphByCID(cid circapi.CIDType) (bool, error)
+	DeleteWorksheetByCID(cid circapi.CIDType) (bool, error)
+	FetchCheckBundle(cid circapi.CIDType) (*circapi.CheckBundle, error)
+	FetchBroker(cid circapi.CIDType) (*circapi.Broker, error)
+	FetchBrokers() (*[]circapi.Broker, error)
+	FetchDashboard(cid circapi.CIDType) (*circapi.Dashboard, error)
+	FetchGraph(cid circapi.CIDType) (*circapi.Graph, error)
+	FetchWorksheet(cid circapi.CIDType) (*circapi.Worksheet, error)
+	SearchCheckBundles(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.CheckBundle, error)
+	SearchDashboards(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.Dashboard, error)
+	SearchGraphs(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.Graph, error)
+	SearchWorksheets(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.Worksheet, error)
+	UpdateCheckBundle(cfg *circapi.CheckBundle) (*circapi.CheckBundle, error)
+	UpdateDashboard(cfg *circapi.Dashboard) (*circapi.Dashboard, error)
+	UpdateGraph(cfg *circapi.Graph) (*circapi.Graph, error)
+	UpdateWorksheet(cfg *circapi.Worksheet) (*circapi.Worksheet, error)
 }

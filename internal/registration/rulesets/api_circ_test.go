@@ -4,8 +4,9 @@
 package rulesets
 
 import (
-	"github.com/circonus-labs/circonus-gometrics/api"
 	"sync"
+
+	circapi "github.com/circonus-labs/go-apiclient"
 )
 
 var (
@@ -18,7 +19,7 @@ var (
 //
 //         // make and configure a mocked CircAPI
 //         mockedCircAPI := &CircAPIMock{
-//             CreateRuleSetFunc: func(cfg *api.RuleSet) (*api.RuleSet, error) {
+//             CreateRuleSetFunc: func(cfg *circapi.RuleSet) (*circapi.RuleSet, error) {
 // 	               panic("TODO: mock out the CreateRuleSet method")
 //             },
 //         }
@@ -29,25 +30,25 @@ var (
 //     }
 type CircAPIMock struct {
 	// CreateRuleSetFunc mocks the CreateRuleSet method.
-	CreateRuleSetFunc func(cfg *api.RuleSet) (*api.RuleSet, error)
+	CreateRuleSetFunc func(cfg *circapi.RuleSet) (*circapi.RuleSet, error)
 
 	// calls tracks calls to the methods.
 	calls struct {
 		// CreateRuleSet holds details about calls to the CreateRuleSet method.
 		CreateRuleSet []struct {
 			// Cfg is the cfg argument value.
-			Cfg *api.RuleSet
+			Cfg *circapi.RuleSet
 		}
 	}
 }
 
 // CreateRuleSet calls CreateRuleSetFunc.
-func (mock *CircAPIMock) CreateRuleSet(cfg *api.RuleSet) (*api.RuleSet, error) {
+func (mock *CircAPIMock) CreateRuleSet(cfg *circapi.RuleSet) (*circapi.RuleSet, error) {
 	if mock.CreateRuleSetFunc == nil {
 		panic("moq: CircAPIMock.CreateRuleSetFunc is nil but CircAPI.CreateRuleSet was just called")
 	}
 	callInfo := struct {
-		Cfg *api.RuleSet
+		Cfg *circapi.RuleSet
 	}{
 		Cfg: cfg,
 	}
@@ -61,10 +62,10 @@ func (mock *CircAPIMock) CreateRuleSet(cfg *api.RuleSet) (*api.RuleSet, error) {
 // Check the length with:
 //     len(mockedCircAPI.CreateRuleSetCalls())
 func (mock *CircAPIMock) CreateRuleSetCalls() []struct {
-	Cfg *api.RuleSet
+	Cfg *circapi.RuleSet
 } {
 	var calls []struct {
-		Cfg *api.RuleSet
+		Cfg *circapi.RuleSet
 	}
 	lockCircAPIMockCreateRuleSet.RLock()
 	calls = mock.calls.CreateRuleSet

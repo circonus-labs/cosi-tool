@@ -9,13 +9,13 @@ import (
 	"encoding/json"
 	"io/ioutil"
 
-	"github.com/circonus-labs/circonus-gometrics/api"
 	"github.com/circonus-labs/cosi-tool/internal/registration/regfiles"
+	circapi "github.com/circonus-labs/go-apiclient"
 	"github.com/pkg/errors"
 )
 
 // CreateFromFile create dashboard from supplied configuration file
-func CreateFromFile(client API, in, out string, force bool) error {
+func CreateFromFile(client CircAPI, in, out string, force bool) error {
 	// logger := log.With().Str("cmd", "cosi dashboard create").Logger()
 
 	if client == nil {
@@ -31,7 +31,7 @@ func CreateFromFile(client API, in, out string, force bool) error {
 		return errors.Wrap(err, "reading configuration file")
 	}
 
-	var cfg api.Dashboard
+	var cfg circapi.Dashboard
 	if err = json.Unmarshal(data, &cfg); err != nil {
 		return errors.Wrap(err, "loading configuration")
 	}
@@ -49,7 +49,7 @@ func CreateFromFile(client API, in, out string, force bool) error {
 }
 
 // Create dashboard using Circonus API
-func Create(client API, cfg *api.Dashboard) (*api.Dashboard, error) {
+func Create(client CircAPI, cfg *circapi.Dashboard) (*circapi.Dashboard, error) {
 	if client == nil {
 		return nil, errors.New("invalid client (nil)")
 	}

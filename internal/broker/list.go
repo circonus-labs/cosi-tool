@@ -10,12 +10,12 @@ import (
 	"io"
 	"strings"
 
-	"github.com/circonus-labs/circonus-gometrics/api"
+	circapi "github.com/circonus-labs/go-apiclient"
 	"github.com/pkg/errors"
 )
 
 // DisplayList displays information about available broker(s)
-func DisplayList(client API, w io.Writer) error {
+func DisplayList(client CircAPI, w io.Writer) error {
 	// logger := log.With().Str("cmd", "cosi broker list").Logger()
 
 	if client == nil {
@@ -45,7 +45,7 @@ func DisplayList(client API, w io.Writer) error {
 }
 
 // List returns available brokers
-func List(client API) (*[]api.Broker, error) {
+func List(client CircAPI) (*[]circapi.Broker, error) {
 	if client == nil {
 		return nil, errors.New("invalid state, nil client")
 	}

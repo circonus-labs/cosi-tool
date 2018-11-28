@@ -10,9 +10,9 @@ import (
 	"os"
 	"testing"
 
-	circapi "github.com/circonus-labs/circonus-gometrics/api"
 	"github.com/circonus-labs/cosi-tool/internal/registration/checks"
 	"github.com/circonus-labs/cosi-tool/internal/registration/options"
+	circapi "github.com/circonus-labs/go-apiclient"
 	"github.com/rs/zerolog"
 )
 
@@ -100,41 +100,41 @@ func TestRegister(t *testing.T) {
 
 	tests := []struct {
 		name        string
-		cfg         *Config
+		cfg         *Options
 		shouldFail  bool
 		expectedErr string
 	}{
-		{"missing rulesetdir", &Config{
+		{"missing rulesetdir", &Options{
 			Client:     client,
 			Config:     &options,
 			CheckInfo:  &ci,
 			RegDir:     "testdata",
 			RulesetDir: "testdata/missing"}, false, ""},
-		{"empty rulesetdir", &Config{
+		{"empty rulesetdir", &Options{
 			Client:     client,
 			Config:     &options,
 			CheckInfo:  &ci,
 			RegDir:     "testdata",
 			RulesetDir: "testdata/empty"}, false, ""},
-		{"invalid ruleset config", &Config{
+		{"invalid ruleset config", &Options{
 			Client:     client,
 			Config:     &options,
 			CheckInfo:  &ci,
 			RegDir:     "testdata",
 			RulesetDir: "testdata/invalid"}, true, "unexpected end of JSON input"},
-		{"api error", &Config{
+		{"api error", &Options{
 			Client:     client,
 			Config:     &options,
 			CheckInfo:  &ciErr,
 			RegDir:     "testdata",
 			RulesetDir: "testdata/apierror"}, true, "forced mock api error"},
-		{"valid", &Config{
+		{"valid", &Options{
 			Client:     client,
 			Config:     &options,
 			CheckInfo:  &ci,
 			RegDir:     "testdata",
 			RulesetDir: "testdata"}, false, ""},
-		{"valid (exists)", &Config{
+		{"valid (exists)", &Options{
 			Client:     client,
 			Config:     &options,
 			CheckInfo:  &ci,

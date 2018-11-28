@@ -19,7 +19,7 @@ import (
 //
 // 	tests := []struct {
 // 		desc   string
-// 		cli    API
+// 		cli    CircAPI
 // 		id     string
 // 		errMsg string
 // 	}{
@@ -55,7 +55,7 @@ import (
 //
 // 	tests := []struct {
 // 		desc   string
-// 		cli    API
+// 		cli    CircAPI
 // 		title  string
 // 		errMsg string
 // 	}{
@@ -92,7 +92,7 @@ func TestFetch(t *testing.T) {
 
 	tests := []struct {
 		name        string
-		cli         API
+		cli         CircAPI
 		id          string
 		shouldFail  bool
 		expectedErr string

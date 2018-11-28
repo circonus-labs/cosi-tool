@@ -10,18 +10,18 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/circonus-labs/circonus-gometrics/api"
+	circapi "github.com/circonus-labs/go-apiclient"
 )
 
 func genMockClient() *APIMock {
 	return &APIMock{
-		CreateDashboardFunc: func(cfg *api.Dashboard) (*api.Dashboard, error) {
+		CreateDashboardFunc: func(cfg *circapi.Dashboard) (*circapi.Dashboard, error) {
 			if strings.Contains(cfg.CID, "error") {
 				return nil, errors.New("forced mock api call error")
 			}
 			return cfg, nil
 		},
-		DeleteDashboardByCIDFunc: func(cid api.CIDType) (bool, error) {
+		DeleteDashboardByCIDFunc: func(cid circapi.CIDType) (bool, error) {
 			if *cid == "/dashboard/123" {
 				return true, nil
 			} else if *cid == "error" {
@@ -29,25 +29,25 @@ func genMockClient() *APIMock {
 			}
 			return false, nil
 		},
-		FetchDashboardFunc: func(cid api.CIDType) (*api.Dashboard, error) {
+		FetchDashboardFunc: func(cid circapi.CIDType) (*circapi.Dashboard, error) {
 			if *cid == "/dashboard/000" {
 				return nil, errors.New("forced mock api call error")
 			}
-			b := api.Dashboard{CID: *cid}
+			b := circapi.Dashboard{CID: *cid}
 			return &b, nil
 		},
-		SearchDashboardsFunc: func(searchCriteria *api.SearchQueryType, filterCriteria *api.SearchFilterType) (*[]api.Dashboard, error) {
+		SearchDashboardsFunc: func(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.Dashboard, error) {
 			q := string(*searchCriteria)
 			if strings.Contains(q, "apierror") {
 				return nil, errors.New(q)
 			} else if strings.Contains(q, "none") {
-				return &[]api.Dashboard{}, nil
+				return &[]circapi.Dashboard{}, nil
 			} else if strings.Contains(q, "multi") {
-				return &[]api.Dashboard{{CID: "1"}, {CID: "2"}}, nil
+				return &[]circapi.Dashboard{{CID: "1"}, {CID: "2"}}, nil
 			}
-			return &[]api.Dashboard{{CID: "/dashboard/123"}}, nil
+			return &[]circapi.Dashboard{{CID: "/dashboard/123"}}, nil
 		},
-		UpdateDashboardFunc: func(cfg *api.Dashboard) (*api.Dashboard, error) {
+		UpdateDashboardFunc: func(cfg *circapi.Dashboard) (*circapi.Dashboard, error) {
 			if strings.Contains(cfg.CID, "error") {
 				return nil, errors.New("forced mock api call error")
 			}

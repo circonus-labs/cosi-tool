@@ -5,12 +5,12 @@
 
 package registration
 
-import "github.com/circonus-labs/cosi-server/api"
+import cosiapi "github.com/circonus-labs/cosi-server/api"
 
 //go:generate moq -out api_cosi_test.go . CosiAPI
 
 // CosiAPI interface abstraction of cosi server api (for mocking)
 type CosiAPI interface {
 	FetchBroker(checkType string) (string, error)
-	FetchTemplate(id string) (*api.Template, error)
+	FetchTemplate(id string) (*cosiapi.Template, error)
 }

@@ -17,10 +17,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/circonus-labs/circonus-gometrics/api"
 	"github.com/circonus-labs/cosi-tool/internal/config"
 	"github.com/circonus-labs/cosi-tool/internal/config/defaults"
 	"github.com/circonus-labs/cosi-tool/internal/release"
+	"github.com/circonus-labs/go-apiclient"
 	"github.com/fatih/color"
 	"github.com/gofrs/uuid"
 	"github.com/pkg/errors"
@@ -30,7 +30,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-var client *api.API
+var client *apiclient.API
 var cfgFile string
 
 // RootCmd represents the base command when called without any subcommands
@@ -64,6 +64,13 @@ func init() {
 	stdlog.SetFlags(0)
 	stdlog.SetOutput(zlog)
 
+	// ensure etc directory exists
+	if _, err := os.Stat(defaults.EtcPath); os.IsNotExist(err) {
+		if err := os.MkdirAll(defaults.EtcPath, 0755); err != nil {
+			log.Fatal().Err(err).Msg("error creating etc directory")
+		}
+	}
+
 	cobra.OnInitialize(initConfig)
 
 	desc := func(desc, env string) string {
@@ -78,6 +85,19 @@ func init() {
 			description = "config file (default: " + defaults.ConfigFile + "|.json|.toml)"
 		)
 		RootCmd.PersistentFlags().StringVarP(&cfgFile, longOpt, shortOpt, "", description)
+	}
+
+	// registration options configuration file
+	{
+		const (
+			key         = config.KeyRegConf
+			longOpt     = "regconf"
+			envVar      = release.ENVPREFIX + "_REG_CONF"
+			description = "Registration options configuration file"
+		)
+		RootCmd.PersistentFlags().String(longOpt, "", desc(description, envVar))
+		viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
+		viper.BindEnv(key, envVar)
 	}
 
 	//
@@ -103,9 +123,10 @@ func init() {
 			description = "Circonus API Token App Name"
 		)
 
-		RootCmd.PersistentFlags().String(longOpt, "", desc(description, envVar))
+		RootCmd.PersistentFlags().String(longOpt, defaults.APIApp, desc(description, envVar))
 		viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
 		viper.BindEnv(key, envVar)
+		viper.SetDefault(key, defaults.APIApp)
 	}
 	{
 		const (
@@ -396,14 +417,23 @@ func initLogging() error {
 	return nil
 }
 
+// logshim is used to satisfy apiclient Logger interface (avoiding ptr receiver issue)
+type logshim struct {
+	logh zerolog.Logger
+}
+
+func (l logshim) Printf(fmt string, v ...interface{}) {
+	l.logh.Printf(fmt, v...)
+}
+
 // initAPIClient initializes global api client used by majority of commands
 func initAPIClient() error {
-	opt := &api.Config{
-		URL:      viper.GetString(config.KeyAPIURL),
-		TokenKey: viper.GetString(config.KeyAPITokenKey),
-		TokenApp: viper.GetString(config.KeyAPITokenApp),
+	opt := &apiclient.Config{
 		Debug:    viper.GetBool(config.KeyDebug),
-		Log:      stdlog.New(log.With().Str("pkg", "cgm.api").Logger(), "", 0),
+		Log:      logshim{logh:log.With().Str("pkg", "circ.api").Logger()},
+		TokenApp: viper.GetString(config.KeyAPITokenApp),
+		TokenKey: viper.GetString(config.KeyAPITokenKey),
+		URL:      viper.GetString(config.KeyAPIURL),
 	}
 
 	if viper.GetString(config.KeyAPICAFile) != "" {
@@ -420,7 +450,7 @@ func initAPIClient() error {
 		}
 	}
 
-	c, err := api.New(opt)
+	c, err := apiclient.New(opt)
 	if err != nil {
 		return errors.Wrap(err, "unable to initialize api client")
 	}

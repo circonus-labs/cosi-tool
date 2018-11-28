@@ -12,8 +12,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/circonus-labs/circonus-gometrics/api"
 	"github.com/circonus-labs/cosi-tool/internal/registration/regfiles"
+	circapi "github.com/circonus-labs/go-apiclient"
 	"github.com/fatih/color"
 	"github.com/pkg/errors"
 )
@@ -26,7 +26,7 @@ const (
 )
 
 // Reset provides an interactive prompt for resetting all assets created (checks, visuals, etc.)
-func Reset(client API, regDir string, force bool) error {
+func Reset(client CircAPI, regDir string, force bool) error {
 	if client == nil {
 		return errors.New("invalid client (nil)")
 	}
@@ -57,7 +57,7 @@ func Reset(client API, regDir string, force bool) error {
 	}
 
 	if proceed {
-		for _, fn := range []func(API, string) error{
+		for _, fn := range []func(CircAPI, string) error{
 			deleteWorksheets,
 			deleteDashboards,
 			deleteGraphs,
@@ -82,7 +82,7 @@ func removeRegistration(regFile string) error {
 	return os.Remove(regFile)
 }
 
-func deleteWorksheets(client API, regDir string) error {
+func deleteWorksheets(client CircAPI, regDir string) error {
 	if client == nil {
 		return errors.New("invalid client (nil)")
 	}
@@ -100,14 +100,14 @@ func deleteWorksheets(client API, regDir string) error {
 	color.HiWhite("Processing %s(s)\n", assetType)
 	for _, asset := range *assets {
 		regFile := filepath.Join(regDir, asset)
-		var v api.Worksheet
+		var v circapi.Worksheet
 		ok, err := regfiles.Load(regFile, &v)
 		if err != nil {
 			return err
 		}
 		if ok {
 			color.Cyan("\tRemoving %s - %s\n", assetType, v.CID)
-			if _, err := client.DeleteWorksheetByCID(api.CIDType(&v.CID)); err != nil {
+			if _, err := client.DeleteWorksheetByCID(circapi.CIDType(&v.CID)); err != nil {
 				return err
 			}
 			if err := removeRegistration(regFile); err != nil {
@@ -118,7 +118,7 @@ func deleteWorksheets(client API, regDir string) error {
 	return nil
 }
 
-func deleteDashboards(client API, regDir string) error {
+func deleteDashboards(client CircAPI, regDir string) error {
 	if client == nil {
 		return errors.New("invalid client (nil)")
 	}
@@ -136,14 +136,14 @@ func deleteDashboards(client API, regDir string) error {
 	color.HiWhite("Processing %s(s)\n", assetType)
 	for _, asset := range *assets {
 		regFile := filepath.Join(regDir, asset)
-		var v api.Dashboard
+		var v circapi.Dashboard
 		ok, err := regfiles.Load(regFile, &v)
 		if err != nil {
 			return err
 		}
 		if ok {
 			color.Cyan("\tRemoving %s - %s\n", assetType, v.CID)
-			if _, err := client.DeleteDashboardByCID(api.CIDType(&v.CID)); err != nil {
+			if _, err := client.DeleteDashboardByCID(circapi.CIDType(&v.CID)); err != nil {
 				return err
 			}
 			if err := removeRegistration(regFile); err != nil {
@@ -154,7 +154,7 @@ func deleteDashboards(client API, regDir string) error {
 	return nil
 }
 
-func deleteGraphs(client API, regDir string) error {
+func deleteGraphs(client CircAPI, regDir string) error {
 	if client == nil {
 		return errors.New("invalid client (nil)")
 	}
@@ -172,14 +172,14 @@ func deleteGraphs(client API, regDir string) error {
 	color.HiWhite("Processing %s(s)\n", assetType)
 	for _, asset := range *assets {
 		regFile := filepath.Join(regDir, asset)
-		var v api.Graph
+		var v circapi.Graph
 		ok, err := regfiles.Load(regFile, &v)
 		if err != nil {
 			return err
 		}
 		if ok {
 			color.Cyan("\tRemoving %s - %s\n", assetType, v.CID)
-			if _, err := client.DeleteGraphByCID(api.CIDType(&v.CID)); err != nil {
+			if _, err := client.DeleteGraphByCID(circapi.CIDType(&v.CID)); err != nil {
 				return err
 			}
 			if err := removeRegistration(regFile); err != nil {
@@ -190,7 +190,7 @@ func deleteGraphs(client API, regDir string) error {
 	return nil
 }
 
-func deleteRulesets(client API, regDir string) error {
+func deleteRulesets(client CircAPI, regDir string) error {
 	if client == nil {
 		return errors.New("invalid client (nil)")
 	}
@@ -208,14 +208,14 @@ func deleteRulesets(client API, regDir string) error {
 	color.HiWhite("Processing %s(s)\n", assetType)
 	for _, asset := range *assets {
 		regFile := filepath.Join(regDir, asset)
-		var v api.RuleSet
+		var v circapi.RuleSet
 		ok, err := regfiles.Load(regFile, &v)
 		if err != nil {
 			return err
 		}
 		if ok {
 			color.Cyan("\tRemoving %s - %s\n", assetType, v.CID)
-			if _, err := client.DeleteRuleSetByCID(api.CIDType(&v.CID)); err != nil {
+			if _, err := client.DeleteRuleSetByCID(circapi.CIDType(&v.CID)); err != nil {
 				return err
 			}
 			if err := removeRegistration(regFile); err != nil {
@@ -226,7 +226,7 @@ func deleteRulesets(client API, regDir string) error {
 	return nil
 }
 
-func deleteChecks(client API, regDir string) error {
+func deleteChecks(client CircAPI, regDir string) error {
 	if client == nil {
 		return errors.New("invalid client (nil)")
 	}
@@ -244,14 +244,14 @@ func deleteChecks(client API, regDir string) error {
 	color.HiWhite("Processing %s(s)\n", assetType)
 	for _, asset := range *assets {
 		regFile := filepath.Join(regDir, asset)
-		var v api.CheckBundle
+		var v circapi.CheckBundle
 		ok, err := regfiles.Load(regFile, &v)
 		if err != nil {
 			return err
 		}
 		if ok {
 			color.Cyan("\tRemoving %s - %s\n", assetType, v.CID)
-			if _, err := client.DeleteCheckBundleByCID(api.CIDType(&v.CID)); err != nil {
+			if _, err := client.DeleteCheckBundleByCID(circapi.CIDType(&v.CID)); err != nil {
 				return err
 			}
 			if err := removeRegistration(regFile); err != nil {
@@ -262,7 +262,7 @@ func deleteChecks(client API, regDir string) error {
 	return nil
 }
 
-func deleteTemplates(client API, regDir string) error {
+func deleteTemplates(client CircAPI, regDir string) error {
 	if client == nil {
 		return errors.New("invalid client (nil)")
 	}

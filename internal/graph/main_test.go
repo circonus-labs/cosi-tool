@@ -10,18 +10,18 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/circonus-labs/circonus-gometrics/api"
+	circapi "github.com/circonus-labs/go-apiclient"
 )
 
 func genMockClient() *APIMock {
 	return &APIMock{
-		CreateGraphFunc: func(cfg *api.Graph) (*api.Graph, error) {
+		CreateGraphFunc: func(cfg *circapi.Graph) (*circapi.Graph, error) {
 			if strings.Contains(cfg.CID, "error") {
 				return nil, errors.New("forced mock api call error")
 			}
 			return cfg, nil
 		},
-		DeleteGraphByCIDFunc: func(cid api.CIDType) (bool, error) {
+		DeleteGraphByCIDFunc: func(cid circapi.CIDType) (bool, error) {
 			if *cid == "/graph/123" {
 				return true, nil
 			} else if *cid == "error" {
@@ -29,25 +29,25 @@ func genMockClient() *APIMock {
 			}
 			return false, nil
 		},
-		FetchGraphFunc: func(cid api.CIDType) (*api.Graph, error) {
+		FetchGraphFunc: func(cid circapi.CIDType) (*circapi.Graph, error) {
 			if *cid == "/graph/000" {
 				return nil, errors.New("forced mock api call error")
 			}
-			b := api.Graph{CID: *cid}
+			b := circapi.Graph{CID: *cid}
 			return &b, nil
 		},
-		SearchGraphsFunc: func(searchCriteria *api.SearchQueryType, filterCriteria *api.SearchFilterType) (*[]api.Graph, error) {
+		SearchGraphsFunc: func(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.Graph, error) {
 			q := string(*searchCriteria)
 			if strings.Contains(q, "apierror") {
 				return nil, errors.New(q)
 			} else if strings.Contains(q, "none") {
-				return &[]api.Graph{}, nil
+				return &[]circapi.Graph{}, nil
 			} else if strings.Contains(q, "multi") {
-				return &[]api.Graph{{CID: "1"}, {CID: "2"}}, nil
+				return &[]circapi.Graph{{CID: "1"}, {CID: "2"}}, nil
 			}
-			return &[]api.Graph{{CID: "/graph/123"}}, nil
+			return &[]circapi.Graph{{CID: "/graph/123"}}, nil
 		},
-		UpdateGraphFunc: func(cfg *api.Graph) (*api.Graph, error) {
+		UpdateGraphFunc: func(cfg *circapi.Graph) (*circapi.Graph, error) {
 			if strings.Contains(cfg.CID, "error") {
 				return nil, errors.New("forced mock api call error")
 			}

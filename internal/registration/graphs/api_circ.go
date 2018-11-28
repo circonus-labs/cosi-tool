@@ -5,15 +5,15 @@
 
 package graphs
 
-import "github.com/circonus-labs/circonus-gometrics/api"
+import circapi "github.com/circonus-labs/go-apiclient"
 
 //go:generate moq -out api_circ_test.go . CircAPI
 
 // CircAPI interface abstraction of circonus api (for mocking)
 type CircAPI interface {
-	CreateGraph(cfg *api.Graph) (*api.Graph, error)
-	DeleteGraphByCID(cid api.CIDType) (bool, error)
-	FetchGraph(cid api.CIDType) (*api.Graph, error)
-	SearchGraphs(searchCriteria *api.SearchQueryType, filterCriteria *api.SearchFilterType) (*[]api.Graph, error)
-	UpdateGraph(cfg *api.Graph) (*api.Graph, error)
+	CreateGraph(cfg *circapi.Graph) (*circapi.Graph, error)
+	DeleteGraphByCID(cid circapi.CIDType) (bool, error)
+	FetchGraph(cid circapi.CIDType) (*circapi.Graph, error)
+	SearchGraphs(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.Graph, error)
+	UpdateGraph(cfg *circapi.Graph) (*circapi.Graph, error)
 }

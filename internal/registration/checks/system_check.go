@@ -6,8 +6,9 @@
 package checks
 
 import (
-	circapi "github.com/circonus-labs/circonus-gometrics/api"
 	"github.com/circonus-labs/cosi-tool/internal/config"
+	circapi "github.com/circonus-labs/go-apiclient"
+	circapiconf "github.com/circonus-labs/go-apiclient/config"
 	"github.com/spf13/viper"
 )
 
@@ -42,7 +43,7 @@ func (c *Checks) createSystemCheck() (*circapi.CheckBundle, error) {
 	// set broker
 	cfg.Brokers = []string{c.config.Checks.System.BrokerID}
 	// set config.url = agenturl
-	cfg.Config = circapi.CheckBundleConfig{"url": viper.GetString(config.KeyAgentURL)}
+	cfg.Config = circapi.CheckBundleConfig{circapiconf.URL: viper.GetString(config.KeyAgentURL)}
 	// add tags
 	if len(c.config.Common.Tags) > 0 {
 		cfg.Tags = append(cfg.Tags, c.config.Common.Tags...)
@@ -56,11 +57,15 @@ func (c *Checks) createSystemCheck() (*circapi.CheckBundle, error) {
 		notes += *cfg.Notes
 	}
 	cfg.Notes = &notes
-	// add placeholder metric
-	cfg.Metrics = append(cfg.Metrics, circapi.CheckBundleMetric{Name: "cosi_placeholder", Status: "active", Type: "numeric"})
 	// set display name if configured in custom option
 	if c.config.Checks.System.DisplayName != "" {
 		cfg.DisplayName = c.config.Checks.System.DisplayName
+	}
+	// default to metric_filters
+	if len(c.config.Checks.System.MetricFilters) > 0 {
+		cfg.MetricFilters = c.config.Checks.System.MetricFilters
+	} else {
+		cfg.MetricFilters = [][]string{{"deny", "^$", ""}, {"allow", "^.+$", ""}}
 	}
 
 	return c.createCheck(checkID, cfg)

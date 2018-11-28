@@ -15,8 +15,8 @@ import (
 	"path"
 	"strings"
 
-	"github.com/circonus-labs/circonus-gometrics/api"
 	"github.com/circonus-labs/cosi-tool/internal/registration/regfiles"
+	circapi "github.com/circonus-labs/go-apiclient"
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
 )
@@ -29,7 +29,7 @@ type detail struct {
 }
 
 // List local cosi rulesets
-func List(client API, w io.Writer, uiURL, regDir string, quiet, long bool) error {
+func List(client CircAPI, w io.Writer, uiURL, regDir string, quiet, long bool) error {
 	logger := log.With().Str("cmd", "cosi ruleset list").Logger()
 
 	// NOTE: the rule_set api object does not contain sufficient information to
@@ -66,7 +66,7 @@ func List(client API, w io.Writer, uiURL, regDir string, quiet, long bool) error
 	return nil
 }
 
-func getDetail(client API, regDir, regFile, uiURL string) (*detail, error) {
+func getDetail(client CircAPI, regDir, regFile, uiURL string) (*detail, error) {
 	if regDir == "" {
 		return nil, errors.New("invalid registration directory (empty)")
 	}
@@ -74,7 +74,7 @@ func getDetail(client API, regDir, regFile, uiURL string) (*detail, error) {
 		return nil, errors.New("invalid ruleset registration file (empty)")
 	}
 
-	var rs api.RuleSet
+	var rs circapi.RuleSet
 
 	data, err := ioutil.ReadFile(path.Join(regDir, regFile))
 	if err != nil {

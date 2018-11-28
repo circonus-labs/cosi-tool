@@ -9,12 +9,12 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/circonus-labs/circonus-gometrics/api"
+	circapi "github.com/circonus-labs/go-apiclient"
 	"github.com/pkg/errors"
 )
 
-// Fetch retrieves a worksheet using the Circonus API
-func Fetch(client API, id, title string) (*api.Worksheet, error) {
+// Fetch retrieves a worksheet using the Circonus CircAPI
+func Fetch(client CircAPI, id, title string) (*circapi.Worksheet, error) {
 	// logger := log.With().Str("cmd", "cosi worksheet fetch").Logger()
 
 	if client == nil {
@@ -38,8 +38,8 @@ func Fetch(client API, id, title string) (*api.Worksheet, error) {
 	return nil, errors.Errorf("missing required argument identifying which worksheet to fetch")
 }
 
-// FetchByID retrieves a worksheet by CID using Circonus API
-func FetchByID(client API, id string) (*api.Worksheet, error) {
+// FetchByID retrieves a worksheet by CID using Circonus CircAPI
+func FetchByID(client CircAPI, id string) (*circapi.Worksheet, error) {
 	if client == nil {
 		return nil, errors.New("invalid state, nil client")
 	}
@@ -55,15 +55,15 @@ func FetchByID(client API, id string) (*api.Worksheet, error) {
 	} else if !ok {
 		return nil, errors.Errorf("invalid worksheet id (%s)", id)
 	}
-	db, err := client.FetchWorksheet(api.CIDType(&cid))
+	db, err := client.FetchWorksheet(circapi.CIDType(&cid))
 	if err != nil {
 		return nil, errors.Wrap(err, "fetch api")
 	}
 	return db, nil
 }
 
-// FetchByTitle retrieves a worksheet by Display Title using Circonus API
-func FetchByTitle(client API, name string) (*api.Worksheet, error) {
+// FetchByTitle retrieves a worksheet by Display Title using Circonus CircAPI
+func FetchByTitle(client CircAPI, name string) (*circapi.Worksheet, error) {
 	if client == nil {
 		return nil, errors.New("invalid state, nil client")
 	}
@@ -71,7 +71,7 @@ func FetchByTitle(client API, name string) (*api.Worksheet, error) {
 		return nil, errors.Errorf("invalid title (empty)")
 	}
 
-	query := api.SearchQueryType("\"" + name + "\" (active:1)")
+	query := circapi.SearchQueryType("\"" + name + "\" (active:1)")
 
 	dbs, err := client.SearchWorksheets(&query, nil)
 	if err != nil {

@@ -9,18 +9,18 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/circonus-labs/circonus-gometrics/api"
+	circapi "github.com/circonus-labs/go-apiclient"
 )
 
 func genMockClient() *APIMock {
 	return &APIMock{
-		CreateWorksheetFunc: func(cfg *api.Worksheet) (*api.Worksheet, error) {
+		CreateWorksheetFunc: func(cfg *circapi.Worksheet) (*circapi.Worksheet, error) {
 			if strings.Contains(cfg.CID, "error") {
 				return nil, errors.New("forced mock api call error")
 			}
 			return cfg, nil
 		},
-		DeleteWorksheetByCIDFunc: func(cid api.CIDType) (bool, error) {
+		DeleteWorksheetByCIDFunc: func(cid circapi.CIDType) (bool, error) {
 			if *cid == "/worksheet/123" {
 				return true, nil
 			} else if *cid == "error" {
@@ -28,25 +28,25 @@ func genMockClient() *APIMock {
 			}
 			return false, nil
 		},
-		FetchWorksheetFunc: func(cid api.CIDType) (*api.Worksheet, error) {
+		FetchWorksheetFunc: func(cid circapi.CIDType) (*circapi.Worksheet, error) {
 			if *cid == "/worksheet/000" {
 				return nil, errors.New("forced mock api call error")
 			}
-			b := api.Worksheet{CID: *cid}
+			b := circapi.Worksheet{CID: *cid}
 			return &b, nil
 		},
-		SearchWorksheetsFunc: func(searchCriteria *api.SearchQueryType, filterCriteria *api.SearchFilterType) (*[]api.Worksheet, error) {
+		SearchWorksheetsFunc: func(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.Worksheet, error) {
 			q := string(*searchCriteria)
 			if strings.Contains(q, "apierror") {
 				return nil, errors.New(q)
 			} else if strings.Contains(q, "none") {
-				return &[]api.Worksheet{}, nil
+				return &[]circapi.Worksheet{}, nil
 			} else if strings.Contains(q, "multi") {
-				return &[]api.Worksheet{{CID: "1"}, {CID: "2"}}, nil
+				return &[]circapi.Worksheet{{CID: "1"}, {CID: "2"}}, nil
 			}
-			return &[]api.Worksheet{{CID: "/worksheet/123"}}, nil
+			return &[]circapi.Worksheet{{CID: "/worksheet/123"}}, nil
 		},
-		UpdateWorksheetFunc: func(cfg *api.Worksheet) (*api.Worksheet, error) {
+		UpdateWorksheetFunc: func(cfg *circapi.Worksheet) (*circapi.Worksheet, error) {
 			if strings.Contains(cfg.CID, "error") {
 				return nil, errors.New("forced mock api call error")
 			}

@@ -12,12 +12,12 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/circonus-labs/circonus-gometrics/api"
+	circapi "github.com/circonus-labs/go-apiclient"
 	"github.com/pkg/errors"
 )
 
 // Show displays information about a specific broker
-func Show(client API, w io.Writer, id string) error {
+func Show(client CircAPI, w io.Writer, id string) error {
 	// logger := log.With().Str("cmd", "cosi broker show").Logger()
 
 	if client == nil {
@@ -39,7 +39,7 @@ func Show(client API, w io.Writer, id string) error {
 	} else if !ok {
 		return errors.Errorf("invalid broker id (%s)", id)
 	}
-	b, err := client.FetchBroker(api.CIDType(&cid))
+	b, err := client.FetchBroker(circapi.CIDType(&cid))
 	if err != nil {
 		return errors.Wrap(err, "fetch api")
 	}

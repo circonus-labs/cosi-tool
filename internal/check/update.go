@@ -9,13 +9,13 @@ import (
 	"encoding/json"
 	"io/ioutil"
 
-	"github.com/circonus-labs/circonus-gometrics/api"
 	"github.com/circonus-labs/cosi-tool/internal/registration/regfiles"
+	circapi "github.com/circonus-labs/go-apiclient"
 	"github.com/pkg/errors"
 )
 
 // UpdateFromFile uses Circonus API to update a check from supplied configuration file
-func UpdateFromFile(client API, in, out string, force bool) error {
+func UpdateFromFile(client CircAPI, in, out string, force bool) error {
 	// logger := log.With().Str("cmd", "cosi check update").Logger()
 
 	if client == nil {
@@ -31,7 +31,7 @@ func UpdateFromFile(client API, in, out string, force bool) error {
 		return errors.Wrap(err, "reading configuration file")
 	}
 
-	var cfg api.CheckBundle
+	var cfg circapi.CheckBundle
 	if err = json.Unmarshal(data, &cfg); err != nil {
 		return errors.Wrap(err, "loading configuration")
 	}
@@ -49,7 +49,7 @@ func UpdateFromFile(client API, in, out string, force bool) error {
 }
 
 // Update uses Circonus API to update a check
-func Update(client API, cfg *api.CheckBundle) (*api.CheckBundle, error) {
+func Update(client CircAPI, cfg *circapi.CheckBundle) (*circapi.CheckBundle, error) {
 	if client == nil {
 		return nil, errors.New("invalid client (nil)")
 	}

@@ -21,6 +21,9 @@ const (
 	// APIURL is the Circonus API URL
 	APIURL = "https://api.circonus.com/v2/"
 
+	// APIApp defines the api app name associated with the api token key
+	APIApp = release.NAME
+
 	// AgentMode defines the mode for the check connecting to the agent
 	AgentMode = "reverse"
 	// AgentURL is the URL the agent is listening on
@@ -65,6 +68,9 @@ var (
 
 	// HostCheckTarget is the check target
 	HostCheckTarget = ""
+
+	// RegConf defines the registration options configuration file
+	RegConf = ""
 )
 
 func init() {
@@ -89,6 +95,8 @@ func init() {
 	RegPath = filepath.Join(BasePath, "registration")
 
 	ConfigFile = filepath.Join(EtcPath, release.NAME+".yaml")
+
+	RegConf = filepath.Join(EtcPath, "regconf")
 
 	hn, err := os.Hostname()
 	if err != nil {

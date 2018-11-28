@@ -9,12 +9,12 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/circonus-labs/circonus-gometrics/api"
+	circapi "github.com/circonus-labs/go-apiclient"
 	"github.com/pkg/errors"
 )
 
-// Fetch retrieves a graph using the Circonus API
-func Fetch(client API, id, title string) (*api.Graph, error) {
+// Fetch retrieves a graph using the Circonus CircAPI
+func Fetch(client CircAPI, id, title string) (*circapi.Graph, error) {
 	// logger := log.With().Str("cmd", "cosi graph fetch").Logger()
 
 	if client == nil {
@@ -38,8 +38,8 @@ func Fetch(client API, id, title string) (*api.Graph, error) {
 	return nil, errors.Errorf("missing required argument identifying which graph to fetch")
 }
 
-// FetchByID retrieves a graph by CID using Circonus API
-func FetchByID(client API, id string) (*api.Graph, error) {
+// FetchByID retrieves a graph by CID using Circonus CircAPI
+func FetchByID(client CircAPI, id string) (*circapi.Graph, error) {
 	if client == nil {
 		return nil, errors.New("invalid state, nil client")
 	}
@@ -55,15 +55,15 @@ func FetchByID(client API, id string) (*api.Graph, error) {
 	} else if !ok {
 		return nil, errors.Errorf("invalid graph id (%s)", id)
 	}
-	db, err := client.FetchGraph(api.CIDType(&cid))
+	db, err := client.FetchGraph(circapi.CIDType(&cid))
 	if err != nil {
 		return nil, errors.Wrap(err, "fetch api")
 	}
 	return db, nil
 }
 
-// FetchByTitle retrieves a graph by Display Title using Circonus API
-func FetchByTitle(client API, name string) (*api.Graph, error) {
+// FetchByTitle retrieves a graph by Display Title using Circonus CircAPI
+func FetchByTitle(client CircAPI, name string) (*circapi.Graph, error) {
 	if client == nil {
 		return nil, errors.New("invalid state, nil client")
 	}
@@ -71,7 +71,7 @@ func FetchByTitle(client API, name string) (*api.Graph, error) {
 		return nil, errors.Errorf("invalid title (empty)")
 	}
 
-	query := api.SearchQueryType("\"" + name + "\" (active:1)")
+	query := circapi.SearchQueryType("\"" + name + "\" (active:1)")
 
 	dbs, err := client.SearchGraphs(&query, nil)
 	if err != nil {
