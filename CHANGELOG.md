@@ -1,9 +1,3 @@
-# v0.4.1
-
-* upd: dependencies (circonus-agent, go-apiclient, zerolog)
-* upd: `SearchCheckBundles` method signature
-* upd: add zerolog shim for apiclient Logger interface
-
 # v0.4.0
 
 * upd: move register show-config to configure method (before broker selection)
