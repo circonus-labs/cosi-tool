@@ -37,7 +37,7 @@ func genMockClient() *APIMock {
 			b := circapi.CheckBundle{CID: *cid}
 			return &b, nil
 		},
-		SearchCheckBundlesFunc: func(searchCriteria *circapi.SearchQueryType, filterCriteria *map[string][]string) (*[]circapi.CheckBundle, error) {
+		SearchCheckBundlesFunc: func(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.CheckBundle, error) {
 			q := string(*searchCriteria)
 			if strings.Contains(q, "apierror") {
 				return nil, errors.New(q)

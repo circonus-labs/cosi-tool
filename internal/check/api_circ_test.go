@@ -55,7 +55,7 @@ type APIMock struct {
 	FetchCheckBundleFunc func(cid circapi.CIDType) (*circapi.CheckBundle, error)
 
 	// SearchCheckBundlesFunc mocks the SearchCheckBundles method.
-	SearchCheckBundlesFunc func(searchCriteria *circapi.SearchQueryType, filterCriteria *map[string][]string) (*[]circapi.CheckBundle, error)
+	SearchCheckBundlesFunc func(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.CheckBundle, error)
 
 	// UpdateCheckBundleFunc mocks the UpdateCheckBundle method.
 	UpdateCheckBundleFunc func(cfg *circapi.CheckBundle) (*circapi.CheckBundle, error)
@@ -82,7 +82,7 @@ type APIMock struct {
 			// SearchCriteria is the searchCriteria argument value.
 			SearchCriteria *circapi.SearchQueryType
 			// FilterCriteria is the filterCriteria argument value.
-			FilterCriteria *map[string][]string
+			FilterCriteria *circapi.SearchFilterType
 		}
 		// UpdateCheckBundle holds details about calls to the UpdateCheckBundle method.
 		UpdateCheckBundle []struct {
@@ -186,13 +186,13 @@ func (mock *APIMock) FetchCheckBundleCalls() []struct {
 }
 
 // SearchCheckBundles calls SearchCheckBundlesFunc.
-func (mock *APIMock) SearchCheckBundles(searchCriteria *circapi.SearchQueryType, filterCriteria *map[string][]string) (*[]circapi.CheckBundle, error) {
+func (mock *APIMock) SearchCheckBundles(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.CheckBundle, error) {
 	if mock.SearchCheckBundlesFunc == nil {
 		panic("moq: APIMock.SearchCheckBundlesFunc is nil but API.SearchCheckBundles was just called")
 	}
 	callInfo := struct {
 		SearchCriteria *circapi.SearchQueryType
-		FilterCriteria *map[string][]string
+		FilterCriteria *circapi.SearchFilterType
 	}{
 		SearchCriteria: searchCriteria,
 		FilterCriteria: filterCriteria,
@@ -208,11 +208,11 @@ func (mock *APIMock) SearchCheckBundles(searchCriteria *circapi.SearchQueryType,
 //     len(mockedAPI.SearchCheckBundlesCalls())
 func (mock *APIMock) SearchCheckBundlesCalls() []struct {
 	SearchCriteria *circapi.SearchQueryType
-	FilterCriteria *map[string][]string
+	FilterCriteria *circapi.SearchFilterType
 } {
 	var calls []struct {
 		SearchCriteria *circapi.SearchQueryType
-		FilterCriteria *map[string][]string
+		FilterCriteria *circapi.SearchFilterType
 	}
 	lockAPIMockSearchCheckBundles.RLock()
 	calls = mock.calls.SearchCheckBundles

@@ -53,7 +53,7 @@ func genMockCircAPI() *CircAPIMock {
 		FetchBrokersFunc: func() (*[]apiclient.Broker, error) {
 			return &[]apiclient.Broker{}, nil
 		},
-		SearchCheckBundlesFunc: func(searchCriteria *apiclient.SearchQueryType, filterCriteria *map[string][]string) (*[]apiclient.CheckBundle, error) {
+		SearchCheckBundlesFunc: func(searchCriteria *apiclient.SearchQueryType, filterCriteria *apiclient.SearchFilterType) (*[]apiclient.CheckBundle, error) {
 			panic("TODO: mock out the SearchCheckBundles method")
 		},
 		UpdateCheckBundleFunc: func(cfg *apiclient.CheckBundle) (*apiclient.CheckBundle, error) {

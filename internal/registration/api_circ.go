@@ -26,7 +26,7 @@ type CircAPI interface {
 	FetchDashboard(cid circapi.CIDType) (*circapi.Dashboard, error)
 	FetchGraph(cid circapi.CIDType) (*circapi.Graph, error)
 	FetchWorksheet(cid circapi.CIDType) (*circapi.Worksheet, error)
-	SearchCheckBundles(searchCriteria *circapi.SearchQueryType, filterCriteria *map[string][]string) (*[]circapi.CheckBundle, error)
+	SearchCheckBundles(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.CheckBundle, error)
 	SearchDashboards(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.Dashboard, error)
 	SearchGraphs(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.Graph, error)
 	SearchWorksheets(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.Worksheet, error)

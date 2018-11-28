@@ -14,6 +14,6 @@ type CircAPI interface {
 	CreateCheckBundle(cfg *circapi.CheckBundle) (*circapi.CheckBundle, error)
 	DeleteCheckBundleByCID(cid circapi.CIDType) (bool, error)
 	FetchCheckBundle(cid circapi.CIDType) (*circapi.CheckBundle, error)
-	SearchCheckBundles(searchCriteria *circapi.SearchQueryType, filterCriteria *map[string][]string) (*[]circapi.CheckBundle, error)
+	SearchCheckBundles(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.CheckBundle, error)
 	UpdateCheckBundle(cfg *circapi.CheckBundle) (*circapi.CheckBundle, error)
 }

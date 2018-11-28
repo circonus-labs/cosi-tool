@@ -14,6 +14,6 @@ type CircAPI interface {
 	CreateCheckBundle(cfg *apiclient.CheckBundle) (*apiclient.CheckBundle, error)
 	DeleteCheckBundleByCID(cid apiclient.CIDType) (bool, error)
 	FetchCheckBundle(cid apiclient.CIDType) (*apiclient.CheckBundle, error)
-	SearchCheckBundles(searchCriteria *apiclient.SearchQueryType, filterCriteria *map[string][]string) (*[]apiclient.CheckBundle, error)
+	SearchCheckBundles(searchCriteria *apiclient.SearchQueryType, filterCriteria *apiclient.SearchFilterType) (*[]apiclient.CheckBundle, error)
 	UpdateCheckBundle(cfg *apiclient.CheckBundle) (*apiclient.CheckBundle, error)
 }
