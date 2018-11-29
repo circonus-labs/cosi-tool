@@ -5,7 +5,7 @@ require (
 	github.com/circonus-labs/cosi-server v0.4.1
 	github.com/circonus-labs/go-apiclient v0.5.3
 	github.com/fatih/color v1.7.0
-	github.com/gofrs/uuid v3.1.0+incompatible
+	github.com/gofrs/uuid/v3 v3.1.2
 	github.com/kr/pretty v0.1.0 // indirect
 	github.com/mattn/go-colorable v0.0.9 // indirect
 	github.com/mattn/go-isatty v0.0.4 // indirect
@@ -14,5 +14,5 @@ require (
 	github.com/rs/zerolog v1.11.0
 	github.com/spf13/cobra v0.0.3
 	github.com/spf13/viper v1.2.1
-	gopkg.in/yaml.v2 v2.2.1
+	gopkg.in/yaml.v2 v2.2.2
 )
