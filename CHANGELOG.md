@@ -1,3 +1,7 @@
+# v0.4.1
+
+* upd: dependency (gofrs/uuid/v3, yaml v2.2.2)
+
 # v0.4.0
 
 * upd: move register show-config to configure method (before broker selection)
