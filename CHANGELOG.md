@@ -1,3 +1,7 @@
+# v0.4.2
+
+* fix: remove default register show-config format, otherwise it forces exit
+
 # v0.4.1
 
 * upd: dependency (gofrs/uuid/v3, yaml v2.2.2)

@@ -57,7 +57,7 @@ func init() {
 		const (
 			key         = registration.KeyShowConfig
 			longOpt     = "show-config"
-			defaultFmt  = "yaml"
+			defaultFmt  = ""
 			description = "Show registration options configuration using format yaml|json|toml"
 		)
 		registerCmd.Flags().String(longOpt, defaultFmt, description)
