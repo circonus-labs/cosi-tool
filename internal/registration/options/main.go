@@ -178,7 +178,7 @@ func LoadConfigFile(fn string) (*Options, error) {
 	}
 	if cfg.Checks.System.Target == "" {
 		if viper.GetString(config.KeyAgentMode) == "reverse" {
-			cfg.Checks.System.Target = "REV:" + cfg.Host.Name
+			cfg.Checks.System.Target = cfg.Host.Name
 		} else {
 			cfg.Checks.System.Target = cfg.Host.IP
 		}
