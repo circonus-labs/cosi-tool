@@ -30,10 +30,11 @@ func TestGetMatchingMetrics(t *testing.T) {
 		"foo`baz": agentapi.Metric{Type: "n", Value: 0},
 		"foo`qux": agentapi.Metric{Type: "n", Value: 0},
 		"baz`qux": agentapi.Metric{Type: "n", Value: 1},
+		"baf`ding|ST[b\"YXJjaA==\":b\"eDg2XzY0\",b\"ZGlzdHJv\":b\"dWJ1bnR1LTE4LjA0\",b\"b3M=\":b\"bGludXg=\"]": agentapi.Metric{Type: "i", Value: 1},
 	}
 	noMatchDatapoint := []cosiapi.TemplateDatapoint{
 		{MetricRx: `^not_found(.+)$`}, // ensure it does not match any metric
-		{}, // e.g. a static datapoint, should be skipped and not break anything
+		{},                            // e.g. a static datapoint, should be skipped and not break anything
 	}
 
 	g, err := New(&Options{
@@ -103,7 +104,7 @@ func TestGetMatchingMetrics(t *testing.T) {
 		if err != nil {
 			t.Fatalf("unexpected error (%s)", err)
 		} else if len(m) > 0 {
-			t.Fatalf("unexpected zero matching metrics (%#v)", m)
+			t.Fatalf("expected zero matching metrics (%#v)", m)
 		}
 	}
 	// global include
@@ -119,7 +120,7 @@ func TestGetMatchingMetrics(t *testing.T) {
 		if err != nil {
 			t.Fatalf("unexpected error (%s)", err)
 		} else if len(m) != 1 {
-			t.Fatal("unexpected 1 matching metric")
+			t.Fatal("expected 1 matching metric")
 		}
 	}
 	// global exclude
@@ -135,7 +136,7 @@ func TestGetMatchingMetrics(t *testing.T) {
 		if err != nil {
 			t.Fatalf("unexpected error (%s)", err)
 		} else if len(m) != 1 {
-			t.Fatal("unexpected 1 matching metric")
+			t.Fatal("expected 1 matching metric")
 		}
 	}
 	// dp include
@@ -155,7 +156,7 @@ func TestGetMatchingMetrics(t *testing.T) {
 		if err != nil {
 			t.Fatalf("unexpected error (%s)", err)
 		} else if len(m) != 1 {
-			t.Fatal("unexpected 1 matching metric")
+			t.Fatal("expected 1 matching metric")
 		}
 	}
 	// dp exclude
@@ -175,7 +176,7 @@ func TestGetMatchingMetrics(t *testing.T) {
 		if err != nil {
 			t.Fatalf("unexpected error (%s)", err)
 		} else if len(m) != 1 {
-			t.Fatal("unexpected 1 matching metric")
+			t.Fatal("expected 1 matching metric")
 		}
 	}
 	// multi-match dp regex
@@ -190,7 +191,23 @@ func TestGetMatchingMetrics(t *testing.T) {
 		if err != nil {
 			t.Fatalf("unexpected error (%s)", err)
 		} else if len(m) != 3 {
-			t.Fatal("unexpected 3 matching metrics")
+			t.Fatal("expected 3 matching metrics")
+		}
+	}
+
+	// match metric with stream tagsdp regex
+	{
+		dp := []cosiapi.TemplateDatapoint{
+			{MetricRx: "^baf`(ding|dong)"},
+		}
+
+		g.metrics = metrics
+
+		m, err := g.getMatchingMetrics(dp, emptyGloabFilters)
+		if err != nil {
+			t.Fatalf("unexpected error (%s)", err)
+		} else if len(m) != 1 {
+			t.Fatal("expected 1 matching metric")
 		}
 	}
 }

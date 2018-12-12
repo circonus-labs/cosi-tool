@@ -6,6 +6,10 @@
 package graphs
 
 import (
+	"io/ioutil"
+	"os"
+	"path/filepath"
+	"strings"
 	"testing"
 
 	agentapi "github.com/circonus-labs/circonus-agent/api"
@@ -19,6 +23,17 @@ import (
 func TestCreateVariableGraphs(t *testing.T) {
 	t.Log("Testing createVariableGraphs")
 	zerolog.SetGlobalLevel(zerolog.Disabled)
+
+	// do a little housekeeping
+	files, err := ioutil.ReadDir("testdata")
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, file := range files {
+		if strings.HasPrefix(file.Name(), "registration-graph-ignore-variable-") {
+			os.Remove(filepath.Join("testdata", file.Name()))
+		}
+	}
 
 	existValid := cosiapi.TemplateConfig{
 		Variable: true,
@@ -58,7 +73,7 @@ func TestCreateVariableGraphs(t *testing.T) {
 		{"invalid filters (nil)", "graph-test", "foo", &cosiapi.TemplateConfig{}, nil, true, "invalid global filters (nil)"},
 		{"reg exists (parse err)", "graph-test", "item", &existError, &globalFilters{}, true, "loading registration-graph-test-item-error: parsing registration (testdata/registration-graph-test-item-error.json): unexpected end of JSON input"},
 		{"reg exists", "graph-test", "item", &existValid, &globalFilters{}, false, ""},
-		{"variable template", "graph-ignore", "ok_mixed", &okMixed, &globalFilters{}, false, ""},
+		{"variable template", "graph-ignore-variable", "ok_mixed", &okMixed, &globalFilters{}, false, ""},
 	}
 
 	g, err := New(&Options{
