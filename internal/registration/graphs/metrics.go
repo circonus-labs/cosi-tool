@@ -7,6 +7,7 @@ package graphs
 
 import (
 	"regexp"
+	"strings"
 
 	cosiapi "github.com/circonus-labs/cosi-server/api"
 	"github.com/pkg/errors"
@@ -51,8 +52,17 @@ func (g *Graphs) getMatchingMetrics(datapoints []cosiapi.TemplateDatapoint, gf *
 			return nil, errors.Errorf("invalid regex, need 1 subexpression (%s)", datapoint.MetricRx)
 		}
 
-		for metric := range *g.metrics {
-			m := metricRx.FindStringSubmatch(metric)
+		for fullMetricName := range *g.metrics {
+			// determine the 'short' metric name, full metric name sans any stream tags
+			shortMetricName := fullMetricName
+			if idx := strings.Index(fullMetricName, "|ST["); idx > -1 {
+				shortMetricName = fullMetricName[0:idx]
+			}
+			if shortMetricName == "" {
+				continue
+			}
+
+			m := metricRx.FindStringSubmatch(shortMetricName)
 			if m == nil {
 				continue
 			}
@@ -84,7 +94,7 @@ func (g *Graphs) getMatchingMetrics(datapoints []cosiapi.TemplateDatapoint, gf *
 				}
 			}
 			if keepMetric {
-				items[item] = append(items[item], &dpMetric{uint(idx), metric})
+				items[item] = append(items[item], &dpMetric{uint(idx), fullMetricName})
 			}
 		}
 	}

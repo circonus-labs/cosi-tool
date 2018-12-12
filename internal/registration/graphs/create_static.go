@@ -66,6 +66,12 @@ func (g *Graphs) createStaticGraph(templateID, graphName string, cfg *cosiapi.Te
 			if err != nil {
 				return err
 			}
+			// compensate for agent returning metrics with dynamic stream tags and template has static metric name w/o stream tags
+			// use the short metric name (w/o stream tags) to lookup up the full metric name with dynamic stream tags
+			// if the template metric name is not found in the short metric name list, the original metric name in the template will be used
+			if fullMetricName, ok := g.shortMetricNames[dp.MetricName]; ok {
+				dp.MetricName = fullMetricName
+			}
 			graph.Datapoints = append(graph.Datapoints, *dp)
 			continue
 		}
