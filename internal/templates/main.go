@@ -167,7 +167,9 @@ func (t *Templates) Load(dir string, id string) (*cosiapi.Template, bool, error)
 		if ferr != nil {
 			return nil, !strings.Contains(ferr.Error(), "404 Not Found"), ferr
 		}
-		regfiles.Save(fn, *tmpl, true) // NOTE: deref ptr, toml.Marshal can't take &struct{}
+		if err := regfiles.Save(fn, *tmpl, true); err != nil { // NOTE: deref ptr, toml.Marshal can't take &struct{}
+			return nil, false, err
+		}
 		return tmpl, true, nil
 	}
 
