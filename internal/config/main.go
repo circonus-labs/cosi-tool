@@ -230,8 +230,8 @@ func DumpConfig(w io.Writer) error {
 		return errors.Errorf("unknown config format '%s'", format)
 	}
 
-	fmt.Fprintf(w, "\n%s\n", data)
-	return nil
+	_, err = fmt.Fprintf(w, "\n%s\n", data)
+	return err
 }
 
 // StatConfig adds the running config to the app stats
