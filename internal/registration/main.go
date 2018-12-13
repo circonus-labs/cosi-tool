@@ -214,5 +214,7 @@ func (r *Registration) Register() error {
 		}
 	}
 
+    r.logger.Info().Msg("registration complete")
+
 	return nil
 }
