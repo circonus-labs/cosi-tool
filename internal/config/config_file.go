@@ -124,7 +124,5 @@ func SaveConfigFile(cfgFile string, target interface{}, force bool) error {
 		return errors.Wrap(err, "formatting configuration")
 	}
 
-	ioutil.WriteFile(cfgFile, data, 0644)
-
-	return nil
+	return ioutil.WriteFile(cfgFile, data, 0644)
 }
