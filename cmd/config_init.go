@@ -37,8 +37,9 @@ settings from command line arguments/flags and environment settings.`,
 			return errors.Errorf("config file not set, see --config")
 		}
 
-		key := "config.init.format"
-		if viper.GetString(key) == "" {
+		viper.Set(config.KeyConfigFormat, viper.GetString("config.init.format"))
+
+		if viper.GetString(config.KeyConfigFormat) == "" {
 			format := filepath.Ext(cfgFile)
 			if format == "" {
 				return errors.Errorf("invalid file name, no extension %s", cfgFile)
