@@ -31,7 +31,7 @@ func (g *Graphs) createStaticGraph(templateID, graphName string, cfg *cosiapi.Te
 
 	graphID := templateID + "-" + graphName
 
-	g.logger.Info().Str("id", graphID).Msg("building graph")
+	g.logger.Info().Str("id", graphID).Msg("building static graph")
 
 	// 1. check for registration file
 	loaded, err := g.checkForRegistration(graphID)
@@ -58,19 +58,13 @@ func (g *Graphs) createStaticGraph(templateID, graphName string, cfg *cosiapi.Te
 		return errors.Wrap(err, "parsing graph template")
 	}
 
-	// 2b. add datapoints to base graph config
+	// 2a. add datapoints to base graph config
 	for dpIdx, dpConfig := range cfg.Datapoints {
 		// static datapoint
 		if !dpConfig.Variable {
 			dp, err := parseDatapointTemplate(fmt.Sprintf("%s-%d", graphID, dpIdx), dpConfig.Template, gtvars)
 			if err != nil {
 				return err
-			}
-			// compensate for agent returning metrics with dynamic stream tags and template has static metric name w/o stream tags
-			// use the short metric name (w/o stream tags) to lookup up the full metric name with dynamic stream tags
-			// if the template metric name is not found in the short metric name list, the original metric name in the template will be used
-			if fullMetricName, ok := g.shortMetricNames[dp.MetricName]; ok {
-				dp.MetricName = fullMetricName
 			}
 			graph.Datapoints = append(graph.Datapoints, *dp)
 			continue

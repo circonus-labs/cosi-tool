@@ -44,7 +44,7 @@ func (g *Graphs) createVariableGraphs(templateID, graphName string, cfg *cosiapi
 	// one graph per "item"
 	for item, metrics := range items {
 		graphID := templateID + "-" + graphName + "-" + item
-		g.logger.Info().Str("id", graphID).Msg("building graph")
+		g.logger.Info().Str("id", graphID).Msg("building variable graph")
 		// 2. check for registration file
 		loaded, err := g.checkForRegistration(graphID)
 		if err != nil {
@@ -71,19 +71,13 @@ func (g *Graphs) createVariableGraphs(templateID, graphName string, cfg *cosiapi
 			return err
 		}
 
-		// 3b. add datapoints to base graph
+		// 3a. add datapoints to base graph
 		for dpIdx, dpConfig := range cfg.Datapoints {
 			// static datapoint
 			if dpConfig.MetricRx == "" {
 				dp, err := parseDatapointTemplate(fmt.Sprintf("%s-%d", graphID, dpIdx), dpConfig.Template, gtvars)
 				if err != nil {
 					return err
-				}
-				// compensate for agent returning metrics with dynamic stream tags and template has static metric name w/o stream tags
-				// use the short metric name (w/o stream tags) to lookup up the full metric name with dynamic stream tags
-				// if the template metric name is not found in the short metric name list, the original metric name in the template will be used
-				if fullMetricName, ok := g.shortMetricNames[dp.MetricName]; ok {
-					dp.MetricName = fullMetricName
 				}
 				graph.Datapoints = append(graph.Datapoints, *dp)
 				continue

@@ -43,7 +43,7 @@ func TestGetMatchingMetrics(t *testing.T) {
 		Config: &options.Options{
 			Host: options.Host{Name: "foo"},
 		},
-		Metrics:   &agentapi.Metrics{"test": {}},
+		Metrics:   metrics, //&agentapi.Metrics{"test": {}},
 		RegDir:    "testdata",
 		Templates: &templates.Templates{},
 	})
@@ -74,10 +74,12 @@ func TestGetMatchingMetrics(t *testing.T) {
 			t.Fatalf("unexpected error (%s)", err)
 		}
 	}
+
+	// reset back to valid metrics
+	g.metrics = metrics
+
 	// bad dp regex (syntax)
 	{
-		g.metrics = metrics
-
 		_, err := g.getMatchingMetrics([]cosiapi.TemplateDatapoint{{MetricRx: `^(bar]$`}}, emptyGloabFilters)
 		if err == nil {
 			t.Fatal("expected error")
@@ -87,8 +89,6 @@ func TestGetMatchingMetrics(t *testing.T) {
 	}
 	// bad dp regex (no subexpression)
 	{
-		g.metrics = metrics
-
 		_, err := g.getMatchingMetrics([]cosiapi.TemplateDatapoint{{MetricRx: `^bar$`}}, emptyGloabFilters)
 		if err == nil {
 			t.Fatal("expected error")
@@ -98,8 +98,6 @@ func TestGetMatchingMetrics(t *testing.T) {
 	}
 	// no matching metrics
 	{
-		g.metrics = metrics
-
 		m, err := g.getMatchingMetrics(noMatchDatapoint, emptyGloabFilters)
 		if err != nil {
 			t.Fatalf("unexpected error (%s)", err)
@@ -114,8 +112,6 @@ func TestGetMatchingMetrics(t *testing.T) {
 		}
 		gf := &globalFilters{include: []*regexp.Regexp{regexp.MustCompile("bar")}} // will include 1 of 3
 
-		g.metrics = metrics
-
 		m, err := g.getMatchingMetrics(dp, gf)
 		if err != nil {
 			t.Fatalf("unexpected error (%s)", err)
@@ -129,8 +125,6 @@ func TestGetMatchingMetrics(t *testing.T) {
 			{MetricRx: "^foo`([^`]+)"}, // will match 3
 		}
 		gf := &globalFilters{exclude: []*regexp.Regexp{regexp.MustCompile("bar"), regexp.MustCompile("baz")}} // will exclude 2 of 3
-
-		g.metrics = metrics
 
 		m, err := g.getMatchingMetrics(dp, gf)
 		if err != nil {
@@ -150,8 +144,6 @@ func TestGetMatchingMetrics(t *testing.T) {
 			},
 		}
 
-		g.metrics = metrics
-
 		m, err := g.getMatchingMetrics(dp, emptyGloabFilters)
 		if err != nil {
 			t.Fatalf("unexpected error (%s)", err)
@@ -170,8 +162,6 @@ func TestGetMatchingMetrics(t *testing.T) {
 			},
 		}
 
-		g.metrics = metrics
-
 		m, err := g.getMatchingMetrics(dp, emptyGloabFilters)
 		if err != nil {
 			t.Fatalf("unexpected error (%s)", err)
@@ -184,8 +174,6 @@ func TestGetMatchingMetrics(t *testing.T) {
 		dp := []cosiapi.TemplateDatapoint{
 			{MetricRx: "^foo`([^`]+)"}, // will match 3
 		}
-
-		g.metrics = metrics
 
 		m, err := g.getMatchingMetrics(dp, emptyGloabFilters)
 		if err != nil {
@@ -200,8 +188,6 @@ func TestGetMatchingMetrics(t *testing.T) {
 		dp := []cosiapi.TemplateDatapoint{
 			{MetricRx: "^baf`(ding|dong)"},
 		}
-
-		g.metrics = metrics
 
 		m, err := g.getMatchingMetrics(dp, emptyGloabFilters)
 		if err != nil {
