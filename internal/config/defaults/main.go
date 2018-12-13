@@ -16,7 +16,7 @@ import (
 
 const (
 	// COSIURL is the cosi-server URL
-	COSIURL = "https://onestep.circonus.com/"
+	COSIURL = "https://setup.circonus.com/"
 
 	// APIURL is the Circonus API URL
 	APIURL = "https://api.circonus.com/v2/"
