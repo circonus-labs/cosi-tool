@@ -6,6 +6,10 @@
 package graphs
 
 import (
+	"io/ioutil"
+	"os"
+	"path/filepath"
+	"strings"
 	"testing"
 
 	agentapi "github.com/circonus-labs/circonus-agent/api"
@@ -18,6 +22,17 @@ import (
 func TestCreate(t *testing.T) {
 	t.Log("Testing Create")
 	zerolog.SetGlobalLevel(zerolog.Disabled)
+
+	// do a little housekeeping
+	files, err := ioutil.ReadDir("testdata")
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, file := range files {
+		if strings.HasPrefix(file.Name(), "registration-graph-ignore-create-") {
+			os.Remove(filepath.Join("testdata", file.Name()))
+		}
+	}
 
 	g, err := New(&Options{
 		CheckInfo: &checks.CheckInfo{CheckID: 1234},
@@ -56,8 +71,8 @@ func TestCreate(t *testing.T) {
 	}
 
 	{
-		t.Log("graph-ignore")
-		err := g.create("graph-ignore")
+		t.Log("graph-ignore-create")
+		err := g.create("graph-ignore-create")
 		if err != nil {
 			t.Fatalf("unexpected error (%s)", err)
 		}

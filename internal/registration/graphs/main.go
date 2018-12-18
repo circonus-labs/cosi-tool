@@ -21,15 +21,16 @@ import (
 
 // Graphs defines the graphs registration instance
 type Graphs struct {
-	graphList map[string]circapi.Graph
-	client    CircAPI
-	config    *options.Options
-	regDir    string
-	templates *templates.Templates
-	checkInfo *checks.CheckInfo
-	metrics   *agentapi.Metrics
-	regFiles  *[]string
-	logger    zerolog.Logger
+	graphList        map[string]circapi.Graph
+	client           CircAPI
+	config           *options.Options
+	regDir           string
+	templates        *templates.Templates
+	checkInfo        *checks.CheckInfo
+	metrics          *agentapi.Metrics
+	shortMetricNames map[string]string // metric names w/o stream tags - value is full metric name (can be used as key into Graphs.metrics)
+	regFiles         *[]string
+	logger           zerolog.Logger
 }
 
 // Options defines the settings required to create a new graphs instance
@@ -81,15 +82,27 @@ func New(o *Options) (*Graphs, error) {
 	}
 
 	g := Graphs{
-		graphList: make(map[string]circapi.Graph),
-		client:    o.Client,
-		config:    o.Config,
-		regDir:    o.RegDir,
-		templates: o.Templates,
-		checkInfo: o.CheckInfo,
-		metrics:   o.Metrics,
-		regFiles:  regs,
-		logger:    log.With().Str("cmd", "register.graphs").Logger(),
+		graphList:        make(map[string]circapi.Graph),
+		client:           o.Client,
+		config:           o.Config,
+		regDir:           o.RegDir,
+		templates:        o.Templates,
+		checkInfo:        o.CheckInfo,
+		metrics:          o.Metrics,
+		shortMetricNames: make(map[string]string),
+		regFiles:         regs,
+		logger:           log.With().Str("cmd", "register.graphs").Logger(),
+	}
+
+	for fullMetricName := range *g.metrics {
+		shortMetricName := fullMetricName
+		if idx := strings.Index(fullMetricName, "|ST["); idx > -1 {
+			shortMetricName = fullMetricName[0:idx]
+		}
+		if shortMetricName == "" {
+			continue
+		}
+		g.shortMetricNames[shortMetricName] = fullMetricName
 	}
 
 	return &g, nil

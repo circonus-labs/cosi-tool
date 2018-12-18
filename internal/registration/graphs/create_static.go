@@ -31,7 +31,7 @@ func (g *Graphs) createStaticGraph(templateID, graphName string, cfg *cosiapi.Te
 
 	graphID := templateID + "-" + graphName
 
-	g.logger.Info().Str("id", graphID).Msg("building graph")
+	g.logger.Info().Str("id", graphID).Msg("building static graph")
 
 	// 1. check for registration file
 	loaded, err := g.checkForRegistration(graphID)
@@ -58,7 +58,7 @@ func (g *Graphs) createStaticGraph(templateID, graphName string, cfg *cosiapi.Te
 		return errors.Wrap(err, "parsing graph template")
 	}
 
-	// 2b. add datapoints to base graph config
+	// 2a. add datapoints to base graph config
 	for dpIdx, dpConfig := range cfg.Datapoints {
 		// static datapoint
 		if !dpConfig.Variable {

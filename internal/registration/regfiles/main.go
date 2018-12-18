@@ -81,9 +81,10 @@ func Save(file string, o interface{}, force bool) error {
 		return errors.Wrap(err, "saving configuration")
 	}
 	defer f.Close()
-	f.Write(data)
 
-	return nil
+	_, err = f.Write(data)
+
+	return err
 }
 
 // Find returns a list of registration files from the registration directory

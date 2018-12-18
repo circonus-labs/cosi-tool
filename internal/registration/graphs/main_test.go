@@ -61,7 +61,7 @@ func TestRegister(t *testing.T) {
 
 	empty := map[string]bool{}
 	nographs := map[string]bool{"worksheet-system": true, "dashboard-system": true}
-	list := map[string]bool{"graph-ignore": true, "graph-disabled": false, "dashboard-system": true}
+	list := map[string]bool{"graph-ignore-create": true, "graph-disabled": false, "dashboard-system": true}
 
 	{
 		t.Log("empty")

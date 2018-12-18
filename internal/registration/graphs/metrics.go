@@ -51,8 +51,8 @@ func (g *Graphs) getMatchingMetrics(datapoints []cosiapi.TemplateDatapoint, gf *
 			return nil, errors.Errorf("invalid regex, need 1 subexpression (%s)", datapoint.MetricRx)
 		}
 
-		for metric := range *g.metrics {
-			m := metricRx.FindStringSubmatch(metric)
+		for metricName := range g.shortMetricNames {
+			m := metricRx.FindStringSubmatch(metricName)
 			if m == nil {
 				continue
 			}
@@ -84,7 +84,7 @@ func (g *Graphs) getMatchingMetrics(datapoints []cosiapi.TemplateDatapoint, gf *
 				}
 			}
 			if keepMetric {
-				items[item] = append(items[item], &dpMetric{uint(idx), metric})
+				items[item] = append(items[item], &dpMetric{uint(idx), metricName})
 			}
 		}
 	}

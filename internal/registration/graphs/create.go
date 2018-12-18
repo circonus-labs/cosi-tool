@@ -61,6 +61,18 @@ func (g *Graphs) create(id string) error {
 }
 
 func (g *Graphs) createGraph(graphID string, cfg *circapi.Graph) error {
+	// map short metric names to full agent metric names with dynamic stream tags
+	for dpIdx, dp := range cfg.Datapoints {
+		if fullMetricName, ok := g.shortMetricNames[dp.MetricName]; ok {
+			// use the short metric name for display (otherwise the graph legend displays metric names with base64 encoded stream tags)
+			if dp.Name == "" && dp.MetricName != fullMetricName {
+				cfg.Datapoints[dpIdx].Name = dp.MetricName
+			}
+			g.logger.Debug().Str("graph_id", graphID).Str("graph_metric_name", dp.MetricName).Str("full_name", fullMetricName).Msg("metric mapped")
+			cfg.Datapoints[dpIdx].MetricName = fullMetricName
+		}
+	}
+
 	if e := log.Debug(); e.Enabled() {
 		cfgFile := path.Join(g.regDir, "config-"+graphID+".json")
 		g.logger.Debug().Str("cfg_file", cfgFile).Msg("saving registration config")

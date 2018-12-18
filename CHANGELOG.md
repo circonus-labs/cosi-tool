@@ -1,3 +1,14 @@
+# v0.5.0
+
+* upd: short->long(w/stream tags) metric name mapping right before submitting graph configuration via api. if short metric names are mapped in situ, template/text will html entity encode then unicode escape the stream tags (no bueno).
+* add: `registration complete` info message at end of `register`
+* fix: default cosi url `https://setup.circonus.com/`, no longer `onestep`
+* fix: derive format from --config extension for `cosi config init --config=<filespec>`
+* upd: clean up temporary files in testdata before running graph creation tests
+* upd: dependencies
+* add: matching static and variable datapoint metric specs in graph templates to active metrics from agent (support metrics from agent with dynamic stream tags)
+* upd: remove 'REV:' prefix from check target (when cosi creates a check for reverse)
+
 # v0.4.2
 
 * fix: remove default register show-config format, otherwise it forces exit

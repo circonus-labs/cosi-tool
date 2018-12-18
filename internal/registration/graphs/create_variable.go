@@ -44,7 +44,7 @@ func (g *Graphs) createVariableGraphs(templateID, graphName string, cfg *cosiapi
 	// one graph per "item"
 	for item, metrics := range items {
 		graphID := templateID + "-" + graphName + "-" + item
-		g.logger.Info().Str("id", graphID).Msg("building graph")
+		g.logger.Info().Str("id", graphID).Msg("building variable graph")
 		// 2. check for registration file
 		loaded, err := g.checkForRegistration(graphID)
 		if err != nil {
@@ -71,7 +71,7 @@ func (g *Graphs) createVariableGraphs(templateID, graphName string, cfg *cosiapi
 			return err
 		}
 
-		// 3b. add datapoints to base graph
+		// 3a. add datapoints to base graph
 		for dpIdx, dpConfig := range cfg.Datapoints {
 			// static datapoint
 			if dpConfig.MetricRx == "" {

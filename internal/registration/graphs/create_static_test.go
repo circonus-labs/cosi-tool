@@ -6,6 +6,10 @@
 package graphs
 
 import (
+	"io/ioutil"
+	"os"
+	"path/filepath"
+	"strings"
 	"testing"
 
 	agentapi "github.com/circonus-labs/circonus-agent/api"
@@ -19,6 +23,17 @@ import (
 func TestCreateStaticGraph(t *testing.T) {
 	t.Log("Testing createStaticGraph")
 	zerolog.SetGlobalLevel(zerolog.Disabled)
+
+	// do a little housekeeping
+	files, err := ioutil.ReadDir("testdata")
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, file := range files {
+		if strings.HasPrefix(file.Name(), "registration-graph-ignore-static-") {
+			os.Remove(filepath.Join("testdata", file.Name()))
+		}
+	}
 
 	badDPVar := cosiapi.TemplateConfig{
 		Template: `{"title":"{{.HostName}} graph"}`,
@@ -52,10 +67,22 @@ func TestCreateStaticGraph(t *testing.T) {
 			{Template: `{"metric_name":"static"}`},
 		},
 	}
+	okStaticST := cosiapi.TemplateConfig{
+		Template: `{"title":"{{.HostName}} graph"}`,
+		Datapoints: []cosiapi.TemplateDatapoint{
+			{Template: `{"metric_name":"baf_ding"}`},
+		},
+	}
 	okVariable := cosiapi.TemplateConfig{
 		Template: `{"title":"{{.HostName}} graph"}`,
 		Datapoints: []cosiapi.TemplateDatapoint{
 			{Variable: true, MetricRx: "^foo`([^``]+)", Template: `{"check_id":{{.CheckID}}, "metric_name":"{{.MetricName}}"}`},
+		},
+	}
+	okVariableST := cosiapi.TemplateConfig{
+		Template: `{"title":"{{.HostName}} graph"}`,
+		Datapoints: []cosiapi.TemplateDatapoint{
+			{Variable: true, MetricRx: "^baf_(ding|dong)", Template: `{"check_id":{{.CheckID}}, "metric_name":"{{.MetricName}}"}`},
 		},
 	}
 
@@ -76,11 +103,13 @@ func TestCreateStaticGraph(t *testing.T) {
 		{"reg exists", "graph-test", "valid", &cosiapi.TemplateConfig{}, &globalFilters{}, false, ""},
 		{"empty template", "graph-test", "bad", &cosiapi.TemplateConfig{}, &globalFilters{}, true, "parsing graph template: invalid template config (empty)"},
 		{"static template (bad template var)", "graph-test", "bad_dp_var", &badDPVar, &globalFilters{}, true, `executing template: template: graph-test-bad_dp_var-0:1:18: executing "graph-test-bad_dp_var-0" at <.BadName>: can't evaluate field BadName in type struct { HostName string; CheckID uint; NumCPU int }`},
-		{"static template", "graph-ignore", "ok_static", &okStatic, &globalFilters{}, false, ""},
+		{"static template", "graph-ignore-static", "ok_static", &okStatic, &globalFilters{}, false, ""},
+		{"static template w/ST", "graph-ignore-static", "ok_static_st", &okStaticST, &globalFilters{}, false, ""},
 		{"variable template (bad dp config)", "graph-test", "bad_dp_rx", &badVDPRx, &globalFilters{}, true, `invalid variable datapoint graph-test-bad_dp_rx-bad_dp_rx:0 regex (empty)`},
 		{"variable template (bad dp var)", "graph-test", "bad_dp_rx", &badVDPVar, &globalFilters{}, true, `executing template: template: graph-test-bad_dp_rx-0:1:18: executing "graph-test-bad_dp_rx-0" at <.BadName>: can't evaluate field BadName in type struct { HostName string; CheckID uint; NumCPU int; Item string; ItemIndex int; MetricName string }`},
 		{"variable template (multimetric)", "graph-test", "bad_multi_metric", &badVDPMulti, &globalFilters{}, true, `invalid variable datapoint graph-test-bad_multi_metric-bad_multi_metric:0 regex (matched>1 metrics)`},
-		{"variable template", "graph-ignore", "ok_variable", &okVariable, &globalFilters{}, false, ""},
+		{"variable template", "graph-ignore-static", "ok_variable", &okVariable, &globalFilters{}, false, ""},
+		{"variable template w/ST", "graph-ignore-static", "ok_variable_st", &okVariableST, &globalFilters{}, false, ""},
 	}
 
 	g, err := New(&Options{
@@ -94,6 +123,7 @@ func TestCreateStaticGraph(t *testing.T) {
 			"foo`baz": agentapi.Metric{Type: "n", Value: 0},
 			"foo`qux": agentapi.Metric{Type: "n", Value: 0},
 			"baz`qux": agentapi.Metric{Type: "n", Value: 1},
+			"baf_ding|ST[b\"YXJjaA==\":b\"eDg2XzY0\",b\"ZGlzdHJv\":b\"dWJ1bnR1LTE4LjA0\",b\"b3M=\":b\"bGludXg=\"]": agentapi.Metric{Type: "i", Value: 1},
 		},
 		RegDir:    "testdata",
 		Templates: &templates.Templates{},
