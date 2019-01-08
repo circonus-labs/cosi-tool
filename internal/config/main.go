@@ -53,8 +53,8 @@ type System struct {
 	OSVersion string `mapstructure:"os_vers" json:"os_vers" toml:"os_vers" yaml:"os_vers"`
 }
 
-// Host defines the host specific settings
-type Host struct {
+// Checks defines the host specific settings
+type Checks struct {
 	Broker  Broker `json:"broker" toml:"broker" yaml:"broker"`
 	GroupID string `mapstructure:"group_id" json:"group_id" toml:"group_id" yaml:"group_id"`
 	Target  string `json:"target" toml:"target" yaml:"target"`
@@ -67,7 +67,7 @@ type Config struct {
 	BaseUIURL string `mapstructure:"base_ui_url" json:"base_ui_url" toml:"base_ui_url" yaml:"base_ui_url"`
 	CosiURL   string `mapstructure:"cosi_url" json:"cosi_url" toml:"cosi_url" yaml:"cosi_url"`
 	Debug     bool   `json:"debug" toml:"debug" yaml:"debug"`
-	Host      Host   `json:"host" toml:"host" yaml:"host"`
+	Checks    Checks `json:"checks" toml:"checks" yaml:"checks"`
 	Log       Log    `json:"log" toml:"log" yaml:"log"`
 	RegConf   string `mapstructure:"reg_conf" json:"reg_conf" toml:"reg_conf" yaml:"reg_conf"`
 	System    System `json:"system" toml:"system" yaml:"system"`
@@ -125,18 +125,18 @@ const (
 	// KeyHostOptionsFile = "host.options_file"
 
 	// KeyHostTarget defines the target host for the check
-	KeyHostTarget = "host.target"
+	KeyHostTarget = "checks.target"
 
 	// KeyHostBrokerID defines the broker to use when creating a check
-	KeyHostBrokerID = "host.broker.id"
+	KeyHostBrokerID = "checks.broker.id"
 
 	// KeyHostBrokerType defines the 'type' of broker to use (any|enterprise)
-	KeyHostBrokerType = "host.broker.type"
+	KeyHostBrokerType = "checks.broker.type"
 
 	// KeyHostGroupID defines the group ID (if this system will be used
 	// in a group for statsd metrics, this ID will be used to find/create
 	// the group check)
-	KeyHostGroupID = "host.group_id"
+	KeyHostGroupID = "checks.group_id"
 
 	// KeySystemOSType defines the type of OS
 	KeySystemOSType = "system.os_type"
