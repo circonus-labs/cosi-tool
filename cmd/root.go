@@ -84,7 +84,7 @@ func init() {
 			shortOpt    = "c"
 			description = "config file (default: " + defaults.ConfigFile + "|.json|.toml)"
 		)
-		RootCmd.PersistentFlags().StringVarP(&cfgFile, longOpt, shortOpt, "", description)
+		RootCmd.Flags().StringVarP(&cfgFile, longOpt, shortOpt, "", description)
 	}
 
 	// registration options configuration file
@@ -430,7 +430,7 @@ func (l logshim) Printf(fmt string, v ...interface{}) {
 func initAPIClient() error {
 	opt := &apiclient.Config{
 		Debug:    viper.GetBool(config.KeyDebug),
-		Log:      logshim{logh:log.With().Str("pkg", "circ.api").Logger()},
+		Log:      logshim{logh: log.With().Str("pkg", "circ.api").Logger()},
 		TokenApp: viper.GetString(config.KeyAPITokenApp),
 		TokenKey: viper.GetString(config.KeyAPITokenKey),
 		URL:      viper.GetString(config.KeyAPIURL),
