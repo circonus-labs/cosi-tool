@@ -1,3 +1,7 @@
+# v0.5.1
+
+* fix: option names in config file
+
 # v0.5.0
 
 * upd: short->long(w/stream tags) metric name mapping right before submitting graph configuration via api. if short metric names are mapped in situ, template/text will html entity encode then unicode escape the stream tags (no bueno).
