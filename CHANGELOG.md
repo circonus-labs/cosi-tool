@@ -1,3 +1,8 @@
+# v0.5.2
+
+* doc: add more information to readme for subcommands
+* upd: emit error message when a broker with no IP address is rejected
+
 # v0.5.1
 
 * fix: option names in config file

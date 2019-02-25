@@ -299,6 +299,12 @@ func (r *Registration) checkBroker(checkType, brokerID string, brokers *[]apicli
 		if broker.CID != brokerID {
 			continue
 		}
+        // short-circuit for a broker that has been provisioned with no usable ip address
+        if len(broker.Details) == 1 {
+            if broker.Details[0].IP == nil && broker.Details[0].ExternalHost == nil {
+                return false, "", errors.Errorf("broker %s has no ipaddress or external_host configured", brokerID)
+            }
+        }
 		for _, instance := range broker.Details {
 			if instance.Status != "active" {
 				continue
@@ -313,6 +319,7 @@ func (r *Registration) checkBroker(checkType, brokerID string, brokers *[]apicli
 					ip = instance.IP
 				}
 				if ip == nil {
+                    r.logger.Warn().Str("broker_id",brokerID).Str("instance_cn",instance.CN).Msg("'ipaddress' and 'external_host' both null, skipping instance")
 					continue // no external host or ip set - unreachable, active w/o ip...wtf!?
 				}
 				port := instance.ExternalPort
