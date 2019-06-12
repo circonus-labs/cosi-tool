@@ -22,7 +22,7 @@ import (
 	"github.com/circonus-labs/cosi-tool/internal/release"
 	"github.com/circonus-labs/go-apiclient"
 	"github.com/fatih/color"
-	"github.com/gofrs/uuid/v3"
+	"github.com/gofrs/uuid"
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"

@@ -141,10 +141,22 @@ func TestGetCheckInfo(t *testing.T) {
 				"submission_url": "http://127.0.0.1/foo",
 			},
 		},
-		"check-bad": {
-			CID:        "/check_bundle/bad",
+		"check-badid": {
+			CID:        "/check_bundle/badid",
 			Checks:     []string{"/check/bad"},
 			CheckUUIDs: []string{"bad-bad-bad"},
+			Type:       "bad",
+		},
+		"check-badnochecks": {
+			CID:        "/check_bundle/1234",
+			Checks:     []string{},
+			CheckUUIDs: []string{},
+			Type:       "bad",
+		},
+		"check-badnocheckuuids": {
+			CID:        "/check_bundle/4321",
+			Checks:     []string{"/check/12345"},
+			CheckUUIDs: []string{},
 			Type:       "bad",
 		},
 	}
@@ -176,12 +188,38 @@ func TestGetCheckInfo(t *testing.T) {
 		}
 	}
 	{
-		t.Log("bad")
-		ci, err := c.GetCheckInfo("bad")
+		t.Log("bad id")
+		ci, err := c.GetCheckInfo("badid")
 		if err == nil {
 			t.Fatal("expected error")
 		}
 		if err.Error() != `coverting check id to uint: strconv.ParseUint: parsing "bad": invalid syntax` {
+			t.Fatalf("unexpected error (%s)", err)
+		}
+		if ci != nil {
+			t.Fatalf("unexpected return (%#v)", ci)
+		}
+	}
+	{
+		t.Log("bad no checks")
+		ci, err := c.GetCheckInfo("badnochecks")
+		if err == nil {
+			t.Fatal("expected error")
+		}
+		if err.Error() != `invalid check bundle, has no checks (/check_bundle/1234)` {
+			t.Fatalf("unexpected error (%s)", err)
+		}
+		if ci != nil {
+			t.Fatalf("unexpected return (%#v)", ci)
+		}
+	}
+	{
+		t.Log("bad no check uuids")
+		ci, err := c.GetCheckInfo("badnocheckuuids")
+		if err == nil {
+			t.Fatal("expected error")
+		}
+		if err.Error() != `invalid check bundle, has no check uuids (/check_bundle/4321)` {
 			t.Fatalf("unexpected error (%s)", err)
 		}
 		if ci != nil {
