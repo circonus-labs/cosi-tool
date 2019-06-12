@@ -48,6 +48,10 @@ type CheckInfo struct {
 	SubmissionURL string // only applies to trap check (e.g. check-group)
 }
 
+const (
+	statusActive = "active"
+)
+
 // New creates a new Checks instance
 func New(o *Options) (*Checks, error) {
 	if o == nil {
@@ -102,6 +106,15 @@ func (c *Checks) Register() error {
 					if err != nil {
 						return errors.Wrap(err, "fetching check")
 					}
+					if ck.Status != statusActive {
+						return errors.Errorf("existing check bundle found (%s), INVALID - not active - (file:%s) (api:%s) -- please clean up artifacts from previous cosi registration", regFile, chk.Status, ck.Status)
+					}
+					if len(ck.Checks) == 0 {
+						return errors.Errorf("existing check bundle found (%s), INVALID - has no checks (%s) -- please clean up artifacts from previous cosi registration", regFile, chk.CID)
+					}
+					if len(ck.CheckUUIDs) == 0 {
+						return errors.Errorf("existing check bundle found (%s), INVALID - has no check uuids (%s) -- please clean up artifacts from previous cosi registration", regFile, chk.CID)
+					}
 					haveSystemCheck = true
 					c.checkList["check-system"] = ck
 				}
@@ -117,6 +130,15 @@ func (c *Checks) Register() error {
 					ck, err := check.FetchByID(c.client, chk.CID)
 					if err != nil {
 						return errors.Wrap(err, "fetching check")
+					}
+					if ck.Status != statusActive {
+						return errors.Errorf("existing check bundle found (%s), INVALID - not active (%s) -- please clean up artifacts from previous cosi registration", regFile, ck.Status)
+					}
+					if len(ck.Checks) == 0 {
+						return errors.Errorf("existing check bundle found (%s), INVALID - has no checks (%s) -- please clean up artifacts from previous cosi registration", regFile, chk.CID)
+					}
+					if len(ck.CheckUUIDs) == 0 {
+						return errors.Errorf("existing check bundle found (%s), INVALID - has no check uuids (%s) -- please clean up artifacts from previous cosi registration", regFile, chk.CID)
 					}
 					haveGroupCheck = true
 					c.checkList["check-group"] = ck
@@ -161,24 +183,39 @@ func (c *Checks) GetCheckInfo(checkID string) (*CheckInfo, error) {
 	if !strings.HasPrefix(checkID, "check-") {
 		checkID = "check-" + checkID
 	}
+
 	for chkID, chk := range c.checkList {
-		if chkID == checkID {
-			info := CheckInfo{
-				BundleCID: chk.CID,
-				CheckCID:  chk.Checks[0],
-				CheckUUID: chk.CheckUUIDs[0],
-			}
-			id, err := strconv.ParseUint(strings.Replace(chk.Checks[0], "/check/", "", 1), 10, 32)
-			if err != nil {
-				return nil, errors.Wrap(err, "coverting check id to uint")
-			}
-			info.CheckID = uint(id)
-			if chk.Type == "httptrap" {
-				info.SubmissionURL = chk.Config["submission_url"]
-			}
-			return &info, nil
+		if chkID != checkID {
+			continue
 		}
+
+		if len(chk.Checks) == 0 {
+			return nil, errors.Errorf("invalid check bundle, has no checks (%s)", chk.CID)
+		}
+
+		if len(chk.CheckUUIDs) == 0 {
+			return nil, errors.Errorf("invalid check bundle, has no check uuids (%s)", chk.CID)
+		}
+
+		info := CheckInfo{
+			BundleCID: chk.CID,
+			CheckCID:  chk.Checks[0],
+			CheckUUID: chk.CheckUUIDs[0],
+		}
+
+		id, err := strconv.ParseUint(strings.Replace(chk.Checks[0], "/check/", "", 1), 10, 32)
+		if err != nil {
+			return nil, errors.Wrap(err, "coverting check id to uint")
+		}
+		info.CheckID = uint(id)
+
+		if chk.Type == "httptrap" {
+			info.SubmissionURL = chk.Config["submission_url"]
+		}
+
+		return &info, nil
 	}
+
 	return nil, errors.Errorf("check id not found (%s)", checkID)
 }
 
@@ -241,20 +278,20 @@ func (c *Checks) UpdateSystemCheck(metrics *map[string]string) error {
 		found := false
 		for i := 0; i < len(cfg.Metrics); i++ {
 			// disable cosi_placeholder metric
-			if cfg.Metrics[i].Name == "cosi_placeholder" && cfg.Metrics[i].Status == "active" {
+			if cfg.Metrics[i].Name == "cosi_placeholder" && cfg.Metrics[i].Status == statusActive {
 				cfg.Metrics[i].Status = "available"
 				continue
 			}
 			if cfg.Metrics[i].Name != mn {
 				continue
 			}
-			if cfg.Metrics[i].Status == "active" {
+			if cfg.Metrics[i].Status == statusActive {
 				c.logger.Debug().Str("metric_name", mn).Msg("already active, skipping")
 				found = true
 				break
 			}
 			c.logger.Debug().Str("metric_name", mn).Msg("activating metric")
-			cfg.Metrics[i].Status = "active"
+			cfg.Metrics[i].Status = statusActive
 			updateCheck = true
 			found = true
 			break
@@ -264,7 +301,7 @@ func (c *Checks) UpdateSystemCheck(metrics *map[string]string) error {
 			cfg.Metrics = append(cfg.Metrics, circapi.CheckBundleMetric{
 				Name:   mn,
 				Type:   mt,
-				Status: "active",
+				Status: statusActive,
 			})
 			updateCheck = true
 		}
@@ -272,7 +309,7 @@ func (c *Checks) UpdateSystemCheck(metrics *map[string]string) error {
 	if updateCheck {
 		for i := 0; i < len(cfg.Metrics); i++ {
 			// disable cosi_placeholder metric
-			if cfg.Metrics[i].Name == "cosi_placeholder" && cfg.Metrics[i].Status == "active" {
+			if cfg.Metrics[i].Name == "cosi_placeholder" && cfg.Metrics[i].Status == statusActive {
 				cfg.Metrics[i].Status = "available"
 				break
 			}
