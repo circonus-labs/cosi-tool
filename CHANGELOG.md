@@ -1,3 +1,10 @@
+# v0.5.3
+
+* add: more tests covering non-active check bundles
+* fix: fail when attempting to use a bad check bundle
+* fix: gofrs/uuid changed to not follow modules std
+* upd: dependencies
+
 # v0.5.2
 
 * doc: add more information to readme for subcommands
