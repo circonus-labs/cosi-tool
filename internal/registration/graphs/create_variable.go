@@ -8,6 +8,7 @@ package graphs
 import (
 	"fmt"
 	"runtime"
+	"strings"
 
 	cosiapi "github.com/circonus-labs/cosi-server/api"
 	"github.com/pkg/errors"
@@ -43,7 +44,7 @@ func (g *Graphs) createVariableGraphs(templateID, graphName string, cfg *cosiapi
 
 	// one graph per "item"
 	for item, metrics := range items {
-		graphID := templateID + "-" + graphName + "-" + item
+		graphID := templateID + "-" + graphName + "-" + strings.Replace(item, "/", "_", -1)
 		g.logger.Info().Str("id", graphID).Msg("building variable graph")
 		// 2. check for registration file
 		loaded, err := g.checkForRegistration(graphID)
