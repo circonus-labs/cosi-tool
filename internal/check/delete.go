@@ -26,7 +26,8 @@ func Delete(client CircAPI, regDir, id, checkType, in string) error {
 
 	cid := ""
 
-	if id != "" {
+	switch {
+	case id != "":
 		cid = id
 		if !strings.HasPrefix(cid, "/check_bundle/") {
 			cid = "/check_bundle/" + id
@@ -36,7 +37,7 @@ func Delete(client CircAPI, regDir, id, checkType, in string) error {
 		} else if !ok {
 			return errors.Errorf("invalid check bundle id (%s)", id)
 		}
-	} else if in != "" {
+	case in != "":
 		data, err := ioutil.ReadFile(in)
 		if err != nil {
 			return errors.Wrap(err, "reading configuration file")
@@ -48,7 +49,7 @@ func Delete(client CircAPI, regDir, id, checkType, in string) error {
 		}
 
 		cid = cfg.CID
-	} else if checkType != "" {
+	case checkType != "":
 		if regDir == "" {
 			return errors.Errorf("invalid registration directory (empty)")
 		}

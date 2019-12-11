@@ -119,11 +119,11 @@ func getDetail(client CircAPI, regDir, regFile, uiURL string, verifyCheck bool) 
 	return &d, nil
 }
 
-func show(w io.Writer, d *detail, format string, long bool) error {
+func show(w io.Writer, d *detail, format string, long bool) {
 
 	if !long {
 		fmt.Fprintf(w, format, d.cosiType, d.name, d.checkType, fmt.Sprintf("%d", d.metrics), d.lastModified.Format(time.RFC822Z), d.status)
-		return nil
+		return
 	}
 
 	fmt.Fprintln(w, "================")
@@ -136,6 +136,4 @@ func show(w io.Writer, d *detail, format string, long bool) error {
 	for _, chkURL := range d.checkURLs {
 		fmt.Fprintf(w, "Check URL : %s\n", chkURL)
 	}
-
-	return nil
 }

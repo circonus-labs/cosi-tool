@@ -47,7 +47,7 @@ func (g *Graphs) getMatchingMetrics(datapoints []cosiapi.TemplateDatapoint, gf *
 			return nil, errors.Wrap(err, "invalid metric_regex")
 		}
 
-		if metricRx.NumSubexp() != 1 {
+		if metricRx.NumSubexp() < 1 {
 			return nil, errors.Errorf("invalid regex, need 1 subexpression (%s)", datapoint.MetricRx)
 		}
 
@@ -56,7 +56,7 @@ func (g *Graphs) getMatchingMetrics(datapoints []cosiapi.TemplateDatapoint, gf *
 			if m == nil {
 				continue
 			}
-			if len(m) != 2 {
+			if len(m) < 2 {
 				log.Warn().Strs("match", m).Msg("invalid match result")
 				continue
 			}

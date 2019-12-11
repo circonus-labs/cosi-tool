@@ -3,6 +3,7 @@
 // license that can be found in the LICENSE file.
 //
 
+// Package checks handles creation of checks
 package checks
 
 import (
@@ -93,7 +94,8 @@ func (c *Checks) Register() error {
 	c.logger.Debug().Strs("reg_files", *regs).Msg("check registration files")
 	if len(*regs) > 0 {
 		for _, regFile := range *regs {
-			if strings.Contains(regFile, "registration-check-system") {
+			switch {
+			case strings.Contains(regFile, "registration-check-system"):
 				var chk circapi.CheckBundle
 				found, err := regfiles.Load(path.Join(c.regDir, regFile), &chk)
 				if err != nil {
@@ -118,7 +120,7 @@ func (c *Checks) Register() error {
 					haveSystemCheck = true
 					c.checkList["check-system"] = ck
 				}
-			} else if strings.Contains(regFile, "registration-check-group") {
+			case strings.Contains(regFile, "registration-check-group"):
 				var chk circapi.CheckBundle
 				found, err := regfiles.Load(path.Join(c.regDir, regFile), &chk)
 				if err != nil {
@@ -143,7 +145,7 @@ func (c *Checks) Register() error {
 					haveGroupCheck = true
 					c.checkList["check-group"] = ck
 				}
-			} else {
+			default:
 				fmt.Println("unknown check type", regFile, "ignoring...")
 			}
 		}

@@ -6,13 +6,13 @@
 package agent
 
 import (
-	agentapi "github.com/circonus-labs/circonus-agent/api"
+	"github.com/circonus-labs/circonus-agent/api"
 )
 
-//go:generate moq -out api_agent_test.go . AgentAPI
+//go:generate moq -out api_agent_test.go . API
 
-// AgentAPI interface abstraction of circonus api (for mocking)
-type AgentAPI interface {
-	Inventory() (*agentapi.Inventory, error)
-	Metrics(pluginID string) (*agentapi.Metrics, error)
+// API interface abstraction of circonus api (for mocking)
+type API interface {
+	Inventory() (*api.Inventory, error)
+	Metrics(pluginID string) (*api.Metrics, error)
 }

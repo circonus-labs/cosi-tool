@@ -46,30 +46,28 @@ func TestGetDetail(t *testing.T) {
 	uiURL := "http://example.com/"
 
 	t.Log("\tempty regdir (empty)")
-	if _, err := getDetail(nil, "", "", uiURL); err == nil {
+	if _, err := getDetail("", "", uiURL); err == nil {
 		t.Fatal("expected error")
 	} else if err.Error() != "invalid registration directory (empty)" {
 		t.Fatalf("unexpected error (%v)", err)
 	}
 
 	t.Log("\tinvalid regfile (empty)")
-	if _, err := getDetail(nil, "testdata/", "", uiURL); err == nil {
+	if _, err := getDetail("testdata/", "", uiURL); err == nil {
 		t.Fatal("expected error")
 	} else if err.Error() != "invalid graph registration file (empty)" {
 		t.Fatalf("unexpected error (%v)", err)
 	}
 
-	client := genMockClient()
-
 	t.Log("\tinvalid regfile (json parse)")
-	if _, err := getDetail(client, "testdata/", "bad.json", uiURL); err == nil {
+	if _, err := getDetail("testdata/", "bad.json", uiURL); err == nil {
 		t.Fatal("expected error")
 	} else if err.Error() != "parsing graph registration json: unexpected end of JSON input" {
 		t.Fatalf("unexpected error (%v)", err)
 	}
 
 	t.Log("\tvalid regfile")
-	if _, err := getDetail(client, "testdata/", "registration-graph-test.json", uiURL); err != nil {
+	if _, err := getDetail("testdata/", "registration-graph-test.json", uiURL); err != nil {
 		t.Fatalf("unexpected error (%v)", err)
 	}
 }

@@ -102,7 +102,6 @@ func New(circClient CircAPI) (*Registration, error) {
 		return nil, err
 	}
 
-
 	return r, nil
 }
 
@@ -214,7 +213,7 @@ func (r *Registration) Register() error {
 		}
 	}
 
-    r.logger.Info().Msg("registration complete")
+	r.logger.Info().Msg("registration complete")
 
 	return nil
 }

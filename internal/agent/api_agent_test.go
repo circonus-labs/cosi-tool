@@ -6,7 +6,7 @@ package agent
 import (
 	"sync"
 
-	agentapi "github.com/circonus-labs/circonus-agent/api"
+	"github.com/circonus-labs/circonus-agent/api"
 )
 
 var (
@@ -20,10 +20,10 @@ var (
 //
 //         // make and configure a mocked API
 //         mockedAPI := &APIMock{
-//             InventoryFunc: func() (*agentapi.Inventory, error) {
+//             InventoryFunc: func() (*api.Inventory, error) {
 // 	               panic("TODO: mock out the Inventory method")
 //             },
-//             MetricsFunc: func(pluginID string) (*agentapi.Metrics, error) {
+//             MetricsFunc: func(pluginID string) (*api.Metrics, error) {
 // 	               panic("TODO: mock out the Metrics method")
 //             },
 //         }
@@ -34,10 +34,10 @@ var (
 //     }
 type APIMock struct {
 	// InventoryFunc mocks the Inventory method.
-	InventoryFunc func() (*agentapi.Inventory, error)
+	InventoryFunc func() (*api.Inventory, error)
 
 	// MetricsFunc mocks the Metrics method.
-	MetricsFunc func(pluginID string) (*agentapi.Metrics, error)
+	MetricsFunc func(pluginID string) (*api.Metrics, error)
 
 	// calls tracks calls to the methods.
 	calls struct {
@@ -53,7 +53,7 @@ type APIMock struct {
 }
 
 // Inventory calls InventoryFunc.
-func (mock *APIMock) Inventory() (*agentapi.Inventory, error) {
+func (mock *APIMock) Inventory() (*api.Inventory, error) {
 	if mock.InventoryFunc == nil {
 		panic("moq: APIMock.InventoryFunc is nil but API.Inventory was just called")
 	}
@@ -79,7 +79,7 @@ func (mock *APIMock) InventoryCalls() []struct {
 }
 
 // Metrics calls MetricsFunc.
-func (mock *APIMock) Metrics(pluginID string) (*agentapi.Metrics, error) {
+func (mock *APIMock) Metrics(pluginID string) (*api.Metrics, error) {
 	if mock.MetricsFunc == nil {
 		panic("moq: APIMock.MetricsFunc is nil but API.Metrics was just called")
 	}

@@ -3,6 +3,7 @@
 // license that can be found in the LICENSE file.
 //
 
+// Package reset handles resetting all cosi created assets
 package reset
 
 import (
@@ -50,9 +51,8 @@ func Reset(client CircAPI, regDir string, force bool) error {
 			} else if response == "no" {
 				proceed = false
 				break
-			} else {
-				color.Red("type 'yes' or 'no'")
 			}
+			color.Red("type 'yes' or 'no'")
 		}
 	}
 

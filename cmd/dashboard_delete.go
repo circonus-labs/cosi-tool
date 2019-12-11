@@ -36,7 +36,7 @@ func init() {
 		)
 
 		dashboardDeleteCmd.Flags().String(longOpt, dashboard.CIDDefault, description)
-		viper.BindPFlag(key, dashboardDeleteCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, dashboardDeleteCmd.Flags().Lookup(longOpt))
 	}
 
 	{
@@ -48,6 +48,6 @@ func init() {
 		)
 
 		dashboardDeleteCmd.Flags().StringP(longOpt, shortOpt, dashboard.InFileDefault, description)
-		viper.BindPFlag(key, dashboardDeleteCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, dashboardDeleteCmd.Flags().Lookup(longOpt))
 	}
 }

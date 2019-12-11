@@ -39,14 +39,16 @@ func genMockClient() *APIMock {
 		},
 		SearchCheckBundlesFunc: func(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.CheckBundle, error) {
 			q := string(*searchCriteria)
-			if strings.Contains(q, "apierror") {
+			switch {
+			case strings.Contains(q, "apierror"):
 				return nil, errors.New(q)
-			} else if strings.Contains(q, "none") {
+			case strings.Contains(q, "none"):
 				return &[]circapi.CheckBundle{}, nil
-			} else if strings.Contains(q, "multi") {
+			case strings.Contains(q, "multi"):
 				return &[]circapi.CheckBundle{{CID: "1"}, {CID: "2"}}, nil
+			default:
+				return &[]circapi.CheckBundle{{CID: "/check_bundle/123"}}, nil
 			}
-			return &[]circapi.CheckBundle{{CID: "/check_bundle/123"}}, nil
 		},
 		UpdateCheckBundleFunc: func(cfg *circapi.CheckBundle) (*circapi.CheckBundle, error) {
 			if strings.Contains(cfg.CID, "error") {

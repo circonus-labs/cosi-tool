@@ -58,10 +58,8 @@ func TestSelectBroker(t *testing.T) {
 				if err.Error() != tst.expectedErr {
 					t.Fatalf("unexpected error (%s)", err)
 				}
-			} else {
-				if err != nil {
-					t.Fatalf("unexpected error (%s)", err)
-				}
+			} else if err != nil {
+				t.Fatalf("unexpected error (%s)", err)
 			}
 		})
 	}
@@ -148,30 +146,23 @@ func TestGetExplicit(t *testing.T) {
 				if err.Error() != tst.expectedErr {
 					t.Fatalf("unexpected error (%s)", err)
 				}
-			} else {
-				if err != nil {
-					t.Fatalf("unexpected error (%s)", err)
-				}
+			} else if err != nil {
+				t.Fatalf("unexpected error (%s)", err)
 			}
 			if tst.expectValid {
 				if !valid {
 					t.Fatal("expected true")
 				}
-			} else {
-				if valid {
-					t.Fatal("expected false")
-				}
+			} else if valid {
+				t.Fatal("expected false")
 			}
 			if tst.expectBid {
 				if !validBrokerRx.MatchString(bid) {
 					t.Fatalf("expected %s got (%s)", validBrokerRx.String(), bid)
 				}
-			} else {
-				if bid != "" {
-					t.Fatalf("expected empty bid got (%s)", bid)
-				}
+			} else if bid != "" {
+				t.Fatalf("expected empty bid got (%s)", bid)
 			}
-
 		})
 	}
 }
@@ -262,28 +253,22 @@ func TestSelectFromConfigList(t *testing.T) {
 				if err.Error() != tst.expectedErr {
 					t.Fatalf("unexpected error (%s)", err)
 				}
-			} else {
-				if err != nil {
-					t.Fatalf("unexpected error (%s)", err)
-				}
+			} else if err != nil {
+				t.Fatalf("unexpected error (%s)", err)
 			}
 			if tst.expectValid {
 				if !valid {
 					t.Fatal("expected true")
 				}
-			} else {
-				if valid {
-					t.Fatal("expected false")
-				}
+			} else if valid {
+				t.Fatal("expected false")
 			}
 			if tst.expectBid {
 				if !validBrokerRx.MatchString(bid) {
 					t.Fatalf("invalid bid expected (%s) got (%s)", validBrokerRx.String(), bid)
 				}
-			} else {
-				if bid != "" {
-					t.Fatalf("expected empty bid, got (%s)", bid)
-				}
+			} else if bid != "" {
+				t.Fatalf("expected empty bid, got (%s)", bid)
 			}
 		})
 	}
@@ -397,28 +382,24 @@ func TestSelectEnterprise(t *testing.T) {
 				if err.Error() != tst.expectedErr {
 					t.Fatalf("unexpected error (%s)", err)
 				}
-			} else {
-				if err != nil {
-					t.Fatalf("unexpected error (%s)", err)
-				}
+			} else if err != nil {
+				t.Fatalf("unexpected error (%s)", err)
 			}
+
 			if tst.expectValid {
 				if !valid {
 					t.Fatal("expected true")
 				}
-			} else {
-				if valid {
-					t.Fatal("expected false")
-				}
+			} else if valid {
+				t.Fatal("expected false")
 			}
+
 			if tst.expectBid {
 				if !validBrokerRx.MatchString(bid) {
 					t.Fatalf("invalid bid expected (%s) got (%s)", validBrokerRx.String(), bid)
 				}
-			} else {
-				if bid != "" {
-					t.Fatalf("expected empty bid, got (%s)", bid)
-				}
+			} else if bid != "" {
+				t.Fatalf("expected empty bid, got (%s)", bid)
 			}
 		})
 	}
@@ -504,28 +485,24 @@ func TestGetCosiDefault(t *testing.T) {
 				if err.Error() != tst.expectedErr {
 					t.Fatalf("unexpected error (%s)", err)
 				}
-			} else {
-				if err != nil {
-					t.Fatalf("unexpected error (%s)", err)
-				}
+			} else if err != nil {
+				t.Fatalf("unexpected error (%s)", err)
 			}
+
 			if tst.expectValid {
 				if !valid {
 					t.Fatal("expected true")
 				}
-			} else {
-				if valid {
-					t.Fatal("expected false")
-				}
+			} else if valid {
+				t.Fatal("expected false")
 			}
+
 			if tst.expectBid {
 				if !validBrokerRx.MatchString(bid) {
 					t.Fatalf("invalid bid expected (%s) got (%s)", validBrokerRx.String(), bid)
 				}
-			} else {
-				if bid != "" {
-					t.Fatalf("expected empty bid, got (%s)", bid)
-				}
+			} else if bid != "" {
+				t.Fatalf("expected empty bid, got (%s)", bid)
 			}
 		})
 	}
@@ -613,28 +590,24 @@ func TestCheckBroker(t *testing.T) {
 				if err.Error() != tst.expectedErr {
 					t.Fatalf("unexpected error (%s)", err)
 				}
-			} else {
-				if err != nil {
-					t.Fatalf("unexpected error (%s)", err)
-				}
+			} else if err != nil {
+				t.Fatalf("unexpected error (%s)", err)
 			}
+
 			if tst.expectValid {
 				if !valid {
 					t.Fatal("expected true")
 				}
-			} else {
-				if valid {
-					t.Fatal("expected false")
-				}
+			} else if valid {
+				t.Fatal("expected false")
 			}
+
 			if tst.expectBid {
 				if !validBrokerRx.MatchString(bid) {
 					t.Fatalf("invalid bid expected (%s) got (%s)", validBrokerRx.String(), bid)
 				}
-			} else {
-				if bid != "" {
-					t.Fatalf("expected empty bid, got (%s)", bid)
-				}
+			} else if bid != "" {
+				t.Fatalf("expected empty bid, got (%s)", bid)
 			}
 		})
 	}
@@ -685,19 +658,16 @@ func TestBrokerConnectionTest(t *testing.T) {
 				if err.Error() != tst.expectedErr {
 					t.Fatalf("unexpected error (%s)", err)
 				}
-			} else {
-				if err != nil {
-					t.Fatalf("unexpected error (%s)", err)
-				}
+			} else if err != nil {
+				t.Fatalf("unexpected error (%s)", err)
 			}
+
 			if tst.expectValid {
 				if !valid {
 					t.Fatal("expected true")
 				}
-			} else {
-				if valid {
-					t.Fatal("expected false")
-				}
+			} else if valid {
+				t.Fatal("expected false")
 			}
 		})
 	}

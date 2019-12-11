@@ -30,5 +30,5 @@ var versionCmd = &cobra.Command{
 func init() {
 	RootCmd.AddCommand(versionCmd)
 	versionCmd.Flags().BoolP("short", "s", false, "Short, version number only")
-	viper.BindPFlag("short", versionCmd.Flags().Lookup("short"))
+	_ = viper.BindPFlag("short", versionCmd.Flags().Lookup("short"))
 }

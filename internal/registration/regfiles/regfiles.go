@@ -3,6 +3,7 @@
 // license that can be found in the LICENSE file.
 //
 
+// Package regfiles handles parsing registration files
 package regfiles
 
 import (
@@ -60,22 +61,25 @@ func Save(file string, o interface{}, force bool) error {
 	}
 
 	flags := os.O_WRONLY
-	if s, serr := os.Stat(file); serr != nil {
+	s, serr := os.Stat(file)
+	if serr != nil {
 		if os.IsNotExist(serr) {
 			flags |= os.O_CREATE
 		} else {
 			return errors.Wrapf(serr, "stat %s", file)
 		}
-	} else if s.IsDir() {
-		return errors.Errorf("%s is a directory", file)
-	} else if s.Mode().IsRegular() {
-		if force {
-			flags |= os.O_CREATE
-		} else {
-			return errors.Errorf("%s already exists, see --force", file)
+	} else {
+		if s.IsDir() {
+			return errors.Errorf("%s is a directory", file)
+		}
+		if s.Mode().IsRegular() {
+			if force {
+				flags |= os.O_CREATE
+			} else {
+				return errors.Errorf("%s already exists, see --force", file)
+			}
 		}
 	}
-
 	f, err := os.OpenFile(file, flags, 0644)
 	if err != nil {
 		return errors.Wrap(err, "saving configuration")
@@ -106,7 +110,7 @@ func Find(regDir, regType string) (*[]string, error) {
 	}
 
 	regFileSig := "registration-" + regType
-	var regFiles []string
+	regFiles := []string{}
 
 	for _, file := range files {
 		if !file.Mode().IsRegular() {

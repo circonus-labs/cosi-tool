@@ -36,7 +36,7 @@ func init() {
 		)
 
 		rulesetDeleteCmd.Flags().String(longOpt, ruleset.DefaultCID, description)
-		viper.BindPFlag(key, rulesetDeleteCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, rulesetDeleteCmd.Flags().Lookup(longOpt))
 	}
 
 	{
@@ -48,6 +48,6 @@ func init() {
 		)
 
 		rulesetDeleteCmd.Flags().StringP(longOpt, shortOpt, ruleset.DefaultInFile, description)
-		viper.BindPFlag(key, rulesetDeleteCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, rulesetDeleteCmd.Flags().Lookup(longOpt))
 	}
 }

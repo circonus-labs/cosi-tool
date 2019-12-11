@@ -38,7 +38,7 @@ func init() {
 		)
 
 		checkDeleteCmd.Flags().String(longOpt, check.DefaultCID, description)
-		viper.BindPFlag(key, checkDeleteCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, checkDeleteCmd.Flags().Lookup(longOpt))
 	}
 
 	{
@@ -50,7 +50,7 @@ func init() {
 		)
 
 		checkDeleteCmd.Flags().StringP(longOpt, shortOpt, check.DefaultType, description)
-		viper.BindPFlag(key, checkDeleteCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, checkDeleteCmd.Flags().Lookup(longOpt))
 	}
 
 	{
@@ -62,6 +62,6 @@ func init() {
 		)
 
 		checkDeleteCmd.Flags().StringP(longOpt, shortOpt, check.DefaultInFile, description)
-		viper.BindPFlag(key, checkDeleteCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, checkDeleteCmd.Flags().Lookup(longOpt))
 	}
 }

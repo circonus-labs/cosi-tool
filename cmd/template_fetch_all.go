@@ -130,7 +130,7 @@ func init() {
 		)
 
 		templateFetchAllCmd.Flags().StringSlice(longOpt, []string{}, description)
-		viper.BindPFlag(key, templateFetchAllCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, templateFetchAllCmd.Flags().Lookup(longOpt))
 	}
 
 	{
@@ -141,7 +141,7 @@ func init() {
 		)
 
 		templateFetchAllCmd.Flags().Bool(longOpt, templates.ForceDefault, description)
-		viper.BindPFlag(key, templateFetchAllCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, templateFetchAllCmd.Flags().Lookup(longOpt))
 	}
 
 	{
@@ -152,6 +152,6 @@ func init() {
 		)
 
 		templateFetchAllCmd.Flags().Bool(longOpt, templates.ShowDefault, description)
-		viper.BindPFlag(key, templateFetchAllCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, templateFetchAllCmd.Flags().Lookup(longOpt))
 	}
 }

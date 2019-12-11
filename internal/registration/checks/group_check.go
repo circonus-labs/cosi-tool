@@ -97,6 +97,8 @@ func genSecret() (string, error) {
 	if _, err := rand.Read(x); err != nil {
 		return "", err
 	}
-	hash.Write(x)
+	if _, err := hash.Write(x); err != nil {
+		return "", err
+	}
 	return hex.EncodeToString(hash.Sum(nil))[0:16], nil
 }

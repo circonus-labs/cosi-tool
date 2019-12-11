@@ -47,7 +47,7 @@ func List(client CircAPI, w io.Writer, uiURL, regDir string, quiet, long bool) e
 	}
 
 	for _, regFile := range *worksheets {
-		d, err := getDetail(client, regDir, regFile, uiURL)
+		d, err := getDetail(regDir, regFile, uiURL)
 		if err != nil {
 			logger.Warn().Err(err).Str("dir", regDir).Str("file", regFile).Msg("skipping...")
 			continue
@@ -58,7 +58,7 @@ func List(client CircAPI, w io.Writer, uiURL, regDir string, quiet, long bool) e
 	return nil
 }
 
-func getDetail(client CircAPI, regDir, regFile, uiURL string) (*detail, error) {
+func getDetail(regDir, regFile, uiURL string) (*detail, error) {
 	if regDir == "" {
 		return nil, errors.New("invalid registration directory (empty)")
 	}
@@ -88,11 +88,11 @@ func getDetail(client CircAPI, regDir, regFile, uiURL string) (*detail, error) {
 	return &d, nil
 }
 
-func show(w io.Writer, d *detail, format string, long bool) error {
+func show(w io.Writer, d *detail, format string, long bool) {
 
 	if !long {
 		fmt.Fprintf(w, format, d.cid, d.title, d.description)
-		return nil
+		return
 	}
 
 	fmt.Fprintln(w, "================")
@@ -100,6 +100,4 @@ func show(w io.Writer, d *detail, format string, long bool) error {
 	fmt.Fprintf(w, "Title      : %s\n", d.title)
 	fmt.Fprintf(w, "Description: %s\n", d.description)
 	fmt.Fprintf(w, "URL        : %s\n", d.uiurl)
-
-	return nil
 }

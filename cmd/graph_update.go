@@ -37,7 +37,7 @@ func init() {
 		)
 
 		graphUpdateCmd.Flags().StringP(longOpt, shortOpt, graph.InFileDefault, description)
-		viper.BindPFlag(key, graphUpdateCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, graphUpdateCmd.Flags().Lookup(longOpt))
 	}
 
 	{
@@ -49,7 +49,7 @@ func init() {
 		)
 
 		graphUpdateCmd.Flags().StringP(longOpt, shortOpt, graph.OutFileDefault, description)
-		viper.BindPFlag(key, graphUpdateCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, graphUpdateCmd.Flags().Lookup(longOpt))
 	}
 
 	{
@@ -60,6 +60,6 @@ func init() {
 		)
 
 		graphUpdateCmd.Flags().Bool(longOpt, graph.ForceDefault, description)
-		viper.BindPFlag(key, graphUpdateCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, graphUpdateCmd.Flags().Lookup(longOpt))
 	}
 }

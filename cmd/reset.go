@@ -34,6 +34,6 @@ func init() {
 		)
 
 		resetCmd.Flags().Bool(longOpt, reset.DefaultForce, description)
-		viper.BindPFlag(key, resetCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, resetCmd.Flags().Lookup(longOpt))
 	}
 }

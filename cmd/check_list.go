@@ -42,7 +42,7 @@ func init() {
 		)
 
 		checkListCmd.Flags().BoolP(longOpt, shortOpt, check.DefaultQuiet, description)
-		viper.BindPFlag(key, checkListCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, checkListCmd.Flags().Lookup(longOpt))
 	}
 
 	{
@@ -54,7 +54,7 @@ func init() {
 		)
 
 		checkListCmd.Flags().BoolP(longOpt, shortOpt, check.DefaultLong, description)
-		viper.BindPFlag(key, checkListCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, checkListCmd.Flags().Lookup(longOpt))
 	}
 
 	{
@@ -66,6 +66,6 @@ func init() {
 		)
 
 		checkListCmd.Flags().BoolP(longOpt, shortOpt, check.DefaultVerify, description)
-		viper.BindPFlag(key, checkListCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, checkListCmd.Flags().Lookup(longOpt))
 	}
 }

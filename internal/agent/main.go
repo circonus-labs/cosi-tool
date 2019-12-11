@@ -3,16 +3,17 @@
 // license that can be found in the LICENSE file.
 //
 
+// Package agent is the main controller of the app
 package agent
 
 import (
-	agentapi "github.com/circonus-labs/circonus-agent/api"
+	"github.com/circonus-labs/circonus-agent/api"
 	"github.com/pkg/errors"
 )
 
 // Client defines the circonus-agent api client configuration
 type Client struct {
-	apiClient AgentAPI
+	apiClient API
 }
 
 // New creates a new circonus-agent api client
@@ -21,7 +22,7 @@ func New(agentURL string) (*Client, error) {
 		return nil, errors.New("invalid agent URL (empty)")
 	}
 
-	c, err := agentapi.New(agentURL)
+	c, err := api.New(agentURL)
 	if err != nil {
 		return nil, err
 	}
@@ -60,6 +61,6 @@ func (c *Client) ActivePluginList() (*[]string, error) {
 }
 
 // AvailableMetrics returns a list of metrics available from the agent
-func (c *Client) AvailableMetrics(pluginID string) (*agentapi.Metrics, error) {
+func (c *Client) AvailableMetrics(pluginID string) (*api.Metrics, error) {
 	return c.apiClient.Metrics(pluginID)
 }

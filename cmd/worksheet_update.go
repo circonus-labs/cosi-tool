@@ -37,7 +37,7 @@ func init() {
 		)
 
 		worksheetUpdateCmd.Flags().StringP(longOpt, shortOpt, worksheet.InFileDefault, description)
-		viper.BindPFlag(key, worksheetUpdateCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, worksheetUpdateCmd.Flags().Lookup(longOpt))
 	}
 
 	{
@@ -49,7 +49,7 @@ func init() {
 		)
 
 		worksheetUpdateCmd.Flags().StringP(longOpt, shortOpt, worksheet.OutFileDefault, description)
-		viper.BindPFlag(key, worksheetUpdateCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, worksheetUpdateCmd.Flags().Lookup(longOpt))
 	}
 
 	{
@@ -60,6 +60,6 @@ func init() {
 		)
 
 		worksheetUpdateCmd.Flags().Bool(longOpt, worksheet.ForceDefault, description)
-		viper.BindPFlag(key, worksheetUpdateCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, worksheetUpdateCmd.Flags().Lookup(longOpt))
 	}
 }

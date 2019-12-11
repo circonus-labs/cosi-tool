@@ -6,11 +6,6 @@
 package registration
 
 import (
-	"fmt"
-	"net/http"
-	"net/http/httptest"
-	"testing"
-
 	"github.com/circonus-labs/go-apiclient"
 	"github.com/pkg/errors"
 )
@@ -22,13 +17,13 @@ import (
 //   ta, taClose := testAgent(t)
 //   defer taClose()
 //   ... perform tests using ta server
-func genMockAgent(t *testing.T) (*httptest.Server, func()) {
-	ta := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		rp := r.URL.Path
-		fmt.Fprintln(w, "not implemented yet", rp)
-	}))
-	return ta, func() { ta.Close() }
-}
+// func genMockAgent(t *testing.T) (*httptest.Server, func()) {
+// 	ta := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+// 		rp := r.URL.Path
+// 		fmt.Fprintln(w, "not implemented yet", rp)
+// 	}))
+// 	return ta, func() { ta.Close() }
+// }
 
 func genMockCircAPI() *CircAPIMock {
 	return &CircAPIMock{
@@ -65,11 +60,12 @@ func genMockCircAPI() *CircAPIMock {
 func genMockCosiAPI() *CosiAPIMock {
 	return &CosiAPIMock{
 		FetchBrokerFunc: func(checkType string) (string, error) {
-			if checkType == jsonCheckType {
+			switch {
+			case checkType == jsonCheckType:
 				return "/broker/1", nil
-			} else if checkType == "httptrap" {
+			case checkType == "httptrap":
 				return "/broker/2", nil
-			} else {
+			default:
 				return "", errors.Errorf("unknown check type (%s)", checkType)
 			}
 		},

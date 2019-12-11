@@ -59,7 +59,7 @@ func init() {
 		)
 
 		checkFetchCmd.Flags().String(longOpt, check.DefaultCID, description)
-		viper.BindPFlag(key, checkFetchCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, checkFetchCmd.Flags().Lookup(longOpt))
 	}
 
 	{
@@ -71,7 +71,7 @@ func init() {
 		)
 
 		checkFetchCmd.Flags().StringP(longOpt, shortOpt, check.DefaultType, description)
-		viper.BindPFlag(key, checkFetchCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, checkFetchCmd.Flags().Lookup(longOpt))
 	}
 
 	{
@@ -83,7 +83,7 @@ func init() {
 		)
 
 		checkFetchCmd.Flags().StringP(longOpt, shortOpt, check.DefaultName, description)
-		viper.BindPFlag(key, checkFetchCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, checkFetchCmd.Flags().Lookup(longOpt))
 	}
 
 	{
@@ -95,7 +95,7 @@ func init() {
 		)
 
 		checkFetchCmd.Flags().StringP(longOpt, shortOpt, check.DefaultTarget, description)
-		viper.BindPFlag(key, checkFetchCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, checkFetchCmd.Flags().Lookup(longOpt))
 	}
 
 	{
@@ -107,7 +107,7 @@ func init() {
 		)
 
 		checkFetchCmd.Flags().StringP(longOpt, shortOpt, check.DefaultOutFile, description)
-		viper.BindPFlag(key, checkFetchCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, checkFetchCmd.Flags().Lookup(longOpt))
 	}
 
 	{
@@ -118,6 +118,6 @@ func init() {
 		)
 
 		checkFetchCmd.Flags().Bool(longOpt, check.DefaultForce, description)
-		viper.BindPFlag(key, checkFetchCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, checkFetchCmd.Flags().Lookup(longOpt))
 	}
 }
