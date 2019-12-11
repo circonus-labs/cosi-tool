@@ -3,6 +3,7 @@
 // license that can be found in the LICENSE file.
 //
 
+// Package graphs handles the building of graphs
 package graphs
 
 import (
