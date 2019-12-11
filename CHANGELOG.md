@@ -1,3 +1,12 @@
+# v0.6.0
+
+* upd: release config
+* upd: lint enforcement
+* upd: dependencies
+* fix: handle fs graphs creating invalid file names
+* fix: handle missing graphs in dashbaord (remove graph)
+* doc: package comments
+
 # v0.5.3
 
 * add: more tests covering non-active check bundles
