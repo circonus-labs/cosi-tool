@@ -3,6 +3,7 @@
 // license that can be found in the LICENSE file.
 //
 
+// Package dashboards handles creation of ui dashboards
 package dashboards
 
 import (
@@ -71,7 +72,8 @@ func (d *Dashboards) create(id string) error {
 				if g, found := d.graphInfo[wcfg.GraphName]; found {
 					tvars["GraphUUID"] = g.UUID
 				} else {
-					d.logger.Fatal().Str("dashboard_id", dashID).Str("graph_id", wcfg.GraphName).Interface("ginfo", d.graphInfo).Msg("graph not found")
+					d.logger.Error().Str("dashboard_id", dashID).Str("graph_id", wcfg.GraphName).Interface("ginfo", d.graphInfo).Msg("graph not found")
+					continue
 				}
 			}
 			widget, werr := parseWidgetTemplate(fmt.Sprintf("%s-%d", dashID, widx), wcfg.Template, tvars)
