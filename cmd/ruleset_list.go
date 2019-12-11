@@ -41,7 +41,7 @@ func init() {
 		)
 
 		rulesetListCmd.Flags().BoolP(longOpt, shortOpt, ruleset.DefaultQuiet, description)
-		viper.BindPFlag(key, rulesetListCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, rulesetListCmd.Flags().Lookup(longOpt))
 	}
 
 	{
@@ -53,6 +53,6 @@ func init() {
 		)
 
 		rulesetListCmd.Flags().BoolP(longOpt, shortOpt, ruleset.DefaultLong, description)
-		viper.BindPFlag(key, rulesetListCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, rulesetListCmd.Flags().Lookup(longOpt))
 	}
 }

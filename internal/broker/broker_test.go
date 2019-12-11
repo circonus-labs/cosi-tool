@@ -31,14 +31,14 @@ var testCosiBrokers = httptest.NewServer(http.HandlerFunc(func(w http.ResponseWr
 		if !strings.Contains(r.URL.Path, "nofallback") {
 			x.Fallback = 123
 		}
-		json.NewEncoder(w).Encode(x)
+		_ = json.NewEncoder(w).Encode(x)
 		return
 	} else if strings.Contains(r.URL.Path, "notrap") {
 		x := defaultBroker{JSON: 789}
 		if !strings.Contains(r.URL.Path, "nofallback") {
 			x.Fallback = 123
 		}
-		json.NewEncoder(w).Encode(x)
+		_ = json.NewEncoder(w).Encode(x)
 		return
 	}
 	fmt.Fprintln(w, `{"fallback":123,"httptrap":456,"json":789}`)

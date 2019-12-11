@@ -51,6 +51,6 @@ func init() {
 		)
 
 		configShowCmd.Flags().StringP(longOpt, shortOpt, "", description)
-		viper.BindPFlag(key, configShowCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, configShowCmd.Flags().Lookup(longOpt))
 	}
 }

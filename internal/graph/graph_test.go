@@ -3,7 +3,7 @@
 // license that can be found in the LICENSE file.
 //
 
-package dashboard
+package graph
 
 import (
 	"errors"
@@ -15,39 +15,41 @@ import (
 
 func genMockClient() *APIMock {
 	return &APIMock{
-		CreateDashboardFunc: func(cfg *circapi.Dashboard) (*circapi.Dashboard, error) {
+		CreateGraphFunc: func(cfg *circapi.Graph) (*circapi.Graph, error) {
 			if strings.Contains(cfg.CID, "error") {
 				return nil, errors.New("forced mock api call error")
 			}
 			return cfg, nil
 		},
-		DeleteDashboardByCIDFunc: func(cid circapi.CIDType) (bool, error) {
-			if *cid == "/dashboard/123" {
+		DeleteGraphByCIDFunc: func(cid circapi.CIDType) (bool, error) {
+			if *cid == "/graph/123" {
 				return true, nil
 			} else if *cid == "error" {
 				return false, errors.New("forced mock api call error")
 			}
 			return false, nil
 		},
-		FetchDashboardFunc: func(cid circapi.CIDType) (*circapi.Dashboard, error) {
-			if *cid == "/dashboard/000" {
+		FetchGraphFunc: func(cid circapi.CIDType) (*circapi.Graph, error) {
+			if *cid == "/graph/000" {
 				return nil, errors.New("forced mock api call error")
 			}
-			b := circapi.Dashboard{CID: *cid}
+			b := circapi.Graph{CID: *cid}
 			return &b, nil
 		},
-		SearchDashboardsFunc: func(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.Dashboard, error) {
+		SearchGraphsFunc: func(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.Graph, error) {
 			q := string(*searchCriteria)
-			if strings.Contains(q, "apierror") {
+			switch {
+			case strings.Contains(q, "apierror"):
 				return nil, errors.New(q)
-			} else if strings.Contains(q, "none") {
-				return &[]circapi.Dashboard{}, nil
-			} else if strings.Contains(q, "multi") {
-				return &[]circapi.Dashboard{{CID: "1"}, {CID: "2"}}, nil
+			case strings.Contains(q, "none"):
+				return &[]circapi.Graph{}, nil
+			case strings.Contains(q, "multi"):
+				return &[]circapi.Graph{{CID: "1"}, {CID: "2"}}, nil
+			default:
+				return &[]circapi.Graph{{CID: "/graph/123"}}, nil
 			}
-			return &[]circapi.Dashboard{{CID: "/dashboard/123"}}, nil
 		},
-		UpdateDashboardFunc: func(cfg *circapi.Dashboard) (*circapi.Dashboard, error) {
+		UpdateGraphFunc: func(cfg *circapi.Graph) (*circapi.Graph, error) {
 			if strings.Contains(cfg.CID, "error") {
 				return nil, errors.New("forced mock api call error")
 			}

@@ -48,6 +48,8 @@ func (g *Graphs) create(id string) error {
 	}
 
 	for graphName, cfg := range t.Configs {
+		graphName := graphName
+		cfg := cfg
 		creator := g.createStaticGraph
 		if cfg.Variable {
 			creator = g.createVariableGraphs

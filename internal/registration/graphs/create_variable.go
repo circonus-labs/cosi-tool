@@ -87,8 +87,8 @@ func (g *Graphs) createVariableGraphs(templateID, graphName string, cfg *cosiapi
 			// datapoint based on graph "item"
 			var metricName string
 			for _, metric := range metrics {
-				if (*metric).index == uint(dpIdx) {
-					metricName = (*metric).metric
+				if metric.index == uint(dpIdx) {
+					metricName = metric.metric
 					break
 				}
 			}

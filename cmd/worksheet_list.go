@@ -41,7 +41,7 @@ func init() {
 		)
 
 		worksheetListCmd.Flags().BoolP(longOpt, shortOpt, worksheet.QuietDefault, description)
-		viper.BindPFlag(key, worksheetListCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, worksheetListCmd.Flags().Lookup(longOpt))
 	}
 
 	{
@@ -53,6 +53,6 @@ func init() {
 		)
 
 		worksheetListCmd.Flags().BoolP(longOpt, shortOpt, worksheet.LongDefault, description)
-		viper.BindPFlag(key, worksheetListCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, worksheetListCmd.Flags().Lookup(longOpt))
 	}
 }

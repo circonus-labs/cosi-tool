@@ -30,19 +30,25 @@ func Fetch(client CircAPI, regDir, id, checkType, name, target string) (*circapi
 			return nil, errors.Wrap(err, "check by id")
 		}
 		return b, nil
-	} else if checkType != "" {
+	}
+
+	if checkType != "" {
 		b, err := FetchByType(client, regDir, checkType)
 		if err != nil {
 			return nil, errors.Wrap(err, "check by type")
 		}
 		return b, nil
-	} else if name != "" {
+	}
+
+	if name != "" {
 		b, err := FetchByName(client, name)
 		if err != nil {
 			return nil, errors.Wrap(err, "check by name")
 		}
 		return b, nil
-	} else if target != "" {
+	}
+
+	if target != "" {
 		b, err := FetchByTarget(client, target)
 		if err != nil {
 			return nil, errors.Wrap(err, "check by target")

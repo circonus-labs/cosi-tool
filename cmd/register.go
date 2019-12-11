@@ -50,7 +50,7 @@ func init() {
 			description = "Template ID list (type-name[,type-name,...] e.g. check-system,graph-cpu)"
 		)
 		registerCmd.Flags().StringSlice(longOpt, []string{}, description)
-		viper.BindPFlag(key, registerCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, registerCmd.Flags().Lookup(longOpt))
 	}
 
 	{
@@ -61,6 +61,6 @@ func init() {
 			description = "Show registration options configuration using format yaml|json|toml"
 		)
 		registerCmd.Flags().String(longOpt, defaultFmt, description)
-		viper.BindPFlag(key, registerCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, registerCmd.Flags().Lookup(longOpt))
 	}
 }

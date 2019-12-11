@@ -95,7 +95,7 @@ func (g *Graphs) createStaticGraph(templateID, graphName string, cfg *cosiapi.Te
 				runtime.NumCPU(),
 				item,
 				dpIdx,
-				(*metrics[0]).metric,
+				metrics[0].metric,
 			}
 			dp, err := parseDatapointTemplate(fmt.Sprintf("%s-%d", graphID, dpIdx), dpConfig.Template, dtvars)
 			if err != nil {

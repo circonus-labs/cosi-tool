@@ -50,7 +50,7 @@ func init() {
 		)
 
 		graphFetchCmd.Flags().String(longOpt, graph.CIDDefault, description)
-		viper.BindPFlag(key, graphFetchCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, graphFetchCmd.Flags().Lookup(longOpt))
 	}
 
 	{
@@ -62,7 +62,7 @@ func init() {
 		)
 
 		graphFetchCmd.Flags().StringP(longOpt, shortOpt, graph.TitleDefault, description)
-		viper.BindPFlag(key, graphFetchCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, graphFetchCmd.Flags().Lookup(longOpt))
 	}
 
 	{
@@ -74,7 +74,7 @@ func init() {
 		)
 
 		graphFetchCmd.Flags().StringP(longOpt, shortOpt, graph.OutFileDefault, description)
-		viper.BindPFlag(key, graphFetchCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, graphFetchCmd.Flags().Lookup(longOpt))
 	}
 
 	{
@@ -85,6 +85,6 @@ func init() {
 		)
 
 		graphFetchCmd.Flags().Bool(longOpt, graph.ForceDefault, description)
-		viper.BindPFlag(key, graphFetchCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, graphFetchCmd.Flags().Lookup(longOpt))
 	}
 }

@@ -24,18 +24,20 @@ var (
 func genMockClient() *APIMock {
 	return &APIMock{
 		FetchTemplateFunc: func(id string) (*cosiapi.Template, error) {
-			if strings.Contains(id, "error") {
+			switch {
+			case strings.Contains(id, "error"):
 				return nil, errors.New("forced mock api call error")
-			} else if strings.HasPrefix(id, "check-") {
+			case strings.HasPrefix(id, "check-"):
 				return checkTemplate, nil
-			} else if strings.HasPrefix(id, "dashboard-") {
+			case strings.HasPrefix(id, "dashboard-"):
 				return dashboardTemplate, nil
-			} else if strings.HasPrefix(id, "graph-") {
+			case strings.HasPrefix(id, "graph-"):
 				return graphTemplate, nil
-			} else if strings.HasPrefix(id, "worksheet-") {
+			case strings.HasPrefix(id, "worksheet-"):
 				return worksheetTemplate, nil
+			default:
+				return nil, errors.New("unknown template id")
 			}
-			return nil, errors.New("unknown template id")
 		},
 	}
 }
@@ -68,10 +70,8 @@ func TestFetch(t *testing.T) {
 				} else if err.Error() != tst.expected {
 					t.Fatalf("unexpected error (%s)", err)
 				}
-			} else {
-				if err != nil {
-					t.Fatalf("unexpected error (%s)", err)
-				}
+			} else if err != nil {
+				t.Fatalf("unexpected error (%s)", err)
 			}
 		})
 	}
@@ -103,19 +103,16 @@ func TestFetchAll(t *testing.T) {
 				if err == nil {
 					if tlist == nil {
 						t.Fatal("expected error")
-					} else {
-						if (*tlist)[0].Err.Error() != tst.expected {
-							t.Fatalf("unexpected error (%s)", err)
-						}
+					} else if (*tlist)[0].Err.Error() != tst.expected {
+						t.Fatalf("unexpected error (%s)", err)
 					}
 				} else if err.Error() != tst.expected {
 					t.Fatalf("unexpected error (%s)", err)
 				}
-			} else {
-				if err != nil {
-					t.Fatalf("unexpected error (%s)", err)
-				}
+			} else if err != nil {
+				t.Fatalf("unexpected error (%s)", err)
 			}
+
 		})
 	}
 }
@@ -152,20 +149,18 @@ func TestLoad(t *testing.T) {
 				} else if err.Error() != tst.expected {
 					t.Fatalf("unexpected error (%s)", err)
 				}
-			} else {
-				if err != nil {
-					t.Fatalf("unexpected error (%s)", err)
-				}
+			} else if err != nil {
+				t.Fatalf("unexpected error (%s)", err)
 			}
+
 			if tst.shouldFind {
 				if !found {
 					t.Fatal("expected template to be found")
 				}
-			} else {
-				if found {
-					t.Fatal("expected template to NOT be found")
-				}
+			} else if found {
+				t.Fatal("expected template to NOT be found")
 			}
+
 		})
 	}
 }

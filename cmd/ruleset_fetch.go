@@ -42,7 +42,7 @@ func init() {
 		)
 
 		rulesetFetchCmd.Flags().String(longOpt, ruleset.DefaultCID, description)
-		viper.BindPFlag(key, rulesetFetchCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, rulesetFetchCmd.Flags().Lookup(longOpt))
 	}
 
 	{
@@ -54,7 +54,7 @@ func init() {
 		)
 
 		rulesetFetchCmd.Flags().StringP(longOpt, shortOpt, ruleset.DefaultOutFile, description)
-		viper.BindPFlag(key, rulesetFetchCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, rulesetFetchCmd.Flags().Lookup(longOpt))
 	}
 
 	{
@@ -65,6 +65,6 @@ func init() {
 		)
 
 		rulesetFetchCmd.Flags().Bool(longOpt, ruleset.DefaultForce, description)
-		viper.BindPFlag(key, rulesetFetchCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, rulesetFetchCmd.Flags().Lookup(longOpt))
 	}
 }

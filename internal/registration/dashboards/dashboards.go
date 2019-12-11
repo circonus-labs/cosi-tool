@@ -140,7 +140,7 @@ func (d *Dashboards) GetMetricList() *map[string]string {
 	metrics := make(map[string]string)
 	for _, dash := range d.dashList {
 		for _, widget := range dash.Widgets {
-			if widget.Type == "guage" { // TODO: is 'guage' the only type of widget that directly uses a metric?
+			if widget.Type == "gauge" { // TODO: is 'gauge' the only type of widget that directly uses a metric?
 				metrics[widget.Settings.MetricName] = "numeric" // TODO: need to lookup the type somewhere
 			}
 		}

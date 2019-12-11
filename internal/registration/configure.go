@@ -35,7 +35,7 @@ func (r *Registration) configure() error {
 	}
 
 	if viper.GetString(KeyShowConfig) != "" {
-		options.DumpConfig(r.config, viper.GetString(KeyShowConfig), os.Stdout)
+		_ = options.DumpConfig(r.config, viper.GetString(KeyShowConfig), os.Stdout)
 		os.Exit(0)
 	}
 

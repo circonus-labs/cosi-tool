@@ -82,13 +82,10 @@ func TestAvailableMetrics(t *testing.T) {
 			} else {
 				if err != nil {
 					t.Fatalf("unexpected error (%s)", err)
-				} else {
-					if len(*m) != tst.expectedNumMetrics {
-						t.Fatalf("expected %d metric(s) %#v", tst.expectedNumMetrics, m)
-					}
+				} else if len(*m) != tst.expectedNumMetrics {
+					t.Fatalf("expected %d metric(s) %#v", tst.expectedNumMetrics, m)
 				}
 			}
 		})
-
 	}
 }

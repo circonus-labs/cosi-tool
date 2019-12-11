@@ -64,7 +64,7 @@ func fetchCosiDefaults(cosiURL string, logger zerolog.Logger) (*defaultBroker, e
 		reqURL += "/"
 	}
 	reqURL += "brokers/"
-	r, err := http.Get(reqURL)
+	r, err := http.Get(reqURL) //nolint:gosec
 	if err != nil {
 		return nil, errors.Wrap(err, "http request")
 	}

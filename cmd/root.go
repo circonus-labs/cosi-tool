@@ -3,6 +3,7 @@
 // license that can be found in the LICENSE file.
 //
 
+// Package cmd handles app initialization and config management
 package cmd
 
 import (
@@ -96,8 +97,8 @@ func init() {
 			description = "Registration options configuration file"
 		)
 		RootCmd.PersistentFlags().String(longOpt, "", desc(description, envVar))
-		viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
-		viper.BindEnv(key, envVar)
+		_ = viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
+		_ = viper.BindEnv(key, envVar)
 	}
 
 	//
@@ -112,8 +113,8 @@ func init() {
 		)
 
 		RootCmd.PersistentFlags().String(longOpt, "", desc(description, envVar))
-		viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
-		viper.BindEnv(key, envVar)
+		_ = viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
+		_ = viper.BindEnv(key, envVar)
 	}
 	{
 		const (
@@ -124,8 +125,8 @@ func init() {
 		)
 
 		RootCmd.PersistentFlags().String(longOpt, defaults.APIApp, desc(description, envVar))
-		viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
-		viper.BindEnv(key, envVar)
+		_ = viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
+		_ = viper.BindEnv(key, envVar)
 		viper.SetDefault(key, defaults.APIApp)
 	}
 	{
@@ -137,8 +138,8 @@ func init() {
 		)
 
 		RootCmd.PersistentFlags().String(longOpt, defaults.APIURL, desc(description, envVar))
-		viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
-		viper.BindEnv(key, envVar)
+		_ = viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
+		_ = viper.BindEnv(key, envVar)
 		viper.SetDefault(key, defaults.APIURL)
 	}
 	{
@@ -150,8 +151,8 @@ func init() {
 		)
 
 		RootCmd.PersistentFlags().String(longOpt, "", desc(description, envVar))
-		viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
-		viper.BindEnv(key, envVar)
+		_ = viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
+		_ = viper.BindEnv(key, envVar)
 	}
 
 	// cosi url
@@ -164,8 +165,8 @@ func init() {
 		)
 
 		RootCmd.PersistentFlags().String(longOpt, defaults.COSIURL, desc(description, envVar))
-		viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
-		viper.BindEnv(key, envVar)
+		_ = viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
+		_ = viper.BindEnv(key, envVar)
 		viper.SetDefault(key, defaults.COSIURL)
 	}
 
@@ -181,8 +182,8 @@ func init() {
 		)
 
 		RootCmd.PersistentFlags().String(longOpt, defaults.AgentMode, desc(description, envVar))
-		viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
-		viper.BindEnv(key, envVar)
+		_ = viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
+		_ = viper.BindEnv(key, envVar)
 		viper.SetDefault(key, defaults.AgentMode)
 	}
 	{
@@ -194,8 +195,8 @@ func init() {
 		)
 
 		RootCmd.PersistentFlags().String(longOpt, defaults.AgentURL, desc(description, envVar))
-		viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
-		viper.BindEnv(key, envVar)
+		_ = viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
+		_ = viper.BindEnv(key, envVar)
 		viper.SetDefault(key, defaults.AgentURL)
 	}
 
@@ -211,8 +212,8 @@ func init() {
 		)
 
 		RootCmd.PersistentFlags().String(longOpt, defaults.HostCheckTarget, desc(description, envVar))
-		viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
-		viper.BindEnv(key, envVar)
+		_ = viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
+		_ = viper.BindEnv(key, envVar)
 		viper.SetDefault(key, defaults.HostCheckTarget)
 	}
 	{
@@ -224,8 +225,8 @@ func init() {
 		)
 
 		RootCmd.PersistentFlags().String(longOpt, "", desc(description, envVar))
-		viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
-		viper.BindEnv(key, envVar)
+		_ = viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
+		_ = viper.BindEnv(key, envVar)
 	}
 	{
 		const (
@@ -236,8 +237,8 @@ func init() {
 		)
 
 		RootCmd.PersistentFlags().Uint(longOpt, defaults.HostBrokerID, desc(description, envVar))
-		viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
-		viper.BindEnv(key, envVar)
+		_ = viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
+		_ = viper.BindEnv(key, envVar)
 		viper.SetDefault(key, defaults.HostBrokerID)
 	}
 	{
@@ -249,8 +250,8 @@ func init() {
 		)
 
 		RootCmd.PersistentFlags().String(longOpt, defaults.HostBrokerType, desc(description, envVar))
-		viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
-		viper.BindEnv(key, envVar)
+		_ = viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
+		_ = viper.BindEnv(key, envVar)
 		viper.SetDefault(key, defaults.HostBrokerType)
 	}
 
@@ -267,8 +268,8 @@ func init() {
 		)
 
 		RootCmd.PersistentFlags().String(longOpt, "", desc(description, envVar))
-		viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
-		viper.BindEnv(key, envVar)
+		_ = viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
+		_ = viper.BindEnv(key, envVar)
 	}
 	{
 		const (
@@ -279,8 +280,8 @@ func init() {
 		)
 
 		RootCmd.PersistentFlags().String(longOpt, "", desc(description, envVar))
-		viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
-		viper.BindEnv(key, envVar)
+		_ = viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
+		_ = viper.BindEnv(key, envVar)
 	}
 	{
 		const (
@@ -291,8 +292,8 @@ func init() {
 		)
 
 		RootCmd.PersistentFlags().String(longOpt, "", desc(description, envVar))
-		viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
-		viper.BindEnv(key, envVar)
+		_ = viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
+		_ = viper.BindEnv(key, envVar)
 	}
 	{
 		const (
@@ -303,8 +304,8 @@ func init() {
 		)
 
 		RootCmd.PersistentFlags().String(longOpt, "", desc(description, envVar))
-		viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
-		viper.BindEnv(key, envVar)
+		_ = viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
+		_ = viper.BindEnv(key, envVar)
 	}
 	{
 		const (
@@ -315,8 +316,8 @@ func init() {
 		)
 
 		RootCmd.PersistentFlags().String(longOpt, "", desc(description, envVar))
-		viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
-		viper.BindEnv(key, envVar)
+		_ = viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
+		_ = viper.BindEnv(key, envVar)
 	}
 
 	//
@@ -332,8 +333,8 @@ func init() {
 		)
 
 		RootCmd.PersistentFlags().BoolP(longOpt, shortOpt, defaults.Debug, desc(description, envVar))
-		viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
-		viper.BindEnv(key, envVar)
+		_ = viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
+		_ = viper.BindEnv(key, envVar)
 		viper.SetDefault(key, defaults.Debug)
 	}
 
@@ -346,8 +347,8 @@ func init() {
 		)
 
 		RootCmd.PersistentFlags().String(longOpt, defaults.LogLevel, desc(description, envVar))
-		viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
-		viper.BindEnv(key, envVar)
+		_ = viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
+		_ = viper.BindEnv(key, envVar)
 		viper.SetDefault(key, defaults.LogLevel)
 	}
 
@@ -360,8 +361,8 @@ func init() {
 		)
 
 		RootCmd.PersistentFlags().Bool(longOpt, defaults.LogPretty, desc(description, envVar))
-		viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
-		viper.BindEnv(key, envVar)
+		_ = viper.BindPFlag(key, RootCmd.PersistentFlags().Lookup(longOpt))
+		_ = viper.BindEnv(key, envVar)
 		viper.SetDefault(key, defaults.LogPretty)
 	}
 }
@@ -387,31 +388,29 @@ func initLogging() error {
 		viper.Set(config.KeyLogLevel, "debug")
 		log.Info().Msg("setting log level to debug")
 		zerolog.SetGlobalLevel(zerolog.DebugLevel)
-	} else {
-		if viper.IsSet(config.KeyLogLevel) {
-			level := viper.GetString(config.KeyLogLevel)
+	} else if viper.IsSet(config.KeyLogLevel) {
+		level := viper.GetString(config.KeyLogLevel)
 
-			switch level {
-			case "panic":
-				zerolog.SetGlobalLevel(zerolog.PanicLevel)
-			case "fatal":
-				zerolog.SetGlobalLevel(zerolog.FatalLevel)
-			case "error":
-				zerolog.SetGlobalLevel(zerolog.ErrorLevel)
-			case "warn":
-				zerolog.SetGlobalLevel(zerolog.WarnLevel)
-			case "info":
-				zerolog.SetGlobalLevel(zerolog.InfoLevel)
-			case "debug":
-				zerolog.SetGlobalLevel(zerolog.DebugLevel)
-			case "disabled":
-				zerolog.SetGlobalLevel(zerolog.Disabled)
-			default:
-				return errors.Errorf("Unknown log level (%s)", level)
-			}
-
-			log.Debug().Str("log-level", level).Msg("Logging level")
+		switch level {
+		case "panic":
+			zerolog.SetGlobalLevel(zerolog.PanicLevel)
+		case "fatal":
+			zerolog.SetGlobalLevel(zerolog.FatalLevel)
+		case "error":
+			zerolog.SetGlobalLevel(zerolog.ErrorLevel)
+		case "warn":
+			zerolog.SetGlobalLevel(zerolog.WarnLevel)
+		case "info":
+			zerolog.SetGlobalLevel(zerolog.InfoLevel)
+		case "debug":
+			zerolog.SetGlobalLevel(zerolog.DebugLevel)
+		case "disabled":
+			zerolog.SetGlobalLevel(zerolog.Disabled)
+		default:
+			return errors.Errorf("Unknown log level (%s)", level)
 		}
+
+		log.Debug().Str("log-level", level).Msg("Logging level")
 	}
 
 	return nil

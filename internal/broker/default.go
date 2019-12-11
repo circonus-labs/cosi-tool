@@ -68,30 +68,34 @@ func getDefaultBrokers(cosiURL, optsFile string, cosiBID uint, logger zerolog.Lo
 
 	var jsonID, trapID uint
 
-	if custBroker.JSON != 0 {
+	switch {
+	case custBroker.JSON != 0:
 		jsonID = custBroker.JSON
-	} else if cosiBroker.JSON != 0 {
+	case cosiBroker.JSON != 0:
 		jsonID = cosiBroker.JSON
-	} else {
-		if custBroker.Fallback != 0 {
+	default:
+		switch {
+		case custBroker.Fallback != 0:
 			jsonID = custBroker.Fallback
-		} else if cosiBroker.Fallback != 0 {
+		case cosiBroker.Fallback != 0:
 			jsonID = cosiBroker.Fallback
-		} else {
+		default:
 			return 0, 0, errors.New("no json (or fallback) default brokers defined")
 		}
 	}
 
-	if custBroker.Trap != 0 {
+	switch {
+	case custBroker.Trap != 0:
 		trapID = custBroker.Trap
-	} else if cosiBroker.Trap != 0 {
+	case cosiBroker.Trap != 0:
 		trapID = cosiBroker.Trap
-	} else {
-		if custBroker.Fallback != 0 {
+	default:
+		switch {
+		case custBroker.Fallback != 0:
 			trapID = custBroker.Fallback
-		} else if cosiBroker.Fallback != 0 {
+		case cosiBroker.Fallback != 0:
 			trapID = cosiBroker.Fallback
-		} else {
+		default:
 			return 0, 0, errors.New("no trap (or fallback) default brokers defined")
 		}
 	}

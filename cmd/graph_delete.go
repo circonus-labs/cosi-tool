@@ -36,7 +36,7 @@ func init() {
 		)
 
 		graphDeleteCmd.Flags().String(longOpt, graph.CIDDefault, description)
-		viper.BindPFlag(key, graphDeleteCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, graphDeleteCmd.Flags().Lookup(longOpt))
 	}
 
 	{
@@ -48,6 +48,6 @@ func init() {
 		)
 
 		graphDeleteCmd.Flags().StringP(longOpt, shortOpt, graph.InFileDefault, description)
-		viper.BindPFlag(key, graphDeleteCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, graphDeleteCmd.Flags().Lookup(longOpt))
 	}
 }

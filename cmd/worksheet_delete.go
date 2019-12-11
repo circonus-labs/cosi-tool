@@ -36,7 +36,7 @@ func init() {
 		)
 
 		worksheetDeleteCmd.Flags().String(longOpt, worksheet.CIDDefault, description)
-		viper.BindPFlag(key, worksheetDeleteCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, worksheetDeleteCmd.Flags().Lookup(longOpt))
 	}
 
 	{
@@ -48,6 +48,6 @@ func init() {
 		)
 
 		worksheetDeleteCmd.Flags().StringP(longOpt, shortOpt, worksheet.InFileDefault, description)
-		viper.BindPFlag(key, worksheetDeleteCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, worksheetDeleteCmd.Flags().Lookup(longOpt))
 	}
 }

@@ -49,7 +49,7 @@ func init() {
 		)
 
 		worksheetFetchCmd.Flags().String(longOpt, worksheet.CIDDefault, description)
-		viper.BindPFlag(key, worksheetFetchCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, worksheetFetchCmd.Flags().Lookup(longOpt))
 	}
 
 	{
@@ -61,7 +61,7 @@ func init() {
 		)
 
 		worksheetFetchCmd.Flags().StringP(longOpt, shortOpt, worksheet.TitleDefault, description)
-		viper.BindPFlag(key, worksheetFetchCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, worksheetFetchCmd.Flags().Lookup(longOpt))
 	}
 
 	{
@@ -73,7 +73,7 @@ func init() {
 		)
 
 		worksheetFetchCmd.Flags().StringP(longOpt, shortOpt, worksheet.OutFileDefault, description)
-		viper.BindPFlag(key, worksheetFetchCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, worksheetFetchCmd.Flags().Lookup(longOpt))
 	}
 
 	{
@@ -84,6 +84,6 @@ func init() {
 		)
 
 		worksheetFetchCmd.Flags().Bool(longOpt, worksheet.ForceDefault, description)
-		viper.BindPFlag(key, worksheetFetchCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, worksheetFetchCmd.Flags().Lookup(longOpt))
 	}
 }

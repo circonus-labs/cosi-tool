@@ -37,14 +37,16 @@ func genMockClient() *APIMock {
 		},
 		SearchWorksheetsFunc: func(searchCriteria *circapi.SearchQueryType, filterCriteria *circapi.SearchFilterType) (*[]circapi.Worksheet, error) {
 			q := string(*searchCriteria)
-			if strings.Contains(q, "apierror") {
+			switch {
+			case strings.Contains(q, "apierror"):
 				return nil, errors.New(q)
-			} else if strings.Contains(q, "none") {
+			case strings.Contains(q, "none"):
 				return &[]circapi.Worksheet{}, nil
-			} else if strings.Contains(q, "multi") {
+			case strings.Contains(q, "multi"):
 				return &[]circapi.Worksheet{{CID: "1"}, {CID: "2"}}, nil
+			default:
+				return &[]circapi.Worksheet{{CID: "/worksheet/123"}}, nil
 			}
-			return &[]circapi.Worksheet{{CID: "/worksheet/123"}}, nil
 		},
 		UpdateWorksheetFunc: func(cfg *circapi.Worksheet) (*circapi.Worksheet, error) {
 			if strings.Contains(cfg.CID, "error") {

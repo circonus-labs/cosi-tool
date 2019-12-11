@@ -150,30 +150,33 @@ func (r *Registration) selectFromConfigList(checkType string, brokers *[]apiclie
 	var brokerID string
 
 	if checkType == jsonCheckType && len(cfg.System.List) > 0 {
-		if cfg.System.Default >= 0 {
+		switch {
+		case cfg.System.Default >= 0:
 			if len(cfg.System.List) > cfg.System.Default {
 				brokerID = cfg.System.List[cfg.System.Default]
 			} else {
 				return false, "", errors.New("invalid system check broker config in regconf (default out of list range)")
 			}
-		} else if cfg.System.Default == -1 {
+		case cfg.System.Default == -1:
 			brokerID = cfg.System.List[rand.Intn(len(cfg.System.List))]
-		} else {
+		default:
 			return false, "", errors.New("invalid system check broker config in regconf (default invalid)")
 		}
 	} else if checkType == trapCheckType && len(cfg.Group.List) > 0 {
-		if cfg.Group.Default >= 0 {
+		switch {
+		case cfg.Group.Default >= 0:
 			if len(cfg.Group.List) > cfg.Group.Default {
 				brokerID = cfg.Group.List[cfg.Group.Default]
 			} else {
 				return false, "", errors.New("invalid group check broker config in regconf (default out of list range)")
 			}
-		} else if cfg.Group.Default == -1 {
+		case cfg.Group.Default == -1:
 			brokerID = cfg.Group.List[rand.Intn(len(cfg.Group.List))]
-		} else {
+		default:
 			return false, "", errors.New("invalid group check broker config in regconf (default invalid)")
 		}
 	}
+
 	if brokerID != "" {
 		valid, bid, err := r.checkBroker(checkType, brokerID, brokers)
 		if err != nil {
@@ -234,15 +237,16 @@ func (r *Registration) selectEnterprise(checkType string, brokers *[]apiclient.B
 		//       the public cosi-server. (an inside setup only has enterprise brokers...)
 		if len(enterpriseBrokerList) == 0 {
 			return false, "", errors.New("available enterprise brokers found, none valid")
-		} else if len(enterpriseBrokerList) == 1 { // only one, return it
+		}
+		if len(enterpriseBrokerList) == 1 { // only one, return it
 			bid := enterpriseBrokerList[0]
 			logger.Debug().Str("check_type", checkType).Str("broker", bid).Msg("found enterprise broker")
 			return true, bid, nil
-		} else { // otherwise, select a random one
-			bid := enterpriseBrokerList[rand.Intn(len(enterpriseBrokerList))]
-			logger.Debug().Str("check_type", checkType).Str("broker", bid).Msg("found more than one enterprise broker, using random one")
-			return true, bid, nil
 		}
+		// otherwise, select a random one
+		bid := enterpriseBrokerList[rand.Intn(len(enterpriseBrokerList))]
+		logger.Debug().Str("check_type", checkType).Str("broker", bid).Msg("found more than one enterprise broker, using random one")
+		return true, bid, nil
 	}
 
 	logger.Debug().Msg("no viable enterprise brokers found")
@@ -299,12 +303,12 @@ func (r *Registration) checkBroker(checkType, brokerID string, brokers *[]apicli
 		if broker.CID != brokerID {
 			continue
 		}
-        // short-circuit for a broker that has been provisioned with no usable ip address
-        if len(broker.Details) == 1 {
-            if broker.Details[0].IP == nil && broker.Details[0].ExternalHost == nil {
-                return false, "", errors.Errorf("broker %s has no ipaddress or external_host configured", brokerID)
-            }
-        }
+		// short-circuit for a broker that has been provisioned with no usable ip address
+		if len(broker.Details) == 1 {
+			if broker.Details[0].IP == nil && broker.Details[0].ExternalHost == nil {
+				return false, "", errors.Errorf("broker %s has no ipaddress or external_host configured", brokerID)
+			}
+		}
 		for _, instance := range broker.Details {
 			if instance.Status != "active" {
 				continue
@@ -319,7 +323,7 @@ func (r *Registration) checkBroker(checkType, brokerID string, brokers *[]apicli
 					ip = instance.IP
 				}
 				if ip == nil {
-                    r.logger.Warn().Str("broker_id",brokerID).Str("instance_cn",instance.CN).Msg("'ipaddress' and 'external_host' both null, skipping instance")
+					r.logger.Warn().Str("broker_id", brokerID).Str("instance_cn", instance.CN).Msg("'ipaddress' and 'external_host' both null, skipping instance")
 					continue // no external host or ip set - unreachable, active w/o ip...wtf!?
 				}
 				port := instance.ExternalPort

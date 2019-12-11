@@ -37,6 +37,6 @@ func init() {
 		)
 
 		brokerShowCmd.Flags().String(longOpt, check.DefaultCID, description)
-		viper.BindPFlag(key, brokerShowCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, brokerShowCmd.Flags().Lookup(longOpt))
 	}
 }

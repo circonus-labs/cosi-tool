@@ -27,7 +27,7 @@ func TestLoadConfigFile(t *testing.T) {
 	}{
 		{"invalid readerr", path.Join("testdata", "cust-config-readerr"), true, "reading config file: read testdata/cust-config-readerr.toml: is a directory"},
 		{"valid missing", path.Join("testdata", "missing"), false, ""}, // no error, just empty config
-		{"valid (no config)", "", false, ""},                           // should just get an empty config back
+		{"valid (no config)", "", false, ""}, // should just get an empty config back
 		{"valid", path.Join("..", "..", "..", "etc", "example-reg-conf"), false, ""},
 	}
 

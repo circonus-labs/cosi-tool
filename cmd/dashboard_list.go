@@ -42,7 +42,7 @@ func init() {
 		)
 
 		dashboardListCmd.Flags().BoolP(longOpt, shortOpt, dashboard.QuietDefault, description)
-		viper.BindPFlag(key, dashboardListCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, dashboardListCmd.Flags().Lookup(longOpt))
 	}
 
 	{
@@ -54,7 +54,7 @@ func init() {
 		)
 
 		dashboardListCmd.Flags().BoolP(longOpt, shortOpt, dashboard.LongDefault, description)
-		viper.BindPFlag(key, dashboardListCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, dashboardListCmd.Flags().Lookup(longOpt))
 	}
 
 	{
@@ -66,6 +66,6 @@ func init() {
 		)
 
 		dashboardListCmd.Flags().BoolP(longOpt, shortOpt, dashboard.VerifyDefault, description)
-		viper.BindPFlag(key, dashboardListCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, dashboardListCmd.Flags().Lookup(longOpt))
 	}
 }

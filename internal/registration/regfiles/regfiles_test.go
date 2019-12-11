@@ -42,6 +42,7 @@ func TestSave(t *testing.T) {
 
 	// NOTE: these are sequential, not parallel
 	for _, test := range tests {
+		test := test
 		t.Run(test.name, func(t *testing.T) {
 			if test.clean {
 				os.Remove(test.file)
@@ -53,10 +54,8 @@ func TestSave(t *testing.T) {
 				} else if err.Error() != test.expected {
 					t.Fatalf("unexpected error (%s)", err)
 				}
-			} else {
-				if err != nil {
-					t.Fatalf("unexpected error (%s)", err)
-				}
+			} else if err != nil {
+				t.Fatalf("unexpected error (%s)", err)
 			}
 		})
 	}

@@ -37,7 +37,7 @@ func init() {
 		)
 
 		checkCreateCmd.Flags().StringP(longOpt, shortOpt, check.DefaultInFile, description)
-		viper.BindPFlag(key, checkCreateCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, checkCreateCmd.Flags().Lookup(longOpt))
 	}
 
 	{
@@ -49,7 +49,7 @@ func init() {
 		)
 
 		checkCreateCmd.Flags().StringP(longOpt, shortOpt, check.DefaultOutFile, description)
-		viper.BindPFlag(key, checkCreateCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, checkCreateCmd.Flags().Lookup(longOpt))
 	}
 
 	{
@@ -60,6 +60,6 @@ func init() {
 		)
 
 		checkCreateCmd.Flags().Bool(longOpt, check.DefaultForce, description)
-		viper.BindPFlag(key, checkCreateCmd.Flags().Lookup(longOpt))
+		_ = viper.BindPFlag(key, checkCreateCmd.Flags().Lookup(longOpt))
 	}
 }
