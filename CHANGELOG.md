@@ -1,3 +1,7 @@
+# v0.6.1
+
+* upd: dependencies (cosi-server api v0.5.7 specifically) for template plugin name fix
+
 # v0.6.0
 
 * upd: release config
